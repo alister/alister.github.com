@@ -9,7 +9,7 @@
   <meta name="author" content="Alister Bulman">
 
   
-  <meta name="description" content="Originally posted 2011-12-13 at phpscaling.com. I was out last night at the The Big Xmas Bash, near Silicon Roundabout. It was a fun night out &hellip;">
+  <meta name="description" content="Here is an example of what a little expertise, judiciously applied can do to speed up larger systems. In this case, take a 30 minute run against a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,7 +83,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/12/repost-booze-at-meetups/">Booze at Tech Meetups</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/03/a-mysql-day-one-day-freelancing/">A MySQL Optimisation Story</a></h1>
     
     
       <p class="meta">
@@ -99,7 +99,48 @@
   
 
 
-<time datetime="2013-01-12T10:45:00+00:00" pubdate data-updated="true">Jan 12<span>th</span>, 2013</time>
+<time datetime="2013-01-03T12:28:00+00:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here is an example of what a little expertise, judiciously applied can do to speed up larger systems. In this case, take a 30 minute run against a MySQL database down to 5 minutes, or less.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/03/a-mysql-day-one-day-freelancing/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/01/repost-booze-at-meetups/">Booze at Tech Meetups</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-01T10:45:00+00:00" pubdate data-updated="true">Jan 1<span>st</span>, 2013</time>
         
       </p>
     
@@ -111,21 +152,14 @@ Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-
 
 <p>I was out last night at the <a href="http://lanyrd.com/2011/the-big-xmas-bash/">The Big Xmas Bash</a>, near Silicon Roundabout. It was a fun night out meeting various people, tech, business and recruiters. <strong>Oh, the shame</strong> though - I was wearing the same T-shirt as someone else - and, yes, I have indeed replaced people with small shell scripts.</p>
 
-<p>Now, to the main part of what this post is about - the <strong>rant</strong>. It&#8217;s not aimed at the particular event last night alone though. It&#8217;s alcohol at various tech-meetups in general. Look guys, you generally end up buying too much anyway, and all too often its also to the exclusion of those that may prefer to not get inebriated.</p>
+<p>Now, to the main part of what this post is about - the <strong>rant</strong>.</p>
 
-<p>As an example, The <a href="http://lanyrd.com/2011/hn-london-nov/">Hacker News meetups</a> will get dozens of pizzas (which are, admittedly all eaten - there are 150+ people attending usually), but also a couple of stacks worth of cans and bottles, each with 24 cans in each tray, several hundred each at least. It&#8217;s just as well they aren&#8217;t all drunk on the night - many of the event-goers would be unconscious by the end. At least they will also add a few trays of soft-drinks, Lemonade and Cola.</p>
-
-<p>If you want a couple of drinks to help lubricate the social aspect of an evening out, I&#8217;ve got no problem at all. I don&#8217;t though. I prefer to save my brain cells for doing interesting things, like oh, writing code?</p>
-
-<p>For other events, how about adding some more soft drinks to replace some of the alcohol? Last night, the choice was booze, or fizzy water; That was all.</p>
-
-<p>Thankfully, people don&#8217;t generally get blotto at the various meetups - at least that I&#8217;ve seen, but I expect there&#8217;s been one or two that have swerved their way home sometimes.</p>
-
-<p><strong>Do you have a comment about alcohol being served at the various meetups?  Would you like more, less, or do you think that organisers and sponsors are doing it right?  I would love to start a conversation here about the good or bad of it.</strong></p>
-
-<p>Comment at <a href="http://phpscaling.com/2011/12/13/booze-at-meetups/">phpscaling.com</a>.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/01/repost-booze-at-meetups/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -161,68 +195,12 @@ Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-
 
   <div class="entry-content"><p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I&#8217;ve had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> - which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record - really easy if you have any kind of database or automation.</p>
 
-<div><script src='https://gist.github.com/4419185.js'></script>
-<noscript><pre><code># Sample tinydns record
-# These records are necessary for each domain to be properly delegate
-# to Bytemark's four DNS servers. They insert the necessary NS records
-# to claim authority for the domain.
-# If you have delegated by name to the [abc].ns.bytemark.co.uk
-# servers, use these lines
-.abulman.co.uk::a.ns.bytemark.co.uk:259200
-.abulman.co.uk::b.ns.bytemark.co.uk:259200
-.abulman.co.uk::c.ns.bytemark.co.uk:259200
-#
-+abulman.co.uk:188.40.84.86:86400
-+www.abulman.co.uk:188.40.84.86:86400
-+*.abulman.co.uk:188.40.84.86:86400
-#
-@abulman.co.uk::ASPMX.L.GOOGLE.COM:1:3600
-@abulman.co.uk::ALT1.ASPMX.L.GOOGLE.COM:5:3600
-@abulman.co.uk::ALT2.ASPMX.L.GOOGLE.COM:5:3600
-@abulman.co.uk::ASPMX2.GOOGLEMAIL.COM:10:3600
-@abulman.co.uk::ASPMX3.GOOGLEMAIL.COM:10:3600
-@abulman.co.uk::ASPMX4.GOOGLEMAIL.COM:10:3600
-@abulman.co.uk::ASPMX5.GOOGLEMAIL.COM:10:3600
-# SPF record
-:abulman.co.uk:16:\037v=spf1\040mx\040include\072plus.net\040~all:86400
-# now obsolete link to Livejournal
-+journal.abulman.co.uk:204.9.177.18:86400
-</code></pre></noscript></div>
-
-
-<!-- tinydns record -->
-
-
-<p>Back in April (2012), I came across <a href="http://news.ycombinator.com/item?id=3794654">a post on HackerNews</a> to <a href="http://www.luadns.com/">http://www.luadns.com/</a>. This is a system that again, uses TinyDNS as a backend, but instead of some hacked-together PHP scripts I wrote to produce the data files, they are run through a Lua script. That gives the benefit of very easy to read configurations, and then the files themselves are stored in a Git repository, which can arrange to notify the main luadns website whenever it is changed, so the records are updated whenever the repository is.</p>
-
-<div><script src='https://gist.github.com/4419224.js'></script>
-<noscript><pre><code>-- File: abulman.co.uk.lua
--- Zone: abulman.co.uk
--- SOA record is automatically generated
--- Variable _a is replaced with zone name
--- _a = &quot;abulman.co.uk&quot; (from the filename)
-
--- _webserverIP &amp; _longTTL are variables
-
--- A records - 
-std_a(_a, _webserverIP)
-a('blog', _webserverIP, _longTTL)
-
--- CNAME records
-cname(&quot;pages&quot;, 'ghs.google.com')
--- Templates (see templates.lua)
-google_app(_a, 'ghs.google.com', _longTTL)
-</code></pre></noscript></div>
-
-
-<!-- luadns record -->
-
-
-<p>So, with the use of the service from luadns, I had a good reason to a) move my DNS off bytemark (with the intention to also eventually shut down my old server there), and b) tidy it up as I went. So I did. I had already moved my tech-blog to <a href="http://phpscaling.com/">http://phpscaling.com/</a> last year, and over this last few weeks, I added <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> to the same Wordpress installation.</p>
-
-<p>Supporting different domain names for (at least) two different blogs isn&#8217;t too easy in a stack Wordpress 3 installation. It isn&#8217;t made any easier becuase I also have a couple of domain name aliases that point to the <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> site (there is also <a href="http://alisterb.co.uk/">http://alisterb.co.uk/</a>, and of course there is also the www.* versions) and so I was having a lot of trouble till I found the <a href="http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping/">wordpress-mu-domain-mapping</a> plugin. While it&#8217;s not quite a drop-in plugin (you have to copy some files around manually) and of course setup the IP address and domain names, it solved my problem.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/12/31/dns-and-my-refreshed-cv-site/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -306,7 +284,11 @@ google_app(_a, 'ghs.google.com', _longTTL)
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/01/12/repost-booze-at-meetups/">Booze at tech meetups</a>
+        <a href="/blog/2013/01/03/a-mysql-day-one-day-freelancing/">a MySQL optimisation Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/repost-booze-at-meetups/">Booze at tech meetups</a>
       </li>
     
       <li class="post">
