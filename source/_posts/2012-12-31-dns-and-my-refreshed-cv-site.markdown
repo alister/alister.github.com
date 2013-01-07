@@ -6,6 +6,7 @@ comments: true
 categories: dns wordpress
 ---
 It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <http://www.bytemark.co.uk/> (with whom I've had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used [TinyDNS](http://tinydns.org/) - which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record - really easy if you have any kind of database or automation.
+<!-- more -->
 
 {% gist 4419185  %}<!-- tinydns record -->
 
