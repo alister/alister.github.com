@@ -1,0 +1,11 @@
+@todo
+
+* local DNS, local TLDs
+* atomic updates to the server
+* self-generated sequence numbers
+* extendable, you just have to figure out how once
+* does one thing
+* DNScache is secure, pre-solved the attack on DNS
+  * djbdns has never been vulnerable to the cache poisoning vulnerability reported in July 2008,[4][5] but it has been discovered that it is vulnerable to a related attack.
+
+LuaDNS
