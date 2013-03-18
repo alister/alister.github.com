@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: wordpress | Professional Blog]]></title>
+  <link href="http://alister.github.com/blog/categories/wordpress/atom.xml" rel="self"/>
+  <link href="http://alister.github.com/"/>
+  <updated>2013-02-18T15:44:54+00:00</updated>
+  <id>http://alister.github.com/</id>
+  <author>
+    <name><![CDATA[Alister Bulman]]></name>
+    <email><![CDATA[abulman+abgh@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[DNS and my refreshed CV site]]></title>
+    <link href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/"/>
+    <updated>2012-12-31T12:07:00+00:00</updated>
+    <id>http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site</id>
+    <content type="html"><![CDATA[<p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I've had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> - which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record - really easy if you have any kind of database or automation.</p>
+
+<!-- more -->
+
+
+<p><div><script src='https://gist.github.com/4419185.js'></script>
+<noscript><pre><code># Sample tinydns record
+# These records are necessary for each domain to be properly delegate
+# to Bytemark's four DNS servers. They insert the necessary NS records
+# to claim authority for the domain.
+# If you have delegated by name to the [abc].ns.bytemark.co.uk
+# servers, use these lines
+.abulman.co.uk::a.ns.bytemark.co.uk:259200
+.abulman.co.uk::b.ns.bytemark.co.uk:259200
+.abulman.co.uk::c.ns.bytemark.co.uk:259200
+#
++abulman.co.uk:188.40.84.86:86400
++www.abulman.co.uk:188.40.84.86:86400
++*.abulman.co.uk:188.40.84.86:86400
+#
+@abulman.co.uk::ASPMX.L.GOOGLE.COM:1:3600
+@abulman.co.uk::ALT1.ASPMX.L.GOOGLE.COM:5:3600
+@abulman.co.uk::ALT2.ASPMX.L.GOOGLE.COM:5:3600
+@abulman.co.uk::ASPMX2.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX3.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX4.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX5.GOOGLEMAIL.COM:10:3600
+# SPF record
+:abulman.co.uk:16:\037v=spf1\040mx\040include\072plus.net\040~all:86400
+# now obsolete link to Livejournal
++journal.abulman.co.uk:204.9.177.18:86400
+</code></pre></noscript></div>
+<!-- tinydns record --></p>
+
+<p>Back in April (2012), I came across <a href="http://news.ycombinator.com/item?id=3794654">a post on HackerNews</a> to <a href="http://www.luadns.com/">http://www.luadns.com/</a>. This is a system that again, uses TinyDNS as a backend, but instead of some hacked-together PHP scripts I wrote to produce the data files, they are run through a Lua script. That gives the benefit of very easy to read configurations, and then the files themselves are stored in a Git repository, which can arrange to notify the main luadns website whenever it is changed, so the records are updated whenever the repository is.</p>
+
+<p><div><script src='https://gist.github.com/4419224.js'></script>
+<noscript><pre><code>-- File: abulman.co.uk.lua
+-- Zone: abulman.co.uk
+-- SOA record is automatically generated
+-- Variable _a is replaced with zone name
+-- _a = &quot;abulman.co.uk&quot; (from the filename)
+
+-- _webserverIP &amp; _longTTL are variables
+
+-- A records - 
+std_a(_a, _webserverIP)
+a('blog', _webserverIP, _longTTL)
+
+-- CNAME records
+cname(&quot;pages&quot;, 'ghs.google.com')
+-- Templates (see templates.lua)
+google_app(_a, 'ghs.google.com', _longTTL)
+</code></pre></noscript></div>
+<!-- luadns record --></p>
+
+<p>So, with the use of the service from luadns, I had a good reason to a) move my DNS off bytemark (with the intention to also eventually shut down my old server there), and b) tidy it up as I went. So I did. I had already moved my tech-blog to <a href="http://phpscaling.com/">http://phpscaling.com/</a> last year, and over this last few weeks, I added <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> to the same Wordpress installation.</p>
+
+<p>Supporting different domain names for (at least) two different blogs isn't too easy in a stack Wordpress 3 installation. It isn't made any easier becuase I also have a couple of domain name aliases that point to the <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> site (there is also <a href="http://alisterb.co.uk/">http://alisterb.co.uk/</a>, and of course there is also the www.* versions) and so I was having a lot of trouble till I found the <a href="http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping/">wordpress-mu-domain-mapping</a> plugin. While it's not quite a drop-in plugin (you have to copy some files around manually) and of course setup the IP address and domain names, it solved my problem.</p>
+]]></content>
+  </entry>
+  
+</feed>

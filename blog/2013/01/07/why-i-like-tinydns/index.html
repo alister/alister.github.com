@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Why I like djbdns & tinydns - Professional Blog</title>
+  <meta name="author" content="Alister Bulman">
+
+  
+  <meta name="description" content="I&#8217;ve been using TinyDNS, and the associated systems, like DNScache and DaemonTools since 2003, when I was first tasked with setting up a local &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alister.github.com/blog/2013/01/07/why-i-like-tinydns/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Professional Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37346894-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Professional Blog</a></h1>
+  
+    <h2>A few things I've been up to</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:alister.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+  <li><a href="/presentations/">Presentations</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Why I Like Djbdns & Tinydns</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-07T12:21:00+00:00" pubdate data-updated="true">Jan 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;ve been using TinyDNS, and the associated systems, like DNScache and DaemonTools since 2003, when I was first tasked with setting up a local DNS resolver, and a DNS server for a web-development company I was working at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a>. We had dozens of domain names, and organising the changes - as well as paying per domain name, was getting to be, well, annoying, as well as potentially expensive.</p>
+
+<p>So, I was asked to setup our own name servers&#8230;.<!-- more --></p>
+
+<p>I looked at BIND, and even bought the O&#8217;Reilly &#8216;Cricket&#8217; book, but the plan was to use an in-house database management system/CMS to hold the details of the various DNS records and then output the pieces to the DNS server. The thought of producing bind format text files did not appeal - the are pretty complex.</p>
+
+<p>Then, I came across another option - TinyDNS, and a few associated tools, written by djb - Daniel J. Bernstein, who is a mathematician, cryptologist, programmer, and research professor of computer science. It&#8217;s very <em>opinionated</em> software, and so is the configuration, but easy enough to follow a howto and get working.</p>
+
+<p>One of the design choices that make it so easy to work with is that there is a simple-to-understand format for the configuration file, one line per record, for example each Cname, A or MX record is just one line, with the first character being the type (for example a &#8216;@&#8217; for an MX record), and the various parts of it is then split up between colons. The latter parts of the record, with information as time-to-live durations, and other defaults, can be safely left to the defaults.</p>
+
+<p>See: <a href="http://cr.yp.to/djbdns/tinydns-data.html">http://cr.yp.to/djbdns/tinydns-data.html</a> for the exact structure of the data file (or, in fact, of each line that you will generally be using).</p>
+
+<p>Given the various records already in a database, converting them each into such a simple output format is not very difficult at all. In fact, I used an existing perl script as a large basis to do the conversion (porting the perl to PHP was itself trivial), and simply wrapping some database access code around it.</p>
+
+<p>Since the output was just a text file, which was then compiled down into a small database, it was also trivial to have all the name servers (including a tertiary, ns3, name server) call into the server by HTTP (from a cron-job). The web-page produced the data, and output the file as plain text. With the page protected by IP and a HTTP password, it&#8217;s entirely secure, and very easy to setup.</p>
+
+<p>In my next djbdns/tinydns post, I&#8217;ll show you how to setup your own, local top-level domain names - which I find very useful for development, among other things.</p>
+
+<p>Also take a look at the first post in this little series: <a href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/">http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/</a>, where I also how an example of a TinyDNS zone file, and how simple it can be made with LuaDNS.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alister Bulman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-07T12:21:00+00:00" pubdate data-updated="true">Jan 7<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dns/'>dns</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alister.github.com/blog/2013/01/07/why-i-like-tinydns/" data-via="alister_b" data-counturl="http://alister.github.com/blog/2013/01/07/why-i-like-tinydns/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/01/a-mysql-day-one-day-freelancing/" title="Previous Post: a MySQL optimisation Story">&laquo; a MySQL optimisation Story</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service/" title="Next Post: Not having your developers quit on you - as a service">Not having your developers quit on you - as a service &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service/">Not having your developers quit on you - as a service</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/why-i-like-tinydns/">Why I like djbdns & tinydns</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/a-mysql-day-one-day-freelancing/">a MySQL optimisation Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/repost-booze-at-meetups/">Booze at tech meetups</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/31/dns-and-my-refreshed-cv-site/">DNS and my refreshed CV site</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("alister_b", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/alister_b" class="twitter-follow-button" data-show-count="false">Follow @alister_b</a>
+  
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/alister">@alister</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'alister',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/101781345476843821407?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+<section>
+  <h1>Stack Overflow</h1>
+  <a href="http://stackoverflow.com/users/6216/alister-bulman">
+  <img src="http://stackoverflow.com/users/flair/6216.png" width="208" height="58" alt="profile for alister-bulman at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for alister-bulman at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+  </a>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Alister Bulman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
