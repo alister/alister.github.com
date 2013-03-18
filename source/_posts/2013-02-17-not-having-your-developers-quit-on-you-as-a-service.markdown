@@ -8,6 +8,7 @@ published: true
 ---
 
 <blockquote class="twitter-tweet" align="right"><p>Developers! Trying to work for a company with crappy s/w practices sucks. Don't succumb to Stockholm Syndrome. Do better</p>&mdash; Alister Bulman (@alister_b) <a href="https://twitter.com/alister_b/status/302046661528649728">February 14, 2013</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+Discuss at [Hacker News](http://news.ycombinator.com/item?id=5238705)
 
 It's never good when someone feels they need to quit a job (or contract) rather than be able to continue, but sometimes, if the environment that they are working is so just so toxic and/or painful to work within, then it can be the best thing for all parties.
 
@@ -90,3 +91,6 @@ If your development environment isn't working, and doesn't allow your developers
 ## Employees and Contractors
 
 Your skills are valuable. Don't allow them, or your time, to be wasted in situations that don't make it enjoyable and easy to concentrate on interesting problems, or at least valuable solutions. If you have to fight in order to write good code, know this: there are places where your skills are valued, and will be nurtured. Don't be a victim; You can do better - by not allowing yourself to be dragged down into the mud of bad development. 
+
+----
+Discuss at [Hacker News](http://news.ycombinator.com/item?id=5238705)
