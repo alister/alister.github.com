@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>DNS and my refreshed CV site - Professional Blog</title>
+  <meta name="author" content="Alister Bulman">
+
+  
+  <meta name="description" content="It has been in process for a little while, starting when I moved the bulk of my DNS hosting from http://www.bytemark.co.uk/ (with whom I&#8217;ve had &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Professional Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37346894-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Professional Blog</a></h1>
+  
+    <h2>A few things I've been up to</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:alister.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+  <li><a href="/presentations/">Presentations</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">DNS and My Refreshed CV Site</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-31T12:07:00+00:00" pubdate data-updated="true">Dec 31<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I&#8217;ve had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> - which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record - really easy if you have any kind of database or automation.</p>
+
+<!-- more -->
+
+
+
+
+<div><script src='https://gist.github.com/4419185.js'></script>
+<noscript><pre><code># Sample tinydns record
+# These records are necessary for each domain to be properly delegate
+# to Bytemark's four DNS servers. They insert the necessary NS records
+# to claim authority for the domain.
+# If you have delegated by name to the [abc].ns.bytemark.co.uk
+# servers, use these lines
+.abulman.co.uk::a.ns.bytemark.co.uk:259200
+.abulman.co.uk::b.ns.bytemark.co.uk:259200
+.abulman.co.uk::c.ns.bytemark.co.uk:259200
+#
++abulman.co.uk:188.40.84.86:86400
++www.abulman.co.uk:188.40.84.86:86400
++*.abulman.co.uk:188.40.84.86:86400
+#
+@abulman.co.uk::ASPMX.L.GOOGLE.COM:1:3600
+@abulman.co.uk::ALT1.ASPMX.L.GOOGLE.COM:5:3600
+@abulman.co.uk::ALT2.ASPMX.L.GOOGLE.COM:5:3600
+@abulman.co.uk::ASPMX2.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX3.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX4.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX5.GOOGLEMAIL.COM:10:3600
+# SPF record
+:abulman.co.uk:16:\037v=spf1\040mx\040include\072plus.net\040~all:86400
+# now obsolete link to Livejournal
++journal.abulman.co.uk:204.9.177.18:86400
+</code></pre></noscript></div>
+
+
+<!-- tinydns record -->
+
+
+<p>Back in April (2012), I came across <a href="http://news.ycombinator.com/item?id=3794654">a post on HackerNews</a> to <a href="http://www.luadns.com/">http://www.luadns.com/</a>. This is a system that again, uses TinyDNS as a backend, but instead of some hacked-together PHP scripts I wrote to produce the data files, they are run through a Lua script. That gives the benefit of very easy to read configurations, and then the files themselves are stored in a Git repository, which can arrange to notify the main luadns website whenever it is changed, so the records are updated whenever the repository is.</p>
+
+<div><script src='https://gist.github.com/4419224.js'></script>
+<noscript><pre><code>-- File: abulman.co.uk.lua
+-- Zone: abulman.co.uk
+-- SOA record is automatically generated
+-- Variable _a is replaced with zone name
+-- _a = &quot;abulman.co.uk&quot; (from the filename)
+
+-- _webserverIP &amp; _longTTL are variables
+
+-- A records - 
+std_a(_a, _webserverIP)
+a('blog', _webserverIP, _longTTL)
+
+-- CNAME records
+cname(&quot;pages&quot;, 'ghs.google.com')
+-- Templates (see templates.lua)
+google_app(_a, 'ghs.google.com', _longTTL)
+</code></pre></noscript></div>
+
+
+<!-- luadns record -->
+
+
+<p>So, with the use of the service from luadns, I had a good reason to a) move my DNS off bytemark (with the intention to also eventually shut down my old server there), and b) tidy it up as I went. So I did. I had already moved my tech-blog to <a href="http://phpscaling.com/">http://phpscaling.com/</a> last year, and over this last few weeks, I added <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> to the same Wordpress installation.</p>
+
+<p>Supporting different domain names for (at least) two different blogs isn&#8217;t too easy in a stack Wordpress 3 installation. It isn&#8217;t made any easier becuase I also have a couple of domain name aliases that point to the <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> site (there is also <a href="http://alisterb.co.uk/">http://alisterb.co.uk/</a>, and of course there is also the www.* versions) and so I was having a lot of trouble till I found the <a href="http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping/">wordpress-mu-domain-mapping</a> plugin. While it&#8217;s not quite a drop-in plugin (you have to copy some files around manually) and of course setup the IP address and domain names, it solved my problem.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alister Bulman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-31T12:07:00+00:00" pubdate data-updated="true">Dec 31<span>st</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dns/'>dns</a>, <a class='category' href='/blog/categories/wordpress/'>wordpress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/" data-via="alister_b" data-counturl="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/31/new-professional-blog/" title="Previous Post: New professional blog">&laquo; New professional blog</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/01/01/repost-booze-at-meetups/" title="Next Post: Booze at tech meetups">Booze at tech meetups &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service/">Not having your developers quit on you - as a service</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/why-i-like-tinydns/">Why I like djbdns & tinydns</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/a-mysql-day-one-day-freelancing/">a MySQL optimisation Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/repost-booze-at-meetups/">Booze at tech meetups</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/31/dns-and-my-refreshed-cv-site/">DNS and my refreshed CV site</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("alister_b", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/alister_b" class="twitter-follow-button" data-show-count="false">Follow @alister_b</a>
+  
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/alister">@alister</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'alister',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/101781345476843821407?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+<section>
+  <h1>Stack Overflow</h1>
+  <a href="http://stackoverflow.com/users/6216/alister-bulman">
+  <img src="http://stackoverflow.com/users/flair/6216.png" width="208" height="58" alt="profile for alister-bulman at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for alister-bulman at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+  </a>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Alister Bulman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

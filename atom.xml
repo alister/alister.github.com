@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Professional Blog]]></title>
+  <link href="http://alister.github.com/atom.xml" rel="self"/>
+  <link href="http://alister.github.com/"/>
+  <updated>2013-02-18T15:44:54+00:00</updated>
+  <id>http://alister.github.com/</id>
+  <author>
+    <name><![CDATA[Alister Bulman]]></name>
+    <email><![CDATA[abulman+abgh@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Not having your developers quit on you - as a service]]></title>
+    <link href="http://alister.github.com/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service/"/>
+    <updated>2013-02-17T17:30:00+00:00</updated>
+    <id>http://alister.github.com/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service</id>
+    <content type="html"><![CDATA[<blockquote class="twitter-tweet" align="right"><p>Developers! Trying to work for a company with crappy s/w practices sucks. Don&#8217;t succumb to Stockholm Syndrome. Do better</p>&mdash; Alister Bulman (@alister_b) <a href="https://twitter.com/alister_b/status/302046661528649728">February 14, 2013</a></blockquote>
+
+
+<script async src="http://alister.github.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>Discuss at <a href="http://news.ycombinator.com/item?id=5238705">Hacker News</a></p>
+
+<p>It&#8217;s never good when someone feels they need to quit a job (or contract) rather than be able to continue, but sometimes, if the environment that they are working is so just so toxic and/or painful to work within, then it can be the best thing for all parties.</p>
+
+<p>That doesn&#8217;t mean that I particularly keen to admit that I&#8217;ve done it twice in the last five months. It&#8217;s useful to tell you the why, of what happened though. <!-- more --></p>
+
+<p>The name of the company itself isn&#8217;t important, though they do deal in the enterprise and government space. The sites that are being written aren&#8217;t themselves particularly big or complicated, nor are they high traffic - though I very much doubt they are cheap - selling to large organisations has its own specialised costs in itself. Some small parts of them are more complicated than others though - like the internal intranet that deals with holidays being reseerved and taken by the staff (which number several hundreds) - this is part that I spent a little time in myself, but I&#8217;ll get back to that.</p>
+
+<p>Rewind to mid-January. I interview for a full-time tech lead role at the company. It&#8217;s clear at the interview that they need a good lead developer to help the team modernise their practices. At the end of the interview I&#8217;m asked if I would be willing to work as a home-base contractor. OK - it&#8217;s more money and less hassle than a 40 minute commute on the tube in the morning.</p>
+
+<p>Four days later, and thats including the weekend, I get a phone call from the recruiter that put me up for it. They&#8217;d like to have me as a home-based contractor. A speedy response is a good sign - and certainly better than the week or I&#8217;d been waiting after 2nd or 3rd interviews with other positions. Just becuase a company if fast for the first part, it doesn&#8217;t mean they are any good in anything else. After the paperwork had been completed, it was a full week before I was invited in for a first day at the office to meet the rest of the development lead team.</p>
+
+<p>It wasn&#8217;t going well. After a week&#8217;s wait, I&#8217;d expected a laptop to be waiting for me, setup with the VPN access, and maybe even a development environment. This was an &#8216;enterprise&#8217; outfit, complete with infrastructure department and full-time sysadmins. Even the live server configuration was at best, basic. There was no automation for the servers configurations, and it appeared that the dozens, even hundreds of sites had all been recently migrated manually from some old servers. A nearly perfect opportunity had been completely ignored to improve the deployment of the live websites, and to automate the servers as well. Instead, the machine configuration was written out, step by step, on the internal wiki.</p>
+
+<p>That lack of system, and site, configuration was one of the things that surprised me the most. Deploying a website - to staging, or production - is the sort of thing that will happen regularly, maybe a couple of times a day, even if changes to any one site is infrequent. None of that happened though.</p>
+
+<p>I left the office before lunch, since the laptop I would need wasn&#8217;t ready.  it would be another 7 full days before I could pick it up.</p>
+
+<p>Lets see the take-aways so far.</p>
+
+<h4>1. If you don&#8217;t automate the server configurations, you will still have things to do next year. They are your pets, love them all individually</h4>
+
+<h4>2. Sysadmins are paid to deploy code. Let them do it, according to the listed steps</h4>
+
+<h4>3. Developers don&#8217;t cost much money. They can wait a week before they get a machine to use. (Contractors don&#8217;t get paid till you are ready to start)</h4>
+
+<p>I spent the first two days with the laptop trying to get a reasonable development environment going. In the last two years (or more!) the classic setup has been a virtual machine running locally, often with a configuration management tool like Puppet to easily bring up the relevant software (LAMP) stack. Without automation in place, that setup simply doesn&#8217;t exist. The version of software you develop on might, or might not be in any useful way be compatible with the versions on the live site. By the time I had brought up a 32bit Ubuntu 12.10 VM (I&#8217;d first tried with a 64bit VM, but the laptop was locked down to not enable the virtualisation support in the CPU/BIOS) and tried to fetch the source code from the source-code (subversion) repository.</p>
+
+<p>It was half-way through the second day at work (at home) that I was given SVN repo access to be able to download the code to the websites I&#8217;d be working on. I actually got the site running (though, as a CMS it was largly useless without the uploaded assets or database). It wasn&#8217;t helped by the fact that Silverstripe (the CMS they were using) had had <a href="https://github.com/silverstripe/sapphire/commit/9ffa903d50692dad4f3acb9908aa6769d17ebcb8#core/ManifestBuilder.php">a bug in it for a couple of years</a> which PHP5.4 had immediately complained about. So I gave up trying to do it the right way.</p>
+
+<h4>4. Every developer has unique needs. Wait until they ask for something before giving it to them - like access to the source code</h4>
+
+<h4>5. Every developer understands how to install your site, no matter how complex. No need for documentation</h4>
+
+<h4>6. Running PHP with <code>error_reporting(0);</code>, means there are no more problems in the code!</h4>
+
+<p>The only thing left to me was the dev-host machine. A central server that I could connect to over Samba, that ran a database, with many copies of the data for testing and a space to be able to check out the site you were working on. Just the one site, unless you figured the magic incantations of the various configuration files (a few of which weren&#8217;t even in version control!) to be able to put the entire site in as a sub-directory of the development environment.</p>
+
+<p>So, to be able to develop more than one, you had to change the way the site worked, in some quite important ways, and then you had to make sure that you worked on it very carefully, because if you got it wrong, there was no way to see there was an error until after the site had gone live - becuase sometimes, the site can&#8217;t be tested properly, becuase any test would be in the same sub-directory.  No wonder they liked to deploy code (manually) out of business hours. There was no way to tell how badly something could have been broken without anyone being able to know.</p>
+
+<p>Now, having a single main dev-server for an office (even maybe for remote developers), isn&#8217;t an intrinscally a bad idea, although lss so when it&#8217;s still running Ubuntu 8.10 and has been online without a reboot since December 2010 (yes, over 800 days uptime!). I&#8217;ve set a few up before myself - at least, before decent laptops that can easily run VirtualBox appeared. I probably setup my first - for other people to use beyond myself - literally ten years ago, when I started as sysadmin at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a> (and they are still going!).</p>
+
+<h4>7. He who dies with the most uptime, wins.</h4>
+
+<p>The only difference was, I did it right, even back then at Datasouth. I had set it up with dynamic virtual hosts, you you could create a sub-directory, with say a htdocs/ directory, and that automatically enabled a new site. For example, given a file within a specific directory:</p>
+
+<pre><code>/home/fred/sites/testing123/htdocs/index.php
+</code></pre>
+
+<p>it would instantly enable a live webpage at a URL such as:</p>
+
+<pre><code>http://testing123.fred.example.com/index.php
+</code></pre>
+
+<p>Create a new directory, alongside &#8216;testing123&#8217;, and you get a different URL - for a completely different website to test, and checkout of the code repository as a whole. Now, I&#8217;m not saying it wasn&#8217;t without some issues, back then, the Apache (v1.3) module that enabled such a scheme didn&#8217;t set everything you would have entirely expected, so the site had to work out a couple of things for itself (like the value of $_SERVER[&#8216;DOCUMENT_ROOT&#8217;]) - but this was easy common code that got just included in every PHP page automatically.</p>
+
+<p>The <em>other</em> way - that my last contract used - was different configurations, unique to every site (and undocumented, while it was at it) to enable the site-as-subdirectories. This did not enamour itself to me. There are so many potential problems with it.</p>
+
+<h4>8. Making it easy to create and test sites just makes programmers lazy. They should do it right first time, no matter how complex.</h4>
+
+<p>Did I tell you about the website databases yet?  The live sites mostly ran a CMS, Silverstripe, or maybe some Drupal sites, backed by a MySQL database. So far, so standard. The database tables, were all MyIsam-type tables. Yep, the slow, crashy types that when the machine fell over (as all machines will inevitably do) would lock the tables and require a rebuild of potentially dozens, or hundreds of them before the site would come back up successfully.</p>
+
+<p>I first noticed this brilliant plan on the part of the original sysadmins and developers when I looked at the devhost database, with some 150 databases and countless tables in total. One copy of each database per site, for each developer.  The two sites I was working on had live DB&#8217;s approaching 1 gigabyte each, which made the (fully manual) syncing of the DB onto the development server &#8216;fun&#8217;. That wasn&#8217;t automated either, which was a shame, considering that Silverstripe tended to use a few of the tables just as audit logs. So, of the 1GB of DB table and indexes, about 750MB was just logs.  Which also helped to explain why the devhost&#8217;s disk was 98% full.</p>
+
+<h4>9. The best place for an automated log is a MyIsam table! Don&#8217;t forget to keep a dozen copies on dev as well.</h4>
+
+<p>Between Monday 11th and Thursday, 14th February, I&#8217;d solved a couple of trivial bugs, one a simple CSS placement that had forced a widget to a particular place on sccreen (in IE). it now flowed with the rest of the text, appearing after the article. To solve the other bug, I had listed four date periods (to make it a fraction moreinteresting, not all four were simple 12 month durations, and the window would keep moving as time progressed). Both had been ticketed as solved and were all awaiting signoff.</p>
+
+<p>The date fix though, solved three slightly different issues/bugs at the same time. Before that could go live on the intranet it would require signoff from FIVE different people, and then be scheduled to be updated - out of business hours. That intranet was used by 200-300 people. Compare that with one of my favourite (and interesting) roles of the last 5 years - <a href="http://www.binweevils.com/">http://www.binweevils.com/</a>, where we reached as many as 10,000 concurrent players (not possible users, but people all playing the game at the same time). Clearly, updating the website when the player count was so high would have been reserved for critical situations, but with a couple of thousand players online when I would deploy some new, or updated code? That was almost a non-event, and likely a weekly one as well.</p>
+
+<p>So, Valentines Day, and seven days since I had started my latest contract, I woke up as usual, and sat down in front of my PC &amp; laptop to stare at it. For an hour and a half, I just could not bring myself to work in such a crap-pile.  And so, I quit.  I handed back my laptop the same day, and I feel so much better for it already.</p>
+
+<h4>10. Jobs are scarce in the current economy. developers will put up with all sorts of shit and just smile</h4>
+
+<ul>
+<li><a href="http://hackerjobs.co.uk/jobs">http://hackerjobs.co.uk/jobs</a></li>
+<li><a href="http://www.techcityjobs.co.uk/">http://www.techcityjobs.co.uk/</a></li>
+<li><a href="http://www.jobserve.com/gb/en/JobListing.aspx?shid=ECAB04F6C24FB8A469">http://www.jobserve.com/gb/en/JobListing.aspx?shid=ECAB04F6C24FB8A469</a></li>
+<li><a href="https://twitter.com/search?q=%23php%20job">https://twitter.com/search?q=%23php%20job</a></li>
+<li><a href="http://www.ukstartupjobs.com/">http://www.ukstartupjobs.com/</a></li>
+<li><a href="http://workinstartups.com/job-board/jobs/programmers/">http://workinstartups.com/job-board/jobs/programmers/</a></li>
+<li><a href="http://jobstractor.com/developers/PHP/#!/London">http://jobstractor.com/developers/PHP/#!/London</a></li>
+</ul>
+
+
+<h2>Employers</h2>
+
+<p>If your development environment isn&#8217;t working, and doesn&#8217;t allow your developers to easily write, test and deploy code, you have an immediate and critical problem. Don&#8217;t sit on your hands for months hoping it will somehow improve, while you are not doing anything to help it.</p>
+
+<h2>Employees and Contractors</h2>
+
+<p>Your skills are valuable. Don&#8217;t allow them, or your time, to be wasted in situations that don&#8217;t make it enjoyable and easy to concentrate on interesting problems, or at least valuable solutions. If you have to fight in order to write good code, know this: there are places where your skills are valued, and will be nurtured. Don&#8217;t be a victim; You can do better - by not allowing yourself to be dragged down into the mud of bad development.</p>
+
+<hr />
+
+<p>Discuss at <a href="http://news.ycombinator.com/item?id=5238705">Hacker News</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Why I like djbdns & tinydns]]></title>
+    <link href="http://alister.github.com/blog/2013/01/07/why-i-like-tinydns/"/>
+    <updated>2013-01-07T12:21:00+00:00</updated>
+    <id>http://alister.github.com/blog/2013/01/07/why-i-like-tinydns</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been using TinyDNS, and the associated systems, like DNScache and DaemonTools since 2003, when I was first tasked with setting up a local DNS resolver, and a DNS server for a web-development company I was working at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a>. We had dozens of domain names, and organising the changes - as well as paying per domain name, was getting to be, well, annoying, as well as potentially expensive.</p>
+
+<p>So, I was asked to setup our own name servers&#8230;.<!-- more --></p>
+
+<p>I looked at BIND, and even bought the O&#8217;Reilly &#8216;Cricket&#8217; book, but the plan was to use an in-house database management system/CMS to hold the details of the various DNS records and then output the pieces to the DNS server. The thought of producing bind format text files did not appeal - the are pretty complex.</p>
+
+<p>Then, I came across another option - TinyDNS, and a few associated tools, written by djb - Daniel J. Bernstein, who is a mathematician, cryptologist, programmer, and research professor of computer science. It&#8217;s very <em>opinionated</em> software, and so is the configuration, but easy enough to follow a howto and get working.</p>
+
+<p>One of the design choices that make it so easy to work with is that there is a simple-to-understand format for the configuration file, one line per record, for example each Cname, A or MX record is just one line, with the first character being the type (for example a &#8216;@&#8217; for an MX record), and the various parts of it is then split up between colons. The latter parts of the record, with information as time-to-live durations, and other defaults, can be safely left to the defaults.</p>
+
+<p>See: <a href="http://cr.yp.to/djbdns/tinydns-data.html">http://cr.yp.to/djbdns/tinydns-data.html</a> for the exact structure of the data file (or, in fact, of each line that you will generally be using).</p>
+
+<p>Given the various records already in a database, converting them each into such a simple output format is not very difficult at all. In fact, I used an existing perl script as a large basis to do the conversion (porting the perl to PHP was itself trivial), and simply wrapping some database access code around it.</p>
+
+<p>Since the output was just a text file, which was then compiled down into a small database, it was also trivial to have all the name servers (including a tertiary, ns3, name server) call into the server by HTTP (from a cron-job). The web-page produced the data, and output the file as plain text. With the page protected by IP and a HTTP password, it&#8217;s entirely secure, and very easy to setup.</p>
+
+<p>In my next djbdns/tinydns post, I&#8217;ll show you how to setup your own, local top-level domain names - which I find very useful for development, among other things.</p>
+
+<p>Also take a look at the first post in this little series: <a href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/">http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/</a>, where I also how an example of a TinyDNS zone file, and how simple it can be made with LuaDNS.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[a MySQL optimisation Story]]></title>
+    <link href="http://alister.github.com/blog/2013/01/01/a-mysql-day-one-day-freelancing/"/>
+    <updated>2013-01-01T17:04:00+00:00</updated>
+    <id>http://alister.github.com/blog/2013/01/01/a-mysql-day-one-day-freelancing</id>
+    <content type="html"><![CDATA[<p>Here is an example of what a little expertise, judiciously applied can do to speed up larger systems. In this case, take a 30 minute run against a MySQL database down to 5 minutes, or less.</p>
+
+<!-- more -->
+
+
+<p>Back in Mid-December, I got an email (via LinkedIn) out of the blue from a web development company in Hampshire. They needed some help with a database they were finishing off for a customer. The site itself barely touched the DB, but instead the heavy lifting was being done once per hour to read the data through a somewhat convoluted database view that did a lot of the work of joining various small tables against the main, multi-million row, table.</p>
+
+<p>The regular job was taking around 30 minutes to complete, and then the website then read the results of that to produce the main site pages as required. They wanted to seee how they could speed it up - a lot.</p>
+
+<p>I&#8217;ve dealt with issues like this before, a couple of times in fact, and it had helped me got at least one full-time job in the past because I&#8217;d solved it so easily - stopping the database server crashing a few times a day in the process - so I was happy to take half-hour to talk though the likely scenarios.</p>
+
+<p>It&#8217;s a simple enough problem with MySQL servers. They can handle a lot of work, but they don&#8217;t come with the base configuration to be able to do so. The main issue is having a machine with plenty of memory to handle the amount of data in the database (the sheer megabytes on disk of data), but the <strong>innodb_buffer_pool_size</strong> hasn&#8217;t been updated to be able to use the memory, so all the information has to squeeze though a mere 8MB (yes, not much more than eight million bytes) of space. Not helpful when the database could be measured in Gigabytes.</p>
+
+<p>A couple of days later, I drove down the M3 to visit the office and more efficiently deal with their servers (they were firewalled to only talk to the office IP address), and do some other things.  The database &amp; its slave was already running a lot faster with the increased buffer_pool memory, in fact it had reduced the time to run the production from 30 minutes to just 5, so there was already a huge win for them. Even then, it was still using just 33% of the ram for the DB on the master, and less than 8.5% on the slave.</p>
+
+<p>With a few more small tweaks they&#8217;ve now got plenty of room to grow, and room to easily double the amount of data they are storing in the DB - and they&#8217;ve also had some tips how to be able to run the regularly scheduled cache-run almost as often as the database can be changed, without having to worry about how long it might end up running (something that you would have to be concerned about it you ran it as a cron-job).</p>
+
+<p>What was also done:</p>
+
+<ul>
+<li>Removing redundant indexes - they already had columns as part of the first set of a compound index. More indexes is more space, and more time to produce. If the data already has an index that covers the same data - remove it!</li>
+<li>Enabling the slow-query log showed a couple of places where a full-text search was still being run, although there was a simple column that could provide the same information.</li>
+<li>Reminded them that a string-based UUID as an indexed column was not their friend. The size of the indexes on disk were more than 1.5 times the size of the data!  A simple numeric index would be a fraction of the size, and since that would also mean more data in less space, it would equally mean a faster database.</li>
+</ul>
+
+
+<p>I put the various database tables into individual files, rather than a single, monolithic file (which was over 20GB on disk). While this doesn&#8217;t help with backups, and you also have to increase the number of open_files MySQL has, there are some benefits, such as being able to more easily reclaim space from large database tables. It also means that you can see very easily how much disk space each table takes up, so it can be more easily monitored.</p>
+
+<p>A couple of final things I did was a very quick and easy fix to a PHP-server for a different site. Although the database for the other site was quite small, a quick upgrade of the  <strong>innodb_buffer_pool_size</strong> would help them in the future, but the main improvement I left them with was to install APC with an initial 32MB RAM default. Its a useful and easy speedup for any PHP site. The improvement was pretty obvious to see on-screen, and it would have also used less memory in the process.</p>
+
+<p>So, two websites, with very different needs but both have had substantial improvements in speed. One was entirely back-end and database based, going from a 30 minute turn-around time to regenerate the site from the database to just five minytes, or even less.</p>
+
+<p>The other a more simple PHP site (in fact, written in <a href="http://ellislab.com/expressionengine">Expression Engine</a>). Installing APC produces some very easy improvement in web-page render times.</p>
+
+<p>I hope this has been a useful reminder of how just a little work from a specialist can help your sites can speed up by a great deal.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Booze at tech meetups]]></title>
+    <link href="http://alister.github.com/blog/2013/01/01/repost-booze-at-meetups/"/>
+    <updated>2013-01-01T10:45:00+00:00</updated>
+    <id>http://alister.github.com/blog/2013/01/01/repost-booze-at-meetups</id>
+    <content type="html"><![CDATA[<p><a href="http://www.thinkgeek.com/tshirts-apparel/unisex/frustrations/374d/"><img src="http://www.phpscaling.com/wp-content/blogs.dir/6/files/2011/12/lg-go-away-tshirt.jpg" alt="" align="right" /></a>
+Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-at-meetups/">phpscaling.com</a>.</p>
+
+<p>I was out last night at the <a href="http://lanyrd.com/2011/the-big-xmas-bash/">The Big Xmas Bash</a>, near Silicon Roundabout. It was a fun night out meeting various people, tech, business and recruiters. <strong>Oh, the shame</strong> though - I was wearing the same T-shirt as someone else - and, yes, I have indeed replaced people with small shell scripts.</p>
+
+<p>Now, to the main part of what this post is about - the <strong>rant</strong>.</p>
+
+<!-- more -->
+
+
+<p>It&#8217;s not aimed at the particular event last night alone though. It&#8217;s alcohol at various tech-meetups in general. Look guys, you generally end up buying too much anyway, and all too often its also to the exclusion of those that may prefer to not get inebriated.</p>
+
+<p>As an example, The <a href="http://lanyrd.com/2011/hn-london-nov/">Hacker News meetups</a> will get dozens of pizzas (which are, admittedly all eaten - there are 150+ people attending usually), but also a couple of stacks worth of cans and bottles, each with 24 cans in each tray, several hundred each at least. It&#8217;s just as well they aren&#8217;t all drunk on the night - many of the event-goers would be unconscious by the end. At least they will also add a few trays of soft-drinks, Lemonade and Cola.</p>
+
+<p>If you want a couple of drinks to help lubricate the social aspect of an evening out, I&#8217;ve got no problem at all. I don&#8217;t though. I prefer to save my brain cells for doing interesting things, like oh, writing code?</p>
+
+<p>For other events, how about adding some more soft drinks to replace some of the alcohol? Last night, the choice was booze, or fizzy water; That was all.</p>
+
+<p>Thankfully, people don&#8217;t generally get blotto at the various meetups - at least that I&#8217;ve seen, but I expect there&#8217;s been one or two that have swerved their way home sometimes.</p>
+
+<p>For the Kernel&#8217;s take on a booze culture in Startup London, see <a href="http://www.kernelmag.com/scene/2792/why-is-east-london-so-goddamn-boozy/">http://www.kernelmag.com/scene/2792/why-is-east-london-so-goddamn-boozy/</a>.</p>
+
+<p><strong>Do you have a comment about alcohol being served at the various meetups?  Would you like more, less, or do you think that organisers and sponsors are doing it right?  I would love to start a conversation here about the good or bad of it.</strong></p>
+
+<p>Comment at <a href="http://phpscaling.com/2011/12/13/booze-at-meetups/">phpscaling.com</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[DNS and my refreshed CV site]]></title>
+    <link href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/"/>
+    <updated>2012-12-31T12:07:00+00:00</updated>
+    <id>http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site</id>
+    <content type="html"><![CDATA[<p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I&#8217;ve had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> - which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record - really easy if you have any kind of database or automation.</p>
+
+<!-- more -->
+
+
+
+
+<div><script src='https://gist.github.com/4419185.js'></script>
+<noscript><pre><code># Sample tinydns record
+# These records are necessary for each domain to be properly delegate
+# to Bytemark's four DNS servers. They insert the necessary NS records
+# to claim authority for the domain.
+# If you have delegated by name to the [abc].ns.bytemark.co.uk
+# servers, use these lines
+.abulman.co.uk::a.ns.bytemark.co.uk:259200
+.abulman.co.uk::b.ns.bytemark.co.uk:259200
+.abulman.co.uk::c.ns.bytemark.co.uk:259200
+#
++abulman.co.uk:188.40.84.86:86400
++www.abulman.co.uk:188.40.84.86:86400
++*.abulman.co.uk:188.40.84.86:86400
+#
+@abulman.co.uk::ASPMX.L.GOOGLE.COM:1:3600
+@abulman.co.uk::ALT1.ASPMX.L.GOOGLE.COM:5:3600
+@abulman.co.uk::ALT2.ASPMX.L.GOOGLE.COM:5:3600
+@abulman.co.uk::ASPMX2.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX3.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX4.GOOGLEMAIL.COM:10:3600
+@abulman.co.uk::ASPMX5.GOOGLEMAIL.COM:10:3600
+# SPF record
+:abulman.co.uk:16:\037v=spf1\040mx\040include\072plus.net\040~all:86400
+# now obsolete link to Livejournal
++journal.abulman.co.uk:204.9.177.18:86400
+</code></pre></noscript></div>
+
+
+<!-- tinydns record -->
+
+
+<p>Back in April (2012), I came across <a href="http://news.ycombinator.com/item?id=3794654">a post on HackerNews</a> to <a href="http://www.luadns.com/">http://www.luadns.com/</a>. This is a system that again, uses TinyDNS as a backend, but instead of some hacked-together PHP scripts I wrote to produce the data files, they are run through a Lua script. That gives the benefit of very easy to read configurations, and then the files themselves are stored in a Git repository, which can arrange to notify the main luadns website whenever it is changed, so the records are updated whenever the repository is.</p>
+
+<div><script src='https://gist.github.com/4419224.js'></script>
+<noscript><pre><code>-- File: abulman.co.uk.lua
+-- Zone: abulman.co.uk
+-- SOA record is automatically generated
+-- Variable _a is replaced with zone name
+-- _a = &quot;abulman.co.uk&quot; (from the filename)
+
+-- _webserverIP &amp; _longTTL are variables
+
+-- A records - 
+std_a(_a, _webserverIP)
+a('blog', _webserverIP, _longTTL)
+
+-- CNAME records
+cname(&quot;pages&quot;, 'ghs.google.com')
+-- Templates (see templates.lua)
+google_app(_a, 'ghs.google.com', _longTTL)
+</code></pre></noscript></div>
+
+
+<!-- luadns record -->
+
+
+<p>So, with the use of the service from luadns, I had a good reason to a) move my DNS off bytemark (with the intention to also eventually shut down my old server there), and b) tidy it up as I went. So I did. I had already moved my tech-blog to <a href="http://phpscaling.com/">http://phpscaling.com/</a> last year, and over this last few weeks, I added <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> to the same Wordpress installation.</p>
+
+<p>Supporting different domain names for (at least) two different blogs isn&#8217;t too easy in a stack Wordpress 3 installation. It isn&#8217;t made any easier becuase I also have a couple of domain name aliases that point to the <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> site (there is also <a href="http://alisterb.co.uk/">http://alisterb.co.uk/</a>, and of course there is also the www.* versions) and so I was having a lot of trouble till I found the <a href="http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping/">wordpress-mu-domain-mapping</a> plugin. While it&#8217;s not quite a drop-in plugin (you have to copy some files around manually) and of course setup the IP address and domain names, it solved my problem.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New professional blog]]></title>
+    <link href="http://alister.github.com/blog/2012/12/31/new-professional-blog/"/>
+    <updated>2012-12-31T11:22:00+00:00</updated>
+    <id>http://alister.github.com/blog/2012/12/31/new-professional-blog</id>
+    <content type="html"><![CDATA[<p>Welcome. I&#8217;ve taken some time over the holidays to do a little re-organisation of my online presence, and I&#8217;d like to tell you what I did, and how.</p>
+
+<p>First up, is this site. I&#8217;ve been considering what to put onto my Github pages for a while, and I think the most obvious thing are links to my recent work. As it is build on <a href="http://octopress.org/">Octopress/Jekyll</a>,  it is also well supported by Github, and allows me to add static content pages into the site as well, so I&#8217;ve moved my online presentations here, from <a href="http://abulman.co.uk">http://abulman.co.uk</a></p>
+
+<h3>My presentations</h3>
+
+<p>I&#8217;ve done a couple now, both on Queueing systems, and particularly on BeanstalkD, which is a very excellent system for such job-queues.</p>
+
+<ul>
+<li><a href="http://alister.github.com/presentations/Beanstalkd/">Beanstalkd</a> PHP London, May 6th 2010</li>
+<li><a href="http://alister.github.com/presentations/QueueGoodBad/">Queuing, the good and bad</a> London Scalability Group, 16th July 2012</li>
+</ul>
+
+
+<p>You should also check out my other post, which I also wrote today, <a href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/">DNS and my refreshed CV site</a></p>
+
+<h3>My other professional links</h3>
+
+<ul>
+<li><a href="http://abulman.co.uk/">http://abulman.co.uk/</a></li>
+<li><a href="http://careers.stackoverflow.com/alister">http://careers.stackoverflow.com/alister</a></li>
+<li><a href="http://phpscaling.com/">http://phpscaling.com/</a> (technical blog)</li>
+<li><a href="https://github.com/alister/">https://github.com/alister/</a> (public projects, Puppet and PHP)</li>
+<li><a href="http://lanyrd.com/people/alister_b/">http://lanyrd.com/people/alister_b/</a></li>
+<li><a href="http://www.linkedin.com/in/alisterbulman">http://www.linkedin.com/in/alisterbulman</a></li>
+<li><a href="http://stackoverflow.com/users/6216/alister-bulman">http://stackoverflow.com/users/6216/alister-bulman</a></li>
+<li><a href="http://serverfault.com/users/181/alister-bulman">http://serverfault.com/users/181/alister-bulman</a></li>
+<li><a href="http://superuser.com/users/1512/alister-bulman">http://superuser.com/users/1512/alister-bulman</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
