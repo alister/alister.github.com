@@ -4,7 +4,7 @@
   <title><![CDATA[Category: contract | Professional Blog]]></title>
   <link href="http://alister.github.com/blog/categories/contract/atom.xml" rel="self"/>
   <link href="http://alister.github.com/"/>
-  <updated>2013-05-13T21:15:57+01:00</updated>
+  <updated>2013-06-01T15:40:10+01:00</updated>
   <id>http://alister.github.com/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Some people are trying to get it]]></title>
+    <link href="http://alister.github.com/blog/2013/06/01/some-people-are-trying-to-get-it/"/>
+    <updated>2013-06-01T15:30:00+01:00</updated>
+    <id>http://alister.github.com/blog/2013/06/01/some-people-are-trying-to-get-it</id>
+    <content type="html"><![CDATA[<p>Some contracts are better than others, not just in location, and pay, but also the intellectual conditions &ndash; how they work and what they ar doing to write better software. Much of it is having the right tools available, easy development environments that don&rsquo;t get in the way, how easily (and fast) the code can be deployed, and what happens to it when you&rsquo;ve committed the code into version control.</p>
+
+<!-- more -->
+
+
+<p>Thankfully, I&rsquo;ve not had to install a version control system in a company I had recently arrrived at, for over eight years, but unit-testing, continuous-integration and making deployments easy, and fast, is still a significant issue in many places that don&rsquo;t place the highest regard on writing quality software.</p>
+
+<p>The reason all these exist is to produce better software, delivered faster and with less issues. I&rsquo;m glad to say that my current contract is getting this message. While automated configurations (with Ansible) are very new, they are being used to some great effect. Also recently put into place (for new projects) is a Jenkins CI server and they have also been putting in a LogStash server, both of the latter of which I&rsquo;ve been using quite often, and to great effect.</p>
+
+<p><a href="/assets/201306SomePeopleTry.png"><img class="right" src="/assets/201306SomePeopleTry.png" width="300" height="150" title="&ldquo;Some people are trying to get it&rdquo; &ldquo;A week&rsquo;s learnings at my current contract&rdquo;" ></a></p>
+
+<p>As a final thought- I leave you with a copy of my calendar from a week or two ago.</p>
+
+<p>The &lsquo;cinema&rsquo; is where we are watching a video on subjects from large-scale GIT implentations to howto interview and some of the problems behind using services at some huge scale. Its a time when you can bring your own lunch and watch the video presentations, and then have a brief conversation about them.</p>
+
+<p>Most of the recent Friday afternoons, we&rsquo;ve had a &lsquo;TDB &ndash; The Best Developers&rsquo; session. I&rsquo;ve had the pleasure to present on &lsquo;PHP Composer&rsquo;, back on May 10th. The  <a href="http://alister.github.io/presentations/Composer/">presentation I gave is available</a> online.</p>
+
+<p>It&rsquo;s not just the technical team that is learning &ndash; the calendar also shows two of a short, but currently continuing run of presentations &ndash; usually, but not always &ndash; by the development team. Called &lsquo;Techknowlege&rsquo;, there has been a few occastions where much of the office (and that is ~50 strong), learn about an aspect of the technical infrastructure.</p>
+
+<p>Teaching your people, just just how things work, but how the various systems also interact is very helpful. From my own perspective, as a software developer, having the right set of tools in place means I like my job, and can do more, better and ultimately faster &ndash; that saves businesses time, money and energy.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Not having your developers quit on you - as a service]]></title>
