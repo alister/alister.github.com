@@ -4,7 +4,7 @@
   <title><![CDATA[Category: employment | Professional Blog]]></title>
   <link href="http://alister.github.com/blog/categories/employment/atom.xml" rel="self"/>
   <link href="http://alister.github.com/"/>
-  <updated>2013-06-01T15:40:10+01:00</updated>
+  <updated>2013-06-03T21:52:31+01:00</updated>
   <id>http://alister.github.com/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
@@ -27,7 +27,7 @@
 
 <p>The reason all these exist is to produce better software, delivered faster and with less issues. I&rsquo;m glad to say that my current contract is getting this message. While automated configurations (with Ansible) are very new, they are being used to some great effect. Also recently put into place (for new projects) is a Jenkins CI server and they have also been putting in a LogStash server, both of the latter of which I&rsquo;ve been using quite often, and to great effect.</p>
 
-<p><a href="/assets/201306SomePeopleTry.png"><img class="right" src="/assets/201306SomePeopleTry.png" width="300" height="150" title="&ldquo;Some people are trying to get it&rdquo; &ldquo;A week&rsquo;s learnings at my current contract&rdquo;" ></a></p>
+<p><a href="/assets/201306SomePeopleTry.png">{% img right /assets/201306SomePeopleTry.png 300 150 &ldquo;Some people are trying to get it&rdquo; &ldquo;A week&rsquo;s learnings at my current contract&rdquo; %}</a></p>
 
 <p>As a final thought- I leave you with a copy of my calendar from a week or two ago.</p>
 

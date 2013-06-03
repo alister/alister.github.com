@@ -4,7 +4,7 @@
   <title><![CDATA[Category: dns | Professional Blog]]></title>
   <link href="http://alister.github.com/blog/categories/dns/atom.xml" rel="self"/>
   <link href="http://alister.github.com/"/>
-  <updated>2013-06-01T15:40:10+01:00</updated>
+  <updated>2013-06-03T21:52:31+01:00</updated>
   <id>http://alister.github.com/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
@@ -50,56 +50,11 @@
 <!-- more -->
 
 
-<p><div><script src='https://gist.github.com/4419185.js'></script>
-<noscript><pre><code># Sample tinydns record
-# These records are necessary for each domain to be properly delegate
-# to Bytemark's four DNS servers. They insert the necessary NS records
-# to claim authority for the domain.
-# If you have delegated by name to the [abc].ns.bytemark.co.uk
-# servers, use these lines
-.abulman.co.uk::a.ns.bytemark.co.uk:259200
-.abulman.co.uk::b.ns.bytemark.co.uk:259200
-.abulman.co.uk::c.ns.bytemark.co.uk:259200
-#
-+abulman.co.uk:188.40.84.86:86400
-+www.abulman.co.uk:188.40.84.86:86400
-+*.abulman.co.uk:188.40.84.86:86400
-#
-@abulman.co.uk::ASPMX.L.GOOGLE.COM:1:3600
-@abulman.co.uk::ALT1.ASPMX.L.GOOGLE.COM:5:3600
-@abulman.co.uk::ALT2.ASPMX.L.GOOGLE.COM:5:3600
-@abulman.co.uk::ASPMX2.GOOGLEMAIL.COM:10:3600
-@abulman.co.uk::ASPMX3.GOOGLEMAIL.COM:10:3600
-@abulman.co.uk::ASPMX4.GOOGLEMAIL.COM:10:3600
-@abulman.co.uk::ASPMX5.GOOGLEMAIL.COM:10:3600
-# SPF record
-:abulman.co.uk:16:\037v=spf1\040mx\040include\072plus.net\040~all:86400
-# now obsolete link to Livejournal
-+journal.abulman.co.uk:204.9.177.18:86400
-</code></pre></noscript></div>
-<!-- tinydns record --></p>
+<p>{% gist 4419185  %}<!-- tinydns record --></p>
 
 <p>Back in April (2012), I came across <a href="http://news.ycombinator.com/item?id=3794654">a post on HackerNews</a> to <a href="http://www.luadns.com/">http://www.luadns.com/</a>. This is a system that again, uses TinyDNS as a backend, but instead of some hacked-together PHP scripts I wrote to produce the data files, they are run through a Lua script. That gives the benefit of very easy to read configurations, and then the files themselves are stored in a Git repository, which can arrange to notify the main luadns website whenever it is changed, so the records are updated whenever the repository is.</p>
 
-<p><div><script src='https://gist.github.com/4419224.js'></script>
-<noscript><pre><code>-- File: abulman.co.uk.lua
--- Zone: abulman.co.uk
--- SOA record is automatically generated
--- Variable _a is replaced with zone name
--- _a = &quot;abulman.co.uk&quot; (from the filename)
-
--- _webserverIP &amp; _longTTL are variables
-
--- A records - 
-std_a(_a, _webserverIP)
-a('blog', _webserverIP, _longTTL)
-
--- CNAME records
-cname(&quot;pages&quot;, 'ghs.google.com')
--- Templates (see templates.lua)
-google_app(_a, 'ghs.google.com', _longTTL)
-</code></pre></noscript></div>
-<!-- luadns record --></p>
+<p>{% gist 4419224  %}<!-- luadns record --></p>
 
 <p>So, with the use of the service from luadns, I had a good reason to a) move my DNS off bytemark (with the intention to also eventually shut down my old server there), and b) tidy it up as I went. So I did. I had already moved my tech-blog to <a href="http://phpscaling.com/">http://phpscaling.com/</a> last year, and over this last few weeks, I added <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> to the same Wordpress installation.</p>
 
