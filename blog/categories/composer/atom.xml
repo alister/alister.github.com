@@ -25,7 +25,7 @@
 <!-- more -->
 
 
-<p><a href="/assets/201306composer-update.png">{% img right /assets/201306composer-update.thumb.png &ldquo;Some people are trying to get it&rdquo; &ldquo;A week&rsquo;s learnings at my current contract&rdquo; %}</a></p>
+<p><a href="/assets/201306composer-update.png"><img class="right" src="/assets/201306composer-update.thumb.png" title="&ldquo;Some people are trying to get it&rdquo; &ldquo;A week&rsquo;s learnings at my current contract&rdquo;" ></a></p>
 
 <p>This <a href="http://github.com/alister/personal-ci">&lsquo;personal-ci&rsquo;</a> project, also allows for setting up a full CI-configuration as part of the composer.json file, so you can be sure which versions (ie: up to date) of <a href="https://github.com/sebastianbergmann/phpunit/,%20[PDepend](http://pdepend.org/">PHPunit</a>, <a href="https://github.com/sebastianbergmann/phpcpd">PHPCPD</a> and the other related tools, are being run. It&rsquo;s not, however, quite as easy as just listing all the PHP-based code-quality projects into the <code>composer.json</code> file.</p>
 
