@@ -4,7 +4,7 @@
   <title><![CDATA[Professional Blog]]></title>
   <link href="http://alister.github.com/atom.xml" rel="self"/>
   <link href="http://alister.github.com/"/>
-  <updated>2013-08-14T16:04:30+01:00</updated>
+  <updated>2013-10-17T21:06:44+01:00</updated>
   <id>http://alister.github.com/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
@@ -12,6 +12,98 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Avoiding Composer being Rate-limited by Github]]></title>
+    <link href="http://alister.github.com/blog/2013/10/17/avoiding-composer-being-rate-limited-by-github/"/>
+    <updated>2013-10-17T21:30:00+01:00</updated>
+    <id>http://alister.github.com/blog/2013/10/17/avoiding-composer-being-rate-limited-by-github</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve had a response to my post about &ldquo;<a href="http://alister.github.io/blog/2013/06/03/your-own-jenkins-for-php-with-composer/">Your Own &lsquo;Jenkins&rsquo; for PHP With Composer</a>&rdquo;, via <a href="https://github.com/alister/alister.github.com/issues/2">a Github issue</a> :), so I thought I&rsquo;d answer that right here as well.</p>
+
+<pre><code>in http://alister.github.io/blog/2013/06/03/your-own-jenkins-for-php-with-composer/
+it is using `--prefer-dist` which causes a hit on
+`api.github.com/repos/USER/REPO/zipball/SHA1` eg:
+
+    https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/.....
+
+which has a rate limit of 60 per hour. Unfortunately, we currently
+have 61 dependencies! Switching to `--prefer-source` works.
+
+Thanks for the blog post, got me a long way on the right track :thumbsup:
+</code></pre>
+
+<p>This is a similar problem to one I&rsquo;ve had before, not from too many for a single repo, but while I was testing a composer-based deployment (with Capistrano). In either event, Github has a limit on the number of requests/downloads allowed in a period of time &ndash; here, 60 per hour.</p>
+
+<p>There are two ways to solve this though. The first is quick and easy, but with that ease it also just expands on the potential long-term problems that could happen. It&rsquo;s certainly the first thing to do for a fix though.</p>
+
+<p><a href="#solution-oauth">Quick, Easy and good enough</a> OR <a href="#solution-satis">Solid, reliable and local</a></p>
+
+<p><a id="solution-oauth"></a></p>
+
+<h3>Solution One, Quick, Easy and good enough for most individuals</h3>
+
+<h5>Composer.json&rsquo;s github-oauth option.</h5>
+
+<p>It&rsquo;s not too well known, but is documented on the <a href="http://getcomposer.org/doc/04-schema.md#config">composer schema page</a>.</p>
+
+<pre><code>github-oauth: A list of domain names and oauth keys. For example using
+{"github.com": "oauthtoken"} as the value of this option will use
+oauthtoken to access private repositories on github and to circumvent
+the low IP-based rate limiting of their API.
+</code></pre>
+
+<p>I&rsquo;ve not seen the ability to use an Oauth token to be able to download from a VCS before (I&rsquo;ve just looked on <a href="https://bitbucket.org/">Bitbucket.org</a> for example), but according to the docs, that option in composer.json isn&rsquo;t limited to requests from Github.com.</p>
+
+<p>With the OAuth token, the max-rate is <a href="http://developer.github.com/v3/#rate-limiting">increased substantially</a>, to 5000 per hour.</p>
+
+<p>If you search for some online help to be able to generate the token from the command line, it will tell you how to run Curl against Githubs Authorization API:</p>
+
+<pre><code>curl -u 'githubuser' \
+-d '{"note":"GitHub OAuth token for composer"}' https://api.github.com/authorizations
+</code></pre>
+
+<p>It will also ask your Github password. However, if you have the <a href="">2-factor authentication</a> enabled for logins (and you should) &ndash; that won&rsquo;t help you. You also need to provide it with the request, which is hard work.</p>
+
+<pre><code>curl -u 'alister' -d '{"note":"test token"}' https://api.github.com/authorizations
+Enter host password for user 'alister': __secret-password__
+{
+  "message": "Must specify two-factor authentication OTP code.",
+  "documentation_url": "http://developer.github.com/v3/auth#working-with-two-factor-authentication"
+}
+</code></pre>
+
+<p>There is a far easier way though. <a href="https://github.com/settings/applications">On the web.</a>. Click &lsquo;Create New Token&rsquo;, give it a description, and save it. Be sure to save a copy (put it into your composer.json file) right now though &ndash; as soon as you refresh the page, it will never be shown again.
+<a href="http://alister.github.com/assets/github-personal-asset-tokens.png"><img class="right" src="http://alister.github.com/assets/github-personal-asset-tokens.png" title="&#34;Create an Oaut token on the website&#34;" alt="&#34;Create an Oaut token on the website&#34;"></a></p>
+
+<p>And that&rsquo;s a lot easier.</p>
+
+<p><a id="solution-satis"></a></p>
+
+<h3>Solution Two, Solid, reliable and local.</h3>
+
+<h5>Your own mini-packagist.org, with Composer-Satis</h5>
+
+<p>The solid solution is <a href="https://packagist.org/packages/composer/satis">Satis</a>, a related-project to the main Composer. This allows you to download a local version of potentially all the dependencies in your composer.json file(s). You also have the option to even have Satis automatically resolve and add all of the sub-dependencies for your projects as well. It&rsquo;s packages all the way down&hellip;.</p>
+
+<p>If you have local, private Github repository (and not just a private repo &ndash; an OAuth key can fetch that), or you want to be able to lock down the network to restrict which packages are allowed to be used (or equally, the machines where the packages would be installed are not able to access the &lsquo;outside world&rsquo;), then Satis will be your best, or maybe even only option.</p>
+
+<p>Setting up Satis and using it, is a bigger event though, so for now I&rsquo;ll just leave you with a few links, and come back to this another time&hellip;.</p>
+
+<ul>
+<li><a href="http://getcomposer.org/doc/articles/handling-private-packages-with-satis.md">http://getcomposer.org/doc/articles/handling-private-packages-with-satis.md</a></li>
+<li><a href="https://packagist.org/packages/composer/satis">https://packagist.org/packages/composer/satis</a></li>
+<li><a href="https://packagist.org/search/?q=satis">https://packagist.org/search/?q=satis</a></li>
+<li><a href="https://github.com/yohang/satis-admin">https://github.com/yohang/satis-admin</a></li>
+</ul>
+
+
+<p>Alister</p>
+
+<hr />
+
+<p>My latest project has just been announced &ndash; <a href="http://contractavailability.com/">contractavailability</a>. It does pretty much what it says on the proverbial tin, but take a look at <a href="http://beta.contractavailability.com/u/alister">my own profile</a> there for a little more info.  Sign up to the maining list, and I&rsquo;ll keep you up to date as it comes along.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Contractor Survey]]></title>

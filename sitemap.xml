@@ -41,8 +41,14 @@
         <lastmod>2013-08-14T15:54:04+01:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://alister.github.com/blog/2013/10/17/avoiding-composer-being-rate-limited-by-github/
+        </loc>
+        <lastmod>2013-10-17T21:05:17+01:00</lastmod>
+    </url>
+    <url>
         <loc>http://alister.github.com/</loc>
-        <lastmod>2013-08-14T15:54:04+01:00</lastmod>
+        <lastmod>2013-10-17T21:05:17+01:00</lastmod>
     </url>
     <url>
         <loc>http://alister.github.com/presentations/beanstalkd-presentation.html</loc>
@@ -58,7 +64,7 @@
     </url>
     <url>
         <loc>http://alister.github.com/blog/archives/</loc>
-        <lastmod>2013-08-14T15:54:04+01:00</lastmod>
+        <lastmod>2013-10-17T21:05:17+01:00</lastmod>
     </url>
     <url>
         <loc>http://alister.github.com/robots.txt</loc>
