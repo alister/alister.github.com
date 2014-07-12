@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Contributing to open source can be easy - Professional Blog</title>
+  <meta name="author" content="Alister Bulman">
+
+  
+  <meta name="description" content="Although I&#8217;m busy day to day at my current contract *, that isn&#8217;t to say that my passions outside the office have come to a complete stop &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Professional Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37346894-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Professional Blog</a></h1>
+  
+    <h2>A few things I've been up to</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:alister.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+  <li><a href="/presentations/">Presentations</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Contributing to Open Source Can Be Easy</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-12T17:30:00+01:00" pubdate data-updated="true">Jul 12<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Although I&#8217;m busy day to day at my current contract <sup>*</sup>, that isn&#8217;t to say that my passions outside the office have come to a complete stop. I&#8217;m still going to regular meetups (like the <a href="http://www.meetup.com/phplondon/">PHP London Meetup</a> and <a href="http://www.meetup.com/Docker-London/events/192394082/">Docker London</a>), and I&#8217;m also planning to go to <a href="http://london2014.live.symfony.com/">Symfony Live London 2014</a>. I&#8217;ve also been reading about, and trying some software, and making the odd fix and new code for myself.</p>
+
+<p>I thought that it would be good to show some of the work I&#8217;ve been doing out of hours - some of it trivially easy - that I&#8217;ve done to help improve a few projects, and also some slightly larger things of my own.</p>
+
+<p>(<sup>*</sup> Developing systems for Her Majesty&#8217;s Passport Office, in the Home Office - yes, we are hiring, especially good Symfony2 developers and PHP-based testers - <strong><a href="https://plus.google.com/u/0/+AlisterBulman/about">Contact me!</a></strong> if you are a PHP tester, or even better an experienced Symfony2 developer that likes testing with Behat and PHPUnit. <em>Recruiters, no thanks</em>)</p>
+
+<h2>Capistrano tagger - Quick fix to remove whitespace around sha1 hash</h2>
+
+<p>I regularly look around for new tools that can help me, even just a little, to make like just that bit easier. <a href="http://capistranorb.com/">Capistrano</a> (<a href="https://github.com/capistrano/capistrano">Capistrano on github</a>) makes deploying code easy, repeatable and fast. Being able to tag the most recently deployed version is useful to be able to refer back. I&#8217;ve got projects that are using both version 2 &amp; 3 of Capistrano (v3 is a complete rewrite of v2, so it&#8217;s not so easy to upgrade, but v2 still works just fine).</p>
+
+<p><a href="https://github.com/forward/capistrano-deploy-tagger">capistrano-deploy-tagger</a> is an internal project, open-sourced by the <a href="http://forwardtechnology.co.uk/">Forward 3D</a>. I&#8217;ve been to their offices several times for Devops and GoLang meet-ups, among others.</p>
+
+<p>It&#8217;s easy to add this Capistrano plugin to help tag things when I deployed them - to know exactly when things happened. Trouble was, it didn&#8217;t work for me. I narrowed things down to the response from Git having a newline in front of it, so I <a href="https://github.com/forward/capistrano-deploy-tagger/commit/7c30ea8be8004c6bfee0d1c7bb27b1383043f4bd">added a &#8216;strip!&#8217; to the appropriate variablee</a>, which removed the errant white-space. There&#8217;s probably a better way to do it, with some more behind-the-scenes git command, but this works for now, and solved my problem to boot.</p>
+
+<p>I could have just left my fix in my local copy, and it would have worked quite nicely (at least till I went to upgrade the gem), but submitting a merge-request and having <a href="https://github.com/Rylon">Ryan Conway</a> pull it in, helps everybody - and now I get to automatically tag my deployments.</p>
+
+<h2>PHPDox - Correct source name in errors, PHPUnit, not PHPloc</h2>
+
+<p>I created my <a href="https://github.com/alister/personal-ci">personal-ci</a> meta-project to pull in various PHP-based testing and documentation tools with <a href="https://getcomposer.org/">Composer</a>. One of those was <a href="https://github.com/theseer/phpdox">PHPDox</a>, and it does a good job of processing the projects to make some good looking documentation.</p>
+
+<p>While developing the personal-ci system, I&#8217;d been running PHPDox regularly with the rest, and getting some errors from not having all the files in place first (some of the additional logging output of PHPUnit). Trouble was, it was complaining about something that was there - some PHPLoc logs. So, I grepped the source for the message, and found two copies. One was in a class dealing with PHPUnit though - not the PHPLoc that was being reported - so the fix was just changing a couple of <a href="https://github.com/theseer/phpdox/pull/141">error message strings</a> to show the right program.</p>
+
+<p>A very simple change - a text-only bug, that confused (at least) me, and I could find an improvement.</p>
+
+<h2>FrequenceWebContactBundle - Improved English language translation</h2>
+
+<p>I was looking around for a contact-bundle for a project - a simple form to email system. Among my travels around Packagist &amp; Github, I found <a href="https://github.com/yohang/FrequenceWebContactBundle/">FrequenceWebContactBundle</a>.</p>
+
+<p>This is another really trivial change - a couple of lines of <a href="https://github.com/yohang/FrequenceWebContactBundle/pull/5">improved translation</a>. The original author of the project is French, I could fork and edit the file right in the browser (on Github) and make a pull-request in just a moment.</p>
+
+<h2>Rails3 multi-Oauth logins with OmniAuth</h2>
+
+<p>I couldn&#8217;t find a good tutorial on using the Ruby-on-rails gem &#8216;Omniauth&#8217;, with more than one authentication method, so that you could then login with any connected account into the same user. <a href="https://github.com/alister/rails3-omniauth-multi_tutsplus">So I wrote one :)</a>.</p>
+
+<p>I&#8217;m still looking for a good PHP-based equivalent though (using <a href="https://github.com/hwi/HWIOAuthBundle">HWIOAuthBundle</a>). In fact, until I had to depreciate the part of a new site that was going to use it, <a href="https://github.com/hwi/HWIOAuthBundle/issues/424">I offered a bounty</a> to be able to get some good example code - with suitable documentation - written. That issue remains unanswered, and HWIOAuthBundle still doesn&#8217;t have a really good sample..</p>
+
+<h2>faker-extensions</h2>
+
+<p>My newest open source code is <a href="https://github.com/alister/faker-extensions">faker-extensions</a>. The actual code that is being run is really trivial - two classes and a total of three functions and then as many lines of actual code (plus some simple tests) - and two of those lines just call someone else&#8217;s methods, with a little local data. Its the local data that makes it interesting, and useful.</p>
+
+<p>The classes (and tests I wrote for completeness) were actually pulled out of a private project - something I hope to be able to continue to do more of. Even though its so trivial, it is still a useful little library because I&#8217;ve also taken the opportunity to to try out a few new things with some public services.</p>
+
+<ul>
+<li><a href="https://packagist.org/packages/alister/faker-extensions">Packagist</a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/v/stable.svg" alt="Latest Stable Version" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/downloads.svg" alt="Total Downloads" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/v/unstable.svg" alt="Latest Unstable Version" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/license.svg" alt="License" /></a></li>
+<li><a href="https://travis-ci.org/alister/faker-extensions">Travis-CI</a> <a href="https://travis-ci.org/alister/faker-extensions"><img src="https://travis-ci.org/alister/faker-extensions.svg?branch=master" alt="Build Status" /></a></li>
+<li><a href="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d">Sensio Insight</a> <a href="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d"><img src="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d/mini.png" alt="SensioLabsInsight" /></a></li>
+<li><a href="https://scrutinizer-ci.com/g/alister/faker-extensions/?branch=master">Scrutinizer-ci</a> <a href="https://scrutinizer-ci.com/g/alister/faker-extensions/?branch=master"><img src="https://scrutinizer-ci.com/g/alister/faker-extensions/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality" /></a></li>
+<li><a href="https://www.versioneye.com/">Versioneye</a>  <a href="https://www.versioneye.com/user/projects/53c05854638521361000009b"><img src="https://www.versioneye.com/user/projects/53c05854638521361000009b/badge.svg" alt="Dependency Status" /></a></li>
+</ul>
+
+
+<p>Packagist badges are available from <a href="https://poser.pugx.org/">poser.pugx.org</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alister Bulman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-12T17:30:00+01:00" pubdate data-updated="true">Jul 12<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/capistrano/'>Capistrano</a>, <a class='category' href='/blog/categories/hwioauthbundle/'>HWIOAuthBundle</a>, <a class='category' href='/blog/categories/scrutinizer-ci/'>Scrutinizer-ci</a>, <a class='category' href='/blog/categories/sensio-insight/'>Sensio-Insight</a>, <a class='category' href='/blog/categories/travis-ci/'>Travis-CI</a>, <a class='category' href='/blog/categories/docker/'>docker</a>, <a class='category' href='/blog/categories/faker-extensions/'>faker-extensions</a>, <a class='category' href='/blog/categories/forward3d/'>forward3d</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/omniauth/'>omniauth</a>, <a class='category' href='/blog/categories/opensource/'>opensource</a>, <a class='category' href='/blog/categories/packagist/'>packagist</a>, <a class='category' href='/blog/categories/phpdox/'>phpdox</a>, <a class='category' href='/blog/categories/phplondon/'>phplondon</a>, <a class='category' href='/blog/categories/repositories/'>repositories</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy/" data-via="alister_b" data-counturl="http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service/" title="Previous Post: Not having your developers quit on you - as a service">&laquo; Not having your developers quit on you - as a service</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/12/Contributing-to-open-source-can-be-easy/">Contributing to open source can be easy</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service/">Not having your developers quit on you - as a service</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/why-i-like-tinydns/">Why I like djbdns & tinydns</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/a-mysql-day-one-day-freelancing/">a MySQL optimisation Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/repost-booze-at-meetups/">Booze at tech meetups</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("alister_b", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/alister_b" class="twitter-follow-button" data-show-count="false">Follow @alister_b</a>
+  
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/alister">@alister</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'alister',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/101781345476843821407?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+<section>
+  <h1>Stack Overflow</h1>
+  <a href="http://stackoverflow.com/users/6216/alister-bulman">
+  <img src="http://stackoverflow.com/users/flair/6216.png" width="208" height="58" alt="profile for alister-bulman at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for alister-bulman at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
+  </a>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Alister Bulman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

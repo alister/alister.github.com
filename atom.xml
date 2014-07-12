@@ -4,7 +4,7 @@
   <title><![CDATA[Professional Blog]]></title>
   <link href="http://alister.github.com/atom.xml" rel="self"/>
   <link href="http://alister.github.com/"/>
-  <updated>2013-10-18T12:44:16+01:00</updated>
+  <updated>2014-07-12T18:58:41+01:00</updated>
   <id>http://alister.github.com/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
@@ -14,409 +14,62 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Avoiding Composer being Rate-limited by Github]]></title>
-    <link href="http://alister.github.com/blog/2013/10/17/avoiding-composer-being-rate-limited-by-github/"/>
-    <updated>2013-10-17T21:30:00+01:00</updated>
-    <id>http://alister.github.com/blog/2013/10/17/avoiding-composer-being-rate-limited-by-github</id>
-    <content type="html"><![CDATA[<p>I&rsquo;ve had a response to my post about &ldquo;<a href="http://alister.github.io/blog/2013/06/03/your-own-jenkins-for-php-with-composer/">Your Own &lsquo;Jenkins&rsquo; for PHP With Composer</a>&rdquo;, via <a href="https://github.com/alister/alister.github.com/issues/2">a Github issue</a> :), so I thought I&rsquo;d answer that right here as well.</p>
+    <title type="html"><![CDATA[Contributing to open source can be easy]]></title>
+    <link href="http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy/"/>
+    <updated>2014-07-12T17:30:00+01:00</updated>
+    <id>http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy</id>
+    <content type="html"><![CDATA[<p>Although I&#8217;m busy day to day at my current contract <sup>*</sup>, that isn&#8217;t to say that my passions outside the office have come to a complete stop. I&#8217;m still going to regular meetups (like the <a href="http://www.meetup.com/phplondon/">PHP London Meetup</a> and <a href="http://www.meetup.com/Docker-London/events/192394082/">Docker London</a>), and I&#8217;m also planning to go to <a href="http://london2014.live.symfony.com/">Symfony Live London 2014</a>. I&#8217;ve also been reading about, and trying some software, and making the odd fix and new code for myself.</p>
 
-<pre><code>in http://alister.github.io/blog/2013/06/03/your-own-jenkins-for-php-with-composer/
-it is using `--prefer-dist` which causes a hit on
-`api.github.com/repos/USER/REPO/zipball/SHA1` eg:
+<p>I thought that it would be good to show some of the work I&#8217;ve been doing out of hours - some of it trivially easy - that I&#8217;ve done to help improve a few projects, and also some slightly larger things of my own.</p>
 
-    https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/.....
+<p>(<sup>*</sup> Developing systems for Her Majesty&#8217;s Passport Office, in the Home Office - yes, we are hiring, especially good Symfony2 developers and PHP-based testers - <strong><a href="https://plus.google.com/u/0/+AlisterBulman/about">Contact me!</a></strong> if you are a PHP tester, or even better an experienced Symfony2 developer that likes testing with Behat and PHPUnit. <em>Recruiters, no thanks</em>)</p>
 
-which has a rate limit of 60 per hour. Unfortunately, we currently
-have 61 dependencies! Switching to `--prefer-source` works.
+<h2>Capistrano tagger - Quick fix to remove whitespace around sha1 hash</h2>
 
-Thanks for the blog post, got me a long way on the right track :thumbsup:
-</code></pre>
+<p>I regularly look around for new tools that can help me, even just a little, to make like just that bit easier. <a href="http://capistranorb.com/">Capistrano</a> (<a href="https://github.com/capistrano/capistrano">Capistrano on github</a>) makes deploying code easy, repeatable and fast. Being able to tag the most recently deployed version is useful to be able to refer back. I&#8217;ve got projects that are using both version 2 &amp; 3 of Capistrano (v3 is a complete rewrite of v2, so it&#8217;s not so easy to upgrade, but v2 still works just fine).</p>
 
-<p>This is a similar problem to one I&rsquo;ve had before, not from too many for a single repo, but while I was testing a composer-based deployment (with Capistrano). In either event, Github has a limit on the number of requests/downloads allowed in a period of time &ndash; here, 60 per hour.</p>
+<p><a href="https://github.com/forward/capistrano-deploy-tagger">capistrano-deploy-tagger</a> is an internal project, open-sourced by the <a href="http://forwardtechnology.co.uk/">Forward 3D</a>. I&#8217;ve been to their offices several times for Devops and GoLang meet-ups, among others.</p>
 
-<p>There are two ways to solve this though. The first is quick and easy, but with that ease it also just expands on the potential long-term problems that could happen. It&rsquo;s certainly the first thing to do for a fix though.</p>
+<p>It&#8217;s easy to add this Capistrano plugin to help tag things when I deployed them - to know exactly when things happened. Trouble was, it didn&#8217;t work for me. I narrowed things down to the response from Git having a newline in front of it, so I <a href="https://github.com/forward/capistrano-deploy-tagger/commit/7c30ea8be8004c6bfee0d1c7bb27b1383043f4bd">added a &#8216;strip!&#8217; to the appropriate variablee</a>, which removed the errant white-space. There&#8217;s probably a better way to do it, with some more behind-the-scenes git command, but this works for now, and solved my problem to boot.</p>
 
-<p><a href="#solution-oauth">Quick, Easy and good enough</a> OR <a href="#solution-satis">Solid, reliable and local</a></p>
+<p>I could have just left my fix in my local copy, and it would have worked quite nicely (at least till I went to upgrade the gem), but submitting a merge-request and having <a href="https://github.com/Rylon">Ryan Conway</a> pull it in, helps everybody - and now I get to automatically tag my deployments.</p>
 
-<p><a id="solution-oauth"></a></p>
+<h2>PHPDox - Correct source name in errors, PHPUnit, not PHPloc</h2>
 
-<h3>Solution One, Quick, Easy and good enough for most individuals</h3>
+<p>I created my <a href="https://github.com/alister/personal-ci">personal-ci</a> meta-project to pull in various PHP-based testing and documentation tools with <a href="https://getcomposer.org/">Composer</a>. One of those was <a href="https://github.com/theseer/phpdox">PHPDox</a>, and it does a good job of processing the projects to make some good looking documentation.</p>
 
-<h5>Composer.json&rsquo;s github-oauth option.</h5>
+<p>While developing the personal-ci system, I&#8217;d been running PHPDox regularly with the rest, and getting some errors from not having all the files in place first (some of the additional logging output of PHPUnit). Trouble was, it was complaining about something that was there - some PHPLoc logs. So, I grepped the source for the message, and found two copies. One was in a class dealing with PHPUnit though - not the PHPLoc that was being reported - so the fix was just changing a couple of <a href="https://github.com/theseer/phpdox/pull/141">error message strings</a> to show the right program.</p>
 
-<p>It&rsquo;s not too well known, but is documented on the <a href="http://getcomposer.org/doc/04-schema.md#config">composer schema page</a>.</p>
+<p>A very simple change - a text-only bug, that confused (at least) me, and I could find an improvement.</p>
 
-<pre><code>github-oauth: A list of domain names and oauth keys. For example using
-{"github.com": "oauthtoken"} as the value of this option will use
-oauthtoken to access private repositories on github and to circumvent
-the low IP-based rate limiting of their API.
-</code></pre>
+<h2>FrequenceWebContactBundle - Improved English language translation</h2>
 
-<p>I&rsquo;ve not seen the ability to use an Oauth token to be able to download from a VCS before (I&rsquo;ve just looked on <a href="https://bitbucket.org/">Bitbucket.org</a> for example), but according to the docs, that option in composer.json isn&rsquo;t limited to requests from Github.com.</p>
+<p>I was looking around for a contact-bundle for a project - a simple form to email system. Among my travels around Packagist &amp; Github, I found <a href="https://github.com/yohang/FrequenceWebContactBundle/">FrequenceWebContactBundle</a>.</p>
 
-<p>With the OAuth token, the max-rate is <a href="http://developer.github.com/v3/#rate-limiting">increased substantially</a>, to 5000 per hour.</p>
+<p>This is another really trivial change - a couple of lines of <a href="https://github.com/yohang/FrequenceWebContactBundle/pull/5">improved translation</a>. The original author of the project is French, I could fork and edit the file right in the browser (on Github) and make a pull-request in just a moment.</p>
 
-<p>If you search for some online help to be able to generate the token from the command line, it will tell you how to run Curl against Githubs Authorization API:</p>
+<h2>Rails3 multi-Oauth logins with OmniAuth</h2>
 
-<pre><code>curl -u 'githubuser' \
--d '{"note":"GitHub OAuth token for composer"}' https://api.github.com/authorizations
-</code></pre>
+<p>I couldn&#8217;t find a good tutorial on using the Ruby-on-rails gem &#8216;Omniauth&#8217;, with more than one authentication method, so that you could then login with any connected account into the same user. <a href="https://github.com/alister/rails3-omniauth-multi_tutsplus">So I wrote one :)</a>.</p>
 
-<p>It will also ask your Github password. However, if you have the <a href="">2-factor authentication</a> enabled for logins (and you should) &ndash; that won&rsquo;t help you. You also need to provide it with the request, which is hard work.</p>
+<p>I&#8217;m still looking for a good PHP-based equivalent though (using <a href="https://github.com/hwi/HWIOAuthBundle">HWIOAuthBundle</a>). In fact, until I had to depreciate the part of a new site that was going to use it, <a href="https://github.com/hwi/HWIOAuthBundle/issues/424">I offered a bounty</a> to be able to get some good example code - with suitable documentation - written. That issue remains unanswered, and HWIOAuthBundle still doesn&#8217;t have a really good sample..</p>
 
-<pre><code>curl -u 'alister' -d '{"note":"test token"}' https://api.github.com/authorizations
-Enter host password for user 'alister': __secret-password__
-{
-  "message": "Must specify two-factor authentication OTP code.",
-  "documentation_url": "http://developer.github.com/v3/auth#working-with-two-factor-authentication"
-}
-</code></pre>
+<h2>faker-extensions</h2>
 
-<p>There is a far easier way though. <a href="https://github.com/settings/applications">On the web.</a>. Click &lsquo;Create New Token&rsquo;, give it a description, and save it. Be sure to save a copy (put it into your composer.json file) right now though &ndash; as soon as you refresh the page, it will never be shown again.
-<a href="http://alister.github.com/assets/github-personal-asset-tokens.png"><img class="right" src="http://alister.github.com/assets/github-personal-asset-tokens.png" title="&#34;Create an Oaut token on the website&#34;" alt="&#34;Create an Oaut token on the website&#34;"></a></p>
+<p>My newest open source code is <a href="https://github.com/alister/faker-extensions">faker-extensions</a>. The actual code that is being run is really trivial - two classes and a total of three functions and then as many lines of actual code (plus some simple tests) - and two of those lines just call someone else&#8217;s methods, with a little local data. Its the local data that makes it interesting, and useful.</p>
 
-<p>And that&rsquo;s a lot easier.</p>
-
-<p><a id="solution-satis"></a></p>
-
-<h3>Solution Two, Solid, reliable and local.</h3>
-
-<h5>Your own mini-packagist.org, with Composer-Satis</h5>
-
-<p>The solid solution is <a href="https://packagist.org/packages/composer/satis">Satis</a>, a related-project to the main Composer. This allows you to download a local version of potentially all the dependencies in your composer.json file(s). You also have the option to even have Satis automatically resolve and add all of the sub-dependencies for your projects as well. It&rsquo;s packages all the way down&hellip;.</p>
-
-<p>If you have local, private Github repository (and not just a private repo &ndash; an OAuth key can fetch that), or you want to be able to lock down the network to restrict which packages are allowed to be used (or equally, the machines where the packages would be installed are not able to access the &lsquo;outside world&rsquo;), then Satis will be your best, or maybe even only option.</p>
-
-<p>Setting up Satis and using it, is a bigger event though, so for now I&rsquo;ll just leave you with a few links, and come back to this another time&hellip;.</p>
+<p>The classes (and tests I wrote for completeness) were actually pulled out of a private project - something I hope to be able to continue to do more of. Even though its so trivial, it is still a useful little library because I&#8217;ve also taken the opportunity to to try out a few new things with some public services.</p>
 
 <ul>
-<li><a href="http://getcomposer.org/doc/articles/handling-private-packages-with-satis.md">http://getcomposer.org/doc/articles/handling-private-packages-with-satis.md</a></li>
-<li><a href="https://packagist.org/packages/composer/satis">https://packagist.org/packages/composer/satis</a></li>
-<li><a href="https://packagist.org/search/?q=satis">https://packagist.org/search/?q=satis</a></li>
-<li><a href="https://github.com/yohang/satis-admin">https://github.com/yohang/satis-admin</a></li>
+<li><a href="https://packagist.org/packages/alister/faker-extensions">Packagist</a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/v/stable.svg" alt="Latest Stable Version" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/downloads.svg" alt="Total Downloads" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/v/unstable.svg" alt="Latest Unstable Version" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/license.svg" alt="License" /></a></li>
+<li><a href="https://travis-ci.org/alister/faker-extensions">Travis-CI</a> <a href="https://travis-ci.org/alister/faker-extensions"><img src="https://travis-ci.org/alister/faker-extensions.svg?branch=master" alt="Build Status" /></a></li>
+<li><a href="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d">Sensio Insight</a> <a href="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d"><img src="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d/mini.png" alt="SensioLabsInsight" /></a></li>
+<li><a href="https://scrutinizer-ci.com/g/alister/faker-extensions/?branch=master">Scrutinizer-ci</a> <a href="https://scrutinizer-ci.com/g/alister/faker-extensions/?branch=master"><img src="https://scrutinizer-ci.com/g/alister/faker-extensions/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality" /></a></li>
+<li><a href="https://www.versioneye.com/">Versioneye</a>  <a href="https://www.versioneye.com/user/projects/53c05854638521361000009b"><img src="https://www.versioneye.com/user/projects/53c05854638521361000009b/badge.svg" alt="Dependency Status" /></a></li>
 </ul>
 
 
-<p>Alister</p>
-
-<hr />
-
-<p>My latest project has just been announced &ndash; <a href="http://contractavailability.com/">contractavailability</a>. It does pretty much what it says on the proverbial tin, but take a look at <a href="http://beta.contractavailability.com/u/alister">my own profile</a> there for a little more info.  Sign up to the maining list, and I&rsquo;ll keep you up to date as it comes along.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Contractor Survey]]></title>
-    <link href="http://alister.github.com/blog/2013/08/14/contractor-survey/"/>
-    <updated>2013-08-14T16:04:00+01:00</updated>
-    <id>http://alister.github.com/blog/2013/08/14/contractor-survey</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m in the planning stages of a new website &ndash; a service for contractors and those that want to find us. While finding the recruiters is easy enough (they just keep calling me), I&rsquo;m also interested in finding out what are some of the challenges that other contractors find with getting new jobs &ndash; beyond my own itch.</p>
-
-<p>If you are a Contractor &ndash; in IT &amp; web development, or otherwise, I would very much appreciate finding out how you go about getting new contracts, and when I get a useful number of replies, I&rsquo;ll post a summary of the results here.</p>
-
-<iframe src="https://docs.google.com/forms/d/1NxmYEx8gM8Ui7fZhXja9gnUqDy_5QTAIV4OfW0dqW9E/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading&#8230;</iframe>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Your own 'Jenkins' for PHP with Composer]]></title>
-    <link href="http://alister.github.com/blog/2013/06/03/your-own-jenkins-for-php-with-composer/"/>
-    <updated>2013-06-03T21:30:00+01:00</updated>
-    <id>http://alister.github.com/blog/2013/06/03/your-own-jenkins-for-php-with-composer</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m a big fan of CI &ndash; testing, code-coverage, mess-detection and coding standards. I like to automate as much as I can as well, becuase a) it&rsquo;s really neat to see tests and code-coverage output going green, and b) I think it genuinely leads to better software.</p>
-
-<p>Setting up a full Jenkins system is a bit overkill for just my home projects though, and I&rsquo;d also like to see how I&rsquo;m doing between git-pushes to the main repository at work as well. So, I&rsquo;ve put together a system, bult on top of <a href="http://getcomposer.org/">Composer</a> that lets me do just that.</p>
-
-<!-- more -->
-
-
-<p><a href="http://alister.github.com/assets/201306composer-update.png"><img class="right" src="http://alister.github.com/assets/201306composer-update.thumb.png" title="Some people are trying to get it" alt="A week"></a></p>
-
-<p>This <a href="http://github.com/alister/personal-ci">&lsquo;personal-ci&rsquo;</a> project, also allows for setting up a full CI-configuration as part of the composer.json file, so you can be sure which versions (ie: up to date) of <a href="https://github.com/sebastianbergmann/phpunit/,%20[PDepend](http://pdepend.org/">PHPunit</a>, <a href="https://github.com/sebastianbergmann/phpcpd">PHPCPD</a> and the other related tools, are being run. It&rsquo;s not, however, quite as easy as just listing all the PHP-based code-quality projects into the <code>composer.json</code> file.</p>
-
-<p>The problem with just listing them all out, is getting a configuration that works</p>
-
-<ul>
-<li>with composer, out of the box, and</li>
-<li>takes into account different versions of some support libraries being required by different tools</li>
-</ul>
-
-
-<p>There are two that require a little more work than the others:</p>
-
-<ul>
-<li>phpcb &ndash; there is a fork by Github covex-nn with Composer support (and avoiding some older PEAR-based libraries)</li>
-<li>zetacomponents/console-tools &ndash; Unfortunately, Covex-nn&rsquo;s repo requires a different version of ZC&rsquo;s console-tools.</li>
-</ul>
-
-
-<p>So, to get the best of both, requires a bit of a hack, hence the <code>&ldquo;as 1.9999&rdquo;</code> part of the file, below.</p>
-
-<figure class='code'><figcaption><span>&#8220;composer.json&#8221;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;alister/personalci-demo&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;An example CI-style output&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s2">&quot;license&quot;</span><span class="o">:</span> <span class="s2">&quot;CC-BY-SA-3.0&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s2">&quot;require&quot;</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="s2">&quot;rhumsaa/uuid&quot;</span><span class="o">:</span> <span class="s2">&quot;2.*&quot;</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="s2">&quot;require-dev&quot;</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="s2">&quot;phpunit/phpunit&quot;</span><span class="o">:</span> <span class="s2">&quot;&gt;=3.7&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;squizlabs/php_codesniffer&quot;</span><span class="o">:</span> <span class="s2">&quot;&gt;=1.5.0RC2&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;pdepend/pdepend&quot;</span><span class="o">:</span> <span class="s2">&quot;dev-master&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;phpmd/phpmd&quot;</span><span class="o">:</span> <span class="s2">&quot;dev-master&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;sebastian/phpcpd&quot;</span><span class="o">:</span> <span class="s2">&quot;dev-master&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;phploc/phploc&quot;</span><span class="o">:</span> <span class="s2">&quot;dev-master&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;covex-nn/phpcb&quot;</span><span class="o">:</span> <span class="s2">&quot;dev-fork&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;zetacomponents/console-tools&quot;</span><span class="o">:</span> <span class="s2">&quot;dev-master as 1.9999&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;mockery/mockery&quot;</span><span class="o">:</span> <span class="s2">&quot;&gt;=0.8&quot;</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="s2">&quot;autoload&quot;</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="s2">&quot;psr-0&quot;</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>            <span class="s2">&quot;ProjectName&quot;</span><span class="o">:</span> <span class="s2">&quot;src/&quot;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So, with this, composer.json file, and a &lsquo;composer update&rsquo;, you get all these tools installed into the <code>vendor/bin/</code> directory</p>
-
-<ul>
-<li>vendor/bin/phpmd &ndash;> ../phpmd/phpmd/src/bin/phpmd</li>
-<li>vendor/bin/phpcpd &ndash;> ../sebastian/phpcpd/composer/bin/phpcpd</li>
-<li>vendor/bin/phpunit &ndash;> ../phpunit/phpunit/composer/bin/phpunit</li>
-<li>vendor/bin/phploc &ndash;> ../phploc/phploc/composer/bin/phploc</li>
-<li>vendor/bin/phpcs &ndash;> ../squizlabs/php_codesniffer/scripts/phpcs</li>
-<li>vendor/bin/pdepend &ndash;> ../pdepend/pdepend/src/bin/pdepend</li>
-<li>vendor/bin/phpcb &ndash;> ../covex-nn/phpcb/bin/phpcb</li>
-</ul>
-
-
-<p>You can put those vendor/bin paths into your test-runner. For full compatibility with Jenkins, I added to, and edited the sample <code>build.xml</code> file from <a href="http://jenkins-php.org/">http://jenkins-php.org/</a>. A snippet of that is below, but the full version is in the <a href="http://github.com/alister/personal-ci/">Github Repo</a>.</p>
-
-<figure class='code'><figcaption><span>&#8220;build.xml (fragment)&#8221;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-</span><span class='line'><span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">&quot;Personal-CI project&quot;</span> <span class="na">default=</span><span class="s">&quot;build&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'> <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&quot;build&quot;</span>
-</span><span class='line'>   <span class="na">depends=</span><span class="s">&quot;prepare,composer,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpunit,phpcb&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'> <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&quot;build-parallel&quot;</span>
-</span><span class='line'>   <span class="na">depends=</span><span class="s">&quot;prepare,lint,tools-parallel,phpunit,phpcb&quot;</span><span class="nt">/&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c">&lt;!-- ... more ... --&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&quot;composer&quot;</span> <span class="na">description=</span><span class="s">&quot;Installing dependencies&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;exec</span> <span class="na">executable=</span><span class="s">&quot;wget&quot;</span> <span class="na">failonerror=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">&quot;-nc&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">&quot;http://getcomposer.org/composer.phar&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/exec&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;exec</span> <span class="na">executable=</span><span class="s">&quot;php&quot;</span> <span class="na">failonerror=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">&quot;composer.phar&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">&quot;install&quot;</span> <span class="nt">/&gt;</span><span class="c">&lt;!--</span>
-</span><span class='line'><span class="c">        # Use the lockfile versions only, if it exists (fall back to .json) --&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">&quot;--dev&quot;</span> <span class="nt">/&gt;</span><span class="c">&lt;!-- includes mockery and all the other QA-tools --&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">&quot;--prefer-dist&quot;</span> <span class="nt">/&gt;</span><span class="c">&lt;!--</span>
-</span><span class='line'><span class="c">            ## download/cache a local .zip file for use --&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">&quot;--no-progress&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>      <span class="c">&lt;!--arg value=&quot;- -install-suggests&quot; /--&gt;</span>
-</span><span class='line'>      <span class="c">&lt;!--arg value=&quot;- -optimize-autoloader&quot; /</span>
-</span><span class='line'><span class="c">            ## we don&#39;t usually optimise deployment --&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/exec&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/target&gt;</span>
-</span><span class='line'>
-</span><span class='line'> <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&quot;lint&quot;</span> <span class="na">description=</span><span class="s">&quot;Perform syntax check of sourcecode files&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;apply</span> <span class="na">executable=</span><span class="s">&quot;php&quot;</span> <span class="na">failonerror=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>   <span class="nt">&lt;arg</span> <span class="na">value=</span><span class="s">&quot;-l&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="nt">&lt;fileset</span> <span class="na">dir=</span><span class="s">&quot;${basedir}/&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">&quot;**/*.php&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;exclude</span> <span class="na">name=</span><span class="s">&quot;vendor/&quot;</span> <span class="nt">/&gt;</span><span class="c">&lt;!-- Don&#39;t check in vendors/</span>
-</span><span class='line'><span class="c">        - libraries are expected to be tested independently --&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;modified</span> <span class="nt">/&gt;</span><span class="c">&lt;!-- Only checking modified files --&gt;</span>
-</span><span class='line'>   <span class="nt">&lt;/fileset&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c">&lt;!-- ... more ... --&gt;</span>
-</span><span class='line'><span class="nt">&lt;/project&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With that in place, you can run &lsquo;ant&rsquo; to run the whole system and it generates full-code coverage web-pages for all the files it tests, and imports all the other checks into a Code-Browser. Having that shown up via an actual website though, and not just as a file-based URL is very helpful.</p>
-
-<p>So &ndash; I have a simple Apache-Vhost that points to a directory. Within that directory I have symlinks to the <code>build/</code> directories of my other local projects &ndash; which allows for full AJAXified access to the CodeBrowsers in each one.</p>
-
-<h2>But wait &ndash; there&rsquo;s more!</h2>
-
-<p>There&rsquo;s not just one way to run the tests in the personal-ci repo, but three!</p>
-
-<h3>./runTests.sh</h3>
-
-<p>Sometimes, its handy to be able to quickly run PHPUnit, editing in one window, and then rerunning &ndash; particularly when you are writing tests as you go, and would like to see nearly instant results.</p>
-
-<p>For that, For many years now, I&rsquo;ve been writing a little shell-script, ./runTests.sh:</p>
-
-<figure class='code'><figcaption><span>&#8220;runTests.sh&#8221; &#8220;(cut-down version)&#8221;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'>clear
-</span><span class='line'>mkdir -p ./build/logs ./build/coverage/ ./logs/ ./tmp/
-</span><span class='line'><span class="nv">TEST</span><span class="o">=</span><span class="s2">&quot;$@&quot;</span>
-</span><span class='line'><span class="c">#VERBOSE=&quot;--verbose &quot;</span>
-</span><span class='line'><span class="c">#COVERAGE=&quot;--coverage-html=../build/coverage&quot;</span>
-</span><span class='line'><span class="nv">COLORS</span><span class="o">=</span><span class="s2">&quot;--colors&quot;</span>
-</span><span class='line'><span class="nv">PHPUNIT</span><span class="o">=</span><span class="s2">&quot;vendor/bin/phpunit&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">time</span> <span class="se">\</span>
-</span><span class='line'>  <span class="nv">$PHPUNIT</span> <span class="nv">$GROUP</span> <span class="nv">$COLORS</span> <span class="nv">$VERBOSE</span> <span class="nv">$CONF</span> <span class="nv">$MORE</span> <span class="nv">$COVERAGE</span> <span class="nv">$TEST</span>
-</span><span class='line'><span class="c"># if not running in a pipe (eg, &#39;less&#39;), re-run on &#39;Enter&#39;</span>
-</span><span class='line'><span class="k">if</span> <span class="o">[</span> -t 1 <span class="o">]</span> ; <span class="k">then</span>
-</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-</span><span class='line'>  <span class="nb">echo</span> -n <span class="s2">&quot;press [Enter] to re-run:&gt; &quot;</span>
-</span><span class='line'>  <span class="nb">read </span>x
-</span><span class='line'>  <span class="nb">exec</span> <span class="nv">$0</span> <span class="nv">$@</span>
-</span><span class='line'><span class="k">fi</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Again, a slightly more complete version of that is in the <a href="http://github.com/alister/personal-ci/">Github Repo</a>.</p>
-
-<h3>guard / Guardfile</h3>
-
-<p>Finally, one more &ndash; quite recent addition to my testing arsenal. This one hails from the Ruby world. Included in the repository is a <code>Gemfile</code> (which is broadly speaking a Ruby equivilent of PHP&rsquo;s <code>composer.json</code>), so that you can run <code>bundle install</code> to install (that Gemfile also includes Capistrano, which I use to deploy PHP code to my server). There&rsquo;s a little more on Capistrano on my <a href="http://phpscaling.com/2011/11/24/deployment-with-capistrano-the-gotchas/">phpscaling.com</a> blog.</p>
-
-<p>With &lsquo;Guard&rsquo; installed, the provided &lsquo;Guardfile&rsquo; sets up a watch for changes to files named like <code>tests/*Test.php</code> &ndash; and to some others that are the original source file equivilents to the tests. Should either one change, the matching tests are also run. To start, just run &lsquo;guard&rsquo; (though you might need to run &lsquo;bundle exec guard&rsquo;).</p>
-
-<p>If a test fails, then it will remember that, and keep running it when the source file is edited, and saved. When that test once again succeeds, it will then go and re-run the rest of the tests.</p>
-
-<p>Having &lsquo;guard&rsquo; running in one window while you are editing the project in your editor can really speed up testing while your are developing &ndash; the tests are run almost as soon as you have finished writing them.</p>
-
-<p>It&rsquo;s a little bit easy to confuse however, and it&rsquo;s crashed on my a few times requiring a manual &lsquo;kill&rsquo; of the process, so it is a tool I&rsquo;ll use only while doing some pretty hard-core test-driven development sessions. It also does not like any output while you are testing (which in PHPUnit would usually just be printed, abeit messing up the flow of the dots on screen) &ndash; so for that, I&rsquo;ll just fall back on the runTests.sh script, that I show above.</p>
-
-<p>To make sure that the tests run quickly, I have also added to the repo, a <code>phpunit.xml</code> configuration &ndash; one that does almost exactly the same as the default, but without code coverage being generated. With good unit-tests, that are not doing too much (or, at least, that have some long-duration tests being excluded with @group annotations or test-suites), even when Guard runs all the tests, it&rsquo;s just taking a few seconds.</p>
-
-<h2>Thats How I Test</h2>
-
-<p>So, there&rsquo;s a few good, and different, options for testing.</p>
-
-<ul>
-<li>Ant and a build.xml file runs from the command line &ndash; or in Jenkins &ndash; to generate full code coverage and other reports listed in the CodeBrowser</li>
-<li>runTests.sh &ndash; a quick shell script that can rerun your tests, and build code coverage HTML output on demand</li>
-<li>Guard &ndash; a Ruby-based system to run tests as soon as you&rsquo;ve saved the file.</li>
-</ul>
-
-
-<p>And having all the QA-tools pulled in with Composer means that you know they are installed, and exactly what version is being run.</p>
-
-<p>Happy testing!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Some people are trying to get it]]></title>
-    <link href="http://alister.github.com/blog/2013/06/01/some-people-are-trying-to-get-it/"/>
-    <updated>2013-06-01T15:30:00+01:00</updated>
-    <id>http://alister.github.com/blog/2013/06/01/some-people-are-trying-to-get-it</id>
-    <content type="html"><![CDATA[<p>Some contracts are better than others, not just in location, and pay, but also the intellectual conditions &ndash; how they work and what they ar doing to write better software. Much of it is having the right tools available, easy development environments that don&rsquo;t get in the way, how easily (and fast) the code can be deployed, and what happens to it when you&rsquo;ve committed the code into version control.</p>
-
-<!-- more -->
-
-
-<p>Thankfully, I&rsquo;ve not had to install a version control system in a company I had recently arrrived at, for over eight years, but unit-testing, continuous-integration and making deployments easy, and fast, is still a significant issue in many places that don&rsquo;t place the highest regard on writing quality software.</p>
-
-<p>The reason all these exist is to produce better software, delivered faster and with less issues. I&rsquo;m glad to say that my current contract is getting this message. While automated configurations (with Ansible) are very new, they are being used to some great effect. Also recently put into place (for new projects) is a Jenkins CI server and they have also been putting in a LogStash server, both of the latter of which I&rsquo;ve been using quite often, and to great effect.</p>
-
-<p><a href="http://alister.github.com/assets/201306SomePeopleTry.png"><img class="right" src="http://alister.github.com/assets/201306SomePeopleTry.png" width="300" height="150" title="Some people are trying to get it" alt="A week"></a></p>
-
-<p>As a final thought- I leave you with a copy of my calendar from a week or two ago.</p>
-
-<p>The &lsquo;cinema&rsquo; is where we are watching a video on subjects from large-scale GIT implentations to howto interview and some of the problems behind using services at some huge scale. Its a time when you can bring your own lunch and watch the video presentations, and then have a brief conversation about them.</p>
-
-<p>Most of the recent Friday afternoons, we&rsquo;ve had a &lsquo;TDB &ndash; The Best Developers&rsquo; session. I&rsquo;ve had the pleasure to present on &lsquo;PHP Composer&rsquo;, back on May 10th. The  <a href="http://alister.github.io/presentations/Composer/">presentation I gave is available</a> online.</p>
-
-<p>It&rsquo;s not just the technical team that is learning &ndash; the calendar also shows two of a short, but currently continuing run of presentations &ndash; usually, but not always &ndash; by the development team. Called &lsquo;Techknowlege&rsquo;, there has been a few occastions where much of the office (and that is ~50 strong), learn about an aspect of the technical infrastructure.</p>
-
-<p>Teaching your people, just just how things work, but how the various systems also interact is very helpful. From my own perspective, as a software developer, having the right set of tools in place means I like my job, and can do more, better and ultimately faster &ndash; that saves businesses time, money and energy.</p>
+<p>Packagist badges are available from <a href="https://poser.pugx.org/">poser.pugx.org</a></p>
 ]]></content>
   </entry>
   
@@ -433,45 +86,45 @@ Enter host password for user 'alister': __secret-password__
 
 <p>Discuss at <a href="http://news.ycombinator.com/item?id=5238705">Hacker News</a></p>
 
-<p>It&rsquo;s never good when someone feels they need to quit a job (or contract) rather than be able to continue, but sometimes, if the environment that they are working is so just so toxic and/or painful to work within, then it can be the best thing for all parties.</p>
+<p>It&#8217;s never good when someone feels they need to quit a job (or contract) rather than be able to continue, but sometimes, if the environment that they are working is so just so toxic and/or painful to work within, then it can be the best thing for all parties.</p>
 
-<p>That doesn&rsquo;t mean that I particularly keen to admit that I&rsquo;ve done it twice in the last five months. It&rsquo;s useful to tell you the why, of what happened though. <!-- more --></p>
+<p>That doesn&#8217;t mean that I particularly keen to admit that I&#8217;ve done it twice in the last five months. It&#8217;s useful to tell you the why, of what happened though. <!-- more --></p>
 
-<p>The name of the company itself isn&rsquo;t important, though they do deal in the enterprise and government space. The sites that are being written aren&rsquo;t themselves particularly big or complicated, nor are they high traffic &ndash; though I very much doubt they are cheap &ndash; selling to large organisations has its own specialised costs in itself. Some small parts of them are more complicated than others though &ndash; like the internal intranet that deals with holidays being reseerved and taken by the staff (which number several hundreds) &ndash; this is part that I spent a little time in myself, but I&rsquo;ll get back to that.</p>
+<p>The name of the company itself isn&#8217;t important, though they do deal in the enterprise and government space. The sites that are being written aren&#8217;t themselves particularly big or complicated, nor are they high traffic - though I very much doubt they are cheap - selling to large organisations has its own specialised costs in itself. Some small parts of them are more complicated than others though - like the internal intranet that deals with holidays being reseerved and taken by the staff (which number several hundreds) - this is part that I spent a little time in myself, but I&#8217;ll get back to that.</p>
 
-<p>Rewind to mid-January. I interview for a full-time tech lead role at the company. It&rsquo;s clear at the interview that they need a good lead developer to help the team modernise their practices. At the end of the interview I&rsquo;m asked if I would be willing to work as a home-base contractor. OK &ndash; it&rsquo;s more money and less hassle than a 40 minute commute on the tube in the morning.</p>
+<p>Rewind to mid-January. I interview for a full-time tech lead role at the company. It&#8217;s clear at the interview that they need a good lead developer to help the team modernise their practices. At the end of the interview I&#8217;m asked if I would be willing to work as a home-base contractor. OK - it&#8217;s more money and less hassle than a 40 minute commute on the tube in the morning.</p>
 
-<p>Four days later, and thats including the weekend, I get a phone call from the recruiter that put me up for it. They&rsquo;d like to have me as a home-based contractor. A speedy response is a good sign &ndash; and certainly better than the week or I&rsquo;d been waiting after 2nd or 3rd interviews with other positions. Just becuase a company if fast for the first part, it doesn&rsquo;t mean they are any good in anything else. After the paperwork had been completed, it was a full week before I was invited in for a first day at the office to meet the rest of the development lead team.</p>
+<p>Four days later, and thats including the weekend, I get a phone call from the recruiter that put me up for it. They&#8217;d like to have me as a home-based contractor. A speedy response is a good sign - and certainly better than the week or I&#8217;d been waiting after 2nd or 3rd interviews with other positions. Just becuase a company if fast for the first part, it doesn&#8217;t mean they are any good in anything else. After the paperwork had been completed, it was a full week before I was invited in for a first day at the office to meet the rest of the development lead team.</p>
 
-<p>It wasn&rsquo;t going well. After a week&rsquo;s wait, I&rsquo;d expected a laptop to be waiting for me, setup with the VPN access, and maybe even a development environment. This was an &lsquo;enterprise&rsquo; outfit, complete with infrastructure department and full-time sysadmins. Even the live server configuration was at best, basic. There was no automation for the servers configurations, and it appeared that the dozens, even hundreds of sites had all been recently migrated manually from some old servers. A nearly perfect opportunity had been completely ignored to improve the deployment of the live websites, and to automate the servers as well. Instead, the machine configuration was written out, step by step, on the internal wiki.</p>
+<p>It wasn&#8217;t going well. After a week&#8217;s wait, I&#8217;d expected a laptop to be waiting for me, setup with the VPN access, and maybe even a development environment. This was an &#8216;enterprise&#8217; outfit, complete with infrastructure department and full-time sysadmins. Even the live server configuration was at best, basic. There was no automation for the servers configurations, and it appeared that the dozens, even hundreds of sites had all been recently migrated manually from some old servers. A nearly perfect opportunity had been completely ignored to improve the deployment of the live websites, and to automate the servers as well. Instead, the machine configuration was written out, step by step, on the internal wiki.</p>
 
-<p>That lack of system, and site, configuration was one of the things that surprised me the most. Deploying a website &ndash; to staging, or production &ndash; is the sort of thing that will happen regularly, maybe a couple of times a day, even if changes to any one site is infrequent. None of that happened though.</p>
+<p>That lack of system, and site, configuration was one of the things that surprised me the most. Deploying a website - to staging, or production - is the sort of thing that will happen regularly, maybe a couple of times a day, even if changes to any one site is infrequent. None of that happened though.</p>
 
-<p>I left the office before lunch, since the laptop I would need wasn&rsquo;t ready.  it would be another 7 full days before I could pick it up.</p>
+<p>I left the office before lunch, since the laptop I would need wasn&#8217;t ready.  it would be another 7 full days before I could pick it up.</p>
 
 <p>Lets see the take-aways so far.</p>
 
-<h4>1. If you don&rsquo;t automate the server configurations, you will still have things to do next year. They are your pets, love them all individually</h4>
+<h4>1. If you don&#8217;t automate the server configurations, you will still have things to do next year. They are your pets, love them all individually</h4>
 
 <h4>2. Sysadmins are paid to deploy code. Let them do it, according to the listed steps</h4>
 
-<h4>3. Developers don&rsquo;t cost much money. They can wait a week before they get a machine to use. (Contractors don&rsquo;t get paid till you are ready to start)</h4>
+<h4>3. Developers don&#8217;t cost much money. They can wait a week before they get a machine to use. (Contractors don&#8217;t get paid till you are ready to start)</h4>
 
-<p>I spent the first two days with the laptop trying to get a reasonable development environment going. In the last two years (or more!) the classic setup has been a virtual machine running locally, often with a configuration management tool like Puppet to easily bring up the relevant software (LAMP) stack. Without automation in place, that setup simply doesn&rsquo;t exist. The version of software you develop on might, or might not be in any useful way be compatible with the versions on the live site. By the time I had brought up a 32bit Ubuntu 12.10 VM (I&rsquo;d first tried with a 64bit VM, but the laptop was locked down to not enable the virtualisation support in the CPU/BIOS) and tried to fetch the source code from the source-code (subversion) repository.</p>
+<p>I spent the first two days with the laptop trying to get a reasonable development environment going. In the last two years (or more!) the classic setup has been a virtual machine running locally, often with a configuration management tool like Puppet to easily bring up the relevant software (LAMP) stack. Without automation in place, that setup simply doesn&#8217;t exist. The version of software you develop on might, or might not be in any useful way be compatible with the versions on the live site. By the time I had brought up a 32bit Ubuntu 12.10 VM (I&#8217;d first tried with a 64bit VM, but the laptop was locked down to not enable the virtualisation support in the CPU/BIOS) and tried to fetch the source code from the source-code (subversion) repository.</p>
 
-<p>It was half-way through the second day at work (at home) that I was given SVN repo access to be able to download the code to the websites I&rsquo;d be working on. I actually got the site running (though, as a CMS it was largly useless without the uploaded assets or database). It wasn&rsquo;t helped by the fact that Silverstripe (the CMS they were using) had had <a href="https://github.com/silverstripe/sapphire/commit/9ffa903d50692dad4f3acb9908aa6769d17ebcb8#core/ManifestBuilder.php">a bug in it for a couple of years</a> which PHP5.4 had immediately complained about. So I gave up trying to do it the right way.</p>
+<p>It was half-way through the second day at work (at home) that I was given SVN repo access to be able to download the code to the websites I&#8217;d be working on. I actually got the site running (though, as a CMS it was largly useless without the uploaded assets or database). It wasn&#8217;t helped by the fact that Silverstripe (the CMS they were using) had had <a href="https://github.com/silverstripe/sapphire/commit/9ffa903d50692dad4f3acb9908aa6769d17ebcb8#core/ManifestBuilder.php">a bug in it for a couple of years</a> which PHP5.4 had immediately complained about. So I gave up trying to do it the right way.</p>
 
-<h4>4. Every developer has unique needs. Wait until they ask for something before giving it to them &ndash; like access to the source code</h4>
+<h4>4. Every developer has unique needs. Wait until they ask for something before giving it to them - like access to the source code</h4>
 
 <h4>5. Every developer understands how to install your site, no matter how complex. No need for documentation</h4>
 
 <h4>6. Running PHP with <code>error_reporting(0);</code>, means there are no more problems in the code!</h4>
 
-<p>The only thing left to me was the dev-host machine. A central server that I could connect to over Samba, that ran a database, with many copies of the data for testing and a space to be able to check out the site you were working on. Just the one site, unless you figured the magic incantations of the various configuration files (a few of which weren&rsquo;t even in version control!) to be able to put the entire site in as a sub-directory of the development environment.</p>
+<p>The only thing left to me was the dev-host machine. A central server that I could connect to over Samba, that ran a database, with many copies of the data for testing and a space to be able to check out the site you were working on. Just the one site, unless you figured the magic incantations of the various configuration files (a few of which weren&#8217;t even in version control!) to be able to put the entire site in as a sub-directory of the development environment.</p>
 
-<p>So, to be able to develop more than one, you had to change the way the site worked, in some quite important ways, and then you had to make sure that you worked on it very carefully, because if you got it wrong, there was no way to see there was an error until after the site had gone live &ndash; becuase sometimes, the site can&rsquo;t be tested properly, becuase any test would be in the same sub-directory.  No wonder they liked to deploy code (manually) out of business hours. There was no way to tell how badly something could have been broken without anyone being able to know.</p>
+<p>So, to be able to develop more than one, you had to change the way the site worked, in some quite important ways, and then you had to make sure that you worked on it very carefully, because if you got it wrong, there was no way to see there was an error until after the site had gone live - becuase sometimes, the site can&#8217;t be tested properly, becuase any test would be in the same sub-directory.  No wonder they liked to deploy code (manually) out of business hours. There was no way to tell how badly something could have been broken without anyone being able to know.</p>
 
-<p>Now, having a single main dev-server for an office (even maybe for remote developers), isn&rsquo;t an intrinscally a bad idea, although lss so when it&rsquo;s still running Ubuntu 8.10 and has been online without a reboot since December 2010 (yes, over 800 days uptime!). I&rsquo;ve set a few up before myself &ndash; at least, before decent laptops that can easily run VirtualBox appeared. I probably setup my first &ndash; for other people to use beyond myself &ndash; literally ten years ago, when I started as sysadmin at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a> (and they are still going!).</p>
+<p>Now, having a single main dev-server for an office (even maybe for remote developers), isn&#8217;t an intrinscally a bad idea, although lss so when it&#8217;s still running Ubuntu 8.10 and has been online without a reboot since December 2010 (yes, over 800 days uptime!). I&#8217;ve set a few up before myself - at least, before decent laptops that can easily run VirtualBox appeared. I probably setup my first - for other people to use beyond myself - literally ten years ago, when I started as sysadmin at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a> (and they are still going!).</p>
 
 <h4>7. He who dies with the most uptime, wins.</h4>
 
@@ -485,21 +138,21 @@ Enter host password for user 'alister': __secret-password__
 <pre><code>http://testing123.fred.example.com/index.php
 </code></pre>
 
-<p>Create a new directory, alongside &lsquo;testing123&rsquo;, and you get a different URL &ndash; for a completely different website to test, and checkout of the code repository as a whole. Now, I&rsquo;m not saying it wasn&rsquo;t without some issues, back then, the Apache (v1.3) module that enabled such a scheme didn&rsquo;t set everything you would have entirely expected, so the site had to work out a couple of things for itself (like the value of $_SERVER[&lsquo;DOCUMENT_ROOT&rsquo;]) &ndash; but this was easy common code that got just included in every PHP page automatically.</p>
+<p>Create a new directory, alongside &#8216;testing123&#8217;, and you get a different URL - for a completely different website to test, and checkout of the code repository as a whole. Now, I&#8217;m not saying it wasn&#8217;t without some issues, back then, the Apache (v1.3) module that enabled such a scheme didn&#8217;t set everything you would have entirely expected, so the site had to work out a couple of things for itself (like the value of $_SERVER[&#8216;DOCUMENT_ROOT&#8217;]) - but this was easy common code that got just included in every PHP page automatically.</p>
 
-<p>The <em>other</em> way &ndash; that my last contract used &ndash; was different configurations, unique to every site (and undocumented, while it was at it) to enable the site-as-subdirectories. This did not enamour itself to me. There are so many potential problems with it.</p>
+<p>The <em>other</em> way - that my last contract used - was different configurations, unique to every site (and undocumented, while it was at it) to enable the site-as-subdirectories. This did not enamour itself to me. There are so many potential problems with it.</p>
 
 <h4>8. Making it easy to create and test sites just makes programmers lazy. They should do it right first time, no matter how complex.</h4>
 
 <p>Did I tell you about the website databases yet?  The live sites mostly ran a CMS, Silverstripe, or maybe some Drupal sites, backed by a MySQL database. So far, so standard. The database tables, were all MyIsam-type tables. Yep, the slow, crashy types that when the machine fell over (as all machines will inevitably do) would lock the tables and require a rebuild of potentially dozens, or hundreds of them before the site would come back up successfully.</p>
 
-<p>I first noticed this brilliant plan on the part of the original sysadmins and developers when I looked at the devhost database, with some 150 databases and countless tables in total. One copy of each database per site, for each developer.  The two sites I was working on had live DB&rsquo;s approaching 1 gigabyte each, which made the (fully manual) syncing of the DB onto the development server &lsquo;fun&rsquo;. That wasn&rsquo;t automated either, which was a shame, considering that Silverstripe tended to use a few of the tables just as audit logs. So, of the 1GB of DB table and indexes, about 750MB was just logs.  Which also helped to explain why the devhost&rsquo;s disk was 98% full.</p>
+<p>I first noticed this brilliant plan on the part of the original sysadmins and developers when I looked at the devhost database, with some 150 databases and countless tables in total. One copy of each database per site, for each developer.  The two sites I was working on had live DB&#8217;s approaching 1 gigabyte each, which made the (fully manual) syncing of the DB onto the development server &#8216;fun&#8217;. That wasn&#8217;t automated either, which was a shame, considering that Silverstripe tended to use a few of the tables just as audit logs. So, of the 1GB of DB table and indexes, about 750MB was just logs.  Which also helped to explain why the devhost&#8217;s disk was 98% full.</p>
 
-<h4>9. The best place for an automated log is a MyIsam table! Don&rsquo;t forget to keep a dozen copies on dev as well.</h4>
+<h4>9. The best place for an automated log is a MyIsam table! Don&#8217;t forget to keep a dozen copies on dev as well.</h4>
 
-<p>Between Monday 11th and Thursday, 14th February, I&rsquo;d solved a couple of trivial bugs, one a simple CSS placement that had forced a widget to a particular place on sccreen (in IE). it now flowed with the rest of the text, appearing after the article. To solve the other bug, I had listed four date periods (to make it a fraction moreinteresting, not all four were simple 12 month durations, and the window would keep moving as time progressed). Both had been ticketed as solved and were all awaiting signoff.</p>
+<p>Between Monday 11th and Thursday, 14th February, I&#8217;d solved a couple of trivial bugs, one a simple CSS placement that had forced a widget to a particular place on sccreen (in IE). it now flowed with the rest of the text, appearing after the article. To solve the other bug, I had listed four date periods (to make it a fraction moreinteresting, not all four were simple 12 month durations, and the window would keep moving as time progressed). Both had been ticketed as solved and were all awaiting signoff.</p>
 
-<p>The date fix though, solved three slightly different issues/bugs at the same time. Before that could go live on the intranet it would require signoff from FIVE different people, and then be scheduled to be updated &ndash; out of business hours. That intranet was used by 200-300 people. Compare that with one of my favourite (and interesting) roles of the last 5 years &ndash; <a href="http://www.binweevils.com/">http://www.binweevils.com/</a>, where we reached as many as 10,000 concurrent players (not possible users, but people all playing the game at the same time). Clearly, updating the website when the player count was so high would have been reserved for critical situations, but with a couple of thousand players online when I would deploy some new, or updated code? That was almost a non-event, and likely a weekly one as well.</p>
+<p>The date fix though, solved three slightly different issues/bugs at the same time. Before that could go live on the intranet it would require signoff from FIVE different people, and then be scheduled to be updated - out of business hours. That intranet was used by 200-300 people. Compare that with one of my favourite (and interesting) roles of the last 5 years - <a href="http://www.binweevils.com/">http://www.binweevils.com/</a>, where we reached as many as 10,000 concurrent players (not possible users, but people all playing the game at the same time). Clearly, updating the website when the player count was so high would have been reserved for critical situations, but with a couple of thousand players online when I would deploy some new, or updated code? That was almost a non-event, and likely a weekly one as well.</p>
 
 <p>So, Valentines Day, and seven days since I had started my latest contract, I woke up as usual, and sat down in front of my PC &amp; laptop to stare at it. For an hour and a half, I just could not bring myself to work in such a crap-pile.  And so, I quit.  I handed back my laptop the same day, and I feel so much better for it already.</p>
 
@@ -518,11 +171,11 @@ Enter host password for user 'alister': __secret-password__
 
 <h2>Employers</h2>
 
-<p>If your development environment isn&rsquo;t working, and doesn&rsquo;t allow your developers to easily write, test and deploy code, you have an immediate and critical problem. Don&rsquo;t sit on your hands for months hoping it will somehow improve, while you are not doing anything to help it.</p>
+<p>If your development environment isn&#8217;t working, and doesn&#8217;t allow your developers to easily write, test and deploy code, you have an immediate and critical problem. Don&#8217;t sit on your hands for months hoping it will somehow improve, while you are not doing anything to help it.</p>
 
 <h2>Employees and Contractors</h2>
 
-<p>Your skills are valuable. Don&rsquo;t allow them, or your time, to be wasted in situations that don&rsquo;t make it enjoyable and easy to concentrate on interesting problems, or at least valuable solutions. If you have to fight in order to write good code, know this: there are places where your skills are valued, and will be nurtured. Don&rsquo;t be a victim; You can do better &ndash; by not allowing yourself to be dragged down into the mud of bad development.</p>
+<p>Your skills are valuable. Don&#8217;t allow them, or your time, to be wasted in situations that don&#8217;t make it enjoyable and easy to concentrate on interesting problems, or at least valuable solutions. If you have to fight in order to write good code, know this: there are places where your skills are valued, and will be nurtured. Don&#8217;t be a victim; You can do better - by not allowing yourself to be dragged down into the mud of bad development.</p>
 
 <hr />
 
@@ -535,23 +188,23 @@ Enter host password for user 'alister': __secret-password__
     <link href="http://alister.github.com/blog/2013/01/07/why-i-like-tinydns/"/>
     <updated>2013-01-07T12:21:00+00:00</updated>
     <id>http://alister.github.com/blog/2013/01/07/why-i-like-tinydns</id>
-    <content type="html"><![CDATA[<p>I&rsquo;ve been using TinyDNS, and the associated systems, like DNScache and DaemonTools since 2003, when I was first tasked with setting up a local DNS resolver, and a DNS server for a web-development company I was working at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a>. We had dozens of domain names, and organising the changes &ndash; as well as paying per domain name, was getting to be, well, annoying, as well as potentially expensive.</p>
+    <content type="html"><![CDATA[<p>I&#8217;ve been using TinyDNS, and the associated systems, like DNScache and DaemonTools since 2003, when I was first tasked with setting up a local DNS resolver, and a DNS server for a web-development company I was working at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a>. We had dozens of domain names, and organising the changes - as well as paying per domain name, was getting to be, well, annoying, as well as potentially expensive.</p>
 
-<p>So, I was asked to setup our own name servers&hellip;.<!-- more --></p>
+<p>So, I was asked to setup our own name servers&#8230;.<!-- more --></p>
 
-<p>I looked at BIND, and even bought the O&#8217;Reilly &lsquo;Cricket&rsquo; book, but the plan was to use an in-house database management system/CMS to hold the details of the various DNS records and then output the pieces to the DNS server. The thought of producing bind format text files did not appeal &ndash; the are pretty complex.</p>
+<p>I looked at BIND, and even bought the O&#8217;Reilly &#8216;Cricket&#8217; book, but the plan was to use an in-house database management system/CMS to hold the details of the various DNS records and then output the pieces to the DNS server. The thought of producing bind format text files did not appeal - the are pretty complex.</p>
 
-<p>Then, I came across another option &ndash; TinyDNS, and a few associated tools, written by djb &ndash; Daniel J. Bernstein, who is a mathematician, cryptologist, programmer, and research professor of computer science. It&rsquo;s very <em>opinionated</em> software, and so is the configuration, but easy enough to follow a howto and get working.</p>
+<p>Then, I came across another option - TinyDNS, and a few associated tools, written by djb - Daniel J. Bernstein, who is a mathematician, cryptologist, programmer, and research professor of computer science. It&#8217;s very <em>opinionated</em> software, and so is the configuration, but easy enough to follow a howto and get working.</p>
 
-<p>One of the design choices that make it so easy to work with is that there is a simple-to-understand format for the configuration file, one line per record, for example each Cname, A or MX record is just one line, with the first character being the type (for example a &lsquo;@&rsquo; for an MX record), and the various parts of it is then split up between colons. The latter parts of the record, with information as time-to-live durations, and other defaults, can be safely left to the defaults.</p>
+<p>One of the design choices that make it so easy to work with is that there is a simple-to-understand format for the configuration file, one line per record, for example each Cname, A or MX record is just one line, with the first character being the type (for example a &#8216;@&#8217; for an MX record), and the various parts of it is then split up between colons. The latter parts of the record, with information as time-to-live durations, and other defaults, can be safely left to the defaults.</p>
 
 <p>See: <a href="http://cr.yp.to/djbdns/tinydns-data.html">http://cr.yp.to/djbdns/tinydns-data.html</a> for the exact structure of the data file (or, in fact, of each line that you will generally be using).</p>
 
 <p>Given the various records already in a database, converting them each into such a simple output format is not very difficult at all. In fact, I used an existing perl script as a large basis to do the conversion (porting the perl to PHP was itself trivial), and simply wrapping some database access code around it.</p>
 
-<p>Since the output was just a text file, which was then compiled down into a small database, it was also trivial to have all the name servers (including a tertiary, ns3, name server) call into the server by HTTP (from a cron-job). The web-page produced the data, and output the file as plain text. With the page protected by IP and a HTTP password, it&rsquo;s entirely secure, and very easy to setup.</p>
+<p>Since the output was just a text file, which was then compiled down into a small database, it was also trivial to have all the name servers (including a tertiary, ns3, name server) call into the server by HTTP (from a cron-job). The web-page produced the data, and output the file as plain text. With the page protected by IP and a HTTP password, it&#8217;s entirely secure, and very easy to setup.</p>
 
-<p>In my next djbdns/tinydns post, I&rsquo;ll show you how to setup your own, local top-level domain names &ndash; which I find very useful for development, among other things.</p>
+<p>In my next djbdns/tinydns post, I&#8217;ll show you how to setup your own, local top-level domain names - which I find very useful for development, among other things.</p>
 
 <p>Also take a look at the first post in this little series: <a href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/">http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/</a>, where I also how an example of a TinyDNS zone file, and how simple it can be made with LuaDNS.</p>
 ]]></content>
@@ -569,26 +222,26 @@ Enter host password for user 'alister': __secret-password__
 
 <p>Back in Mid-December, I got an email (via LinkedIn) out of the blue from a web development company in Hampshire. They needed some help with a database they were finishing off for a customer. The site itself barely touched the DB, but instead the heavy lifting was being done once per hour to read the data through a somewhat convoluted database view that did a lot of the work of joining various small tables against the main, multi-million row, table.</p>
 
-<p>The regular job was taking around 30 minutes to complete, and then the website then read the results of that to produce the main site pages as required. They wanted to seee how they could speed it up &ndash; a lot.</p>
+<p>The regular job was taking around 30 minutes to complete, and then the website then read the results of that to produce the main site pages as required. They wanted to seee how they could speed it up - a lot.</p>
 
-<p>I&rsquo;ve dealt with issues like this before, a couple of times in fact, and it had helped me got at least one full-time job in the past because I&rsquo;d solved it so easily &ndash; stopping the database server crashing a few times a day in the process &ndash; so I was happy to take half-hour to talk though the likely scenarios.</p>
+<p>I&#8217;ve dealt with issues like this before, a couple of times in fact, and it had helped me got at least one full-time job in the past because I&#8217;d solved it so easily - stopping the database server crashing a few times a day in the process - so I was happy to take half-hour to talk though the likely scenarios.</p>
 
-<p>It&rsquo;s a simple enough problem with MySQL servers. They can handle a lot of work, but they don&rsquo;t come with the base configuration to be able to do so. The main issue is having a machine with plenty of memory to handle the amount of data in the database (the sheer megabytes on disk of data), but the <strong>innodb_buffer_pool_size</strong> hasn&rsquo;t been updated to be able to use the memory, so all the information has to squeeze though a mere 8MB (yes, not much more than eight million bytes) of space. Not helpful when the database could be measured in Gigabytes.</p>
+<p>It&#8217;s a simple enough problem with MySQL servers. They can handle a lot of work, but they don&#8217;t come with the base configuration to be able to do so. The main issue is having a machine with plenty of memory to handle the amount of data in the database (the sheer megabytes on disk of data), but the <strong>innodb_buffer_pool_size</strong> hasn&#8217;t been updated to be able to use the memory, so all the information has to squeeze though a mere 8MB (yes, not much more than eight million bytes) of space. Not helpful when the database could be measured in Gigabytes.</p>
 
 <p>A couple of days later, I drove down the M3 to visit the office and more efficiently deal with their servers (they were firewalled to only talk to the office IP address), and do some other things.  The database &amp; its slave was already running a lot faster with the increased buffer_pool memory, in fact it had reduced the time to run the production from 30 minutes to just 5, so there was already a huge win for them. Even then, it was still using just 33% of the ram for the DB on the master, and less than 8.5% on the slave.</p>
 
-<p>With a few more small tweaks they&rsquo;ve now got plenty of room to grow, and room to easily double the amount of data they are storing in the DB &ndash; and they&rsquo;ve also had some tips how to be able to run the regularly scheduled cache-run almost as often as the database can be changed, without having to worry about how long it might end up running (something that you would have to be concerned about it you ran it as a cron-job).</p>
+<p>With a few more small tweaks they&#8217;ve now got plenty of room to grow, and room to easily double the amount of data they are storing in the DB - and they&#8217;ve also had some tips how to be able to run the regularly scheduled cache-run almost as often as the database can be changed, without having to worry about how long it might end up running (something that you would have to be concerned about it you ran it as a cron-job).</p>
 
 <p>What was also done:</p>
 
 <ul>
-<li>Removing redundant indexes &ndash; they already had columns as part of the first set of a compound index. More indexes is more space, and more time to produce. If the data already has an index that covers the same data &ndash; remove it!</li>
+<li>Removing redundant indexes - they already had columns as part of the first set of a compound index. More indexes is more space, and more time to produce. If the data already has an index that covers the same data - remove it!</li>
 <li>Enabling the slow-query log showed a couple of places where a full-text search was still being run, although there was a simple column that could provide the same information.</li>
 <li>Reminded them that a string-based UUID as an indexed column was not their friend. The size of the indexes on disk were more than 1.5 times the size of the data!  A simple numeric index would be a fraction of the size, and since that would also mean more data in less space, it would equally mean a faster database.</li>
 </ul>
 
 
-<p>I put the various database tables into individual files, rather than a single, monolithic file (which was over 20GB on disk). While this doesn&rsquo;t help with backups, and you also have to increase the number of open_files MySQL has, there are some benefits, such as being able to more easily reclaim space from large database tables. It also means that you can see very easily how much disk space each table takes up, so it can be more easily monitored.</p>
+<p>I put the various database tables into individual files, rather than a single, monolithic file (which was over 20GB on disk). While this doesn&#8217;t help with backups, and you also have to increase the number of open_files MySQL has, there are some benefits, such as being able to more easily reclaim space from large database tables. It also means that you can see very easily how much disk space each table takes up, so it can be more easily monitored.</p>
 
 <p>A couple of final things I did was a very quick and easy fix to a PHP-server for a different site. Although the database for the other site was quite small, a quick upgrade of the  <strong>innodb_buffer_pool_size</strong> would help them in the future, but the main improvement I left them with was to install APC with an initial 32MB RAM default. Its a useful and easy speedup for any PHP site. The improvement was pretty obvious to see on-screen, and it would have also used less memory in the process.</p>
 
@@ -608,24 +261,24 @@ Enter host password for user 'alister': __secret-password__
     <content type="html"><![CDATA[<p><a href="http://www.thinkgeek.com/tshirts-apparel/unisex/frustrations/374d/"><img src="http://www.phpscaling.com/wp-content/blogs.dir/6/files/2011/12/lg-go-away-tshirt.jpg" alt="" align="right" /></a>
 Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-at-meetups/">phpscaling.com</a>.</p>
 
-<p>I was out last night at the <a href="http://lanyrd.com/2011/the-big-xmas-bash/">The Big Xmas Bash</a>, near Silicon Roundabout. It was a fun night out meeting various people, tech, business and recruiters. <strong>Oh, the shame</strong> though &ndash; I was wearing the same T-shirt as someone else &ndash; and, yes, I have indeed replaced people with small shell scripts.</p>
+<p>I was out last night at the <a href="http://lanyrd.com/2011/the-big-xmas-bash/">The Big Xmas Bash</a>, near Silicon Roundabout. It was a fun night out meeting various people, tech, business and recruiters. <strong>Oh, the shame</strong> though - I was wearing the same T-shirt as someone else - and, yes, I have indeed replaced people with small shell scripts.</p>
 
-<p>Now, to the main part of what this post is about &ndash; the <strong>rant</strong>.</p>
+<p>Now, to the main part of what this post is about - the <strong>rant</strong>.</p>
 
 <!-- more -->
 
 
-<p>It&rsquo;s not aimed at the particular event last night alone though. It&rsquo;s alcohol at various tech-meetups in general. Look guys, you generally end up buying too much anyway, and all too often its also to the exclusion of those that may prefer to not get inebriated.</p>
+<p>It&#8217;s not aimed at the particular event last night alone though. It&#8217;s alcohol at various tech-meetups in general. Look guys, you generally end up buying too much anyway, and all too often its also to the exclusion of those that may prefer to not get inebriated.</p>
 
-<p>As an example, The <a href="http://lanyrd.com/2011/hn-london-nov/">Hacker News meetups</a> will get dozens of pizzas (which are, admittedly all eaten &ndash; there are 150+ people attending usually), but also a couple of stacks worth of cans and bottles, each with 24 cans in each tray, several hundred each at least. It&rsquo;s just as well they aren&rsquo;t all drunk on the night &ndash; many of the event-goers would be unconscious by the end. At least they will also add a few trays of soft-drinks, Lemonade and Cola.</p>
+<p>As an example, The <a href="http://lanyrd.com/2011/hn-london-nov/">Hacker News meetups</a> will get dozens of pizzas (which are, admittedly all eaten - there are 150+ people attending usually), but also a couple of stacks worth of cans and bottles, each with 24 cans in each tray, several hundred each at least. It&#8217;s just as well they aren&#8217;t all drunk on the night - many of the event-goers would be unconscious by the end. At least they will also add a few trays of soft-drinks, Lemonade and Cola.</p>
 
-<p>If you want a couple of drinks to help lubricate the social aspect of an evening out, I&rsquo;ve got no problem at all. I don&rsquo;t though. I prefer to save my brain cells for doing interesting things, like oh, writing code?</p>
+<p>If you want a couple of drinks to help lubricate the social aspect of an evening out, I&#8217;ve got no problem at all. I don&#8217;t though. I prefer to save my brain cells for doing interesting things, like oh, writing code?</p>
 
 <p>For other events, how about adding some more soft drinks to replace some of the alcohol? Last night, the choice was booze, or fizzy water; That was all.</p>
 
-<p>Thankfully, people don&rsquo;t generally get blotto at the various meetups &ndash; at least that I&rsquo;ve seen, but I expect there&rsquo;s been one or two that have swerved their way home sometimes.</p>
+<p>Thankfully, people don&#8217;t generally get blotto at the various meetups - at least that I&#8217;ve seen, but I expect there&#8217;s been one or two that have swerved their way home sometimes.</p>
 
-<p>For the Kernel&rsquo;s take on a booze culture in Startup London, see <a href="http://www.kernelmag.com/scene/2792/why-is-east-london-so-goddamn-boozy/">http://www.kernelmag.com/scene/2792/why-is-east-london-so-goddamn-boozy/</a>.</p>
+<p>For the Kernel&#8217;s take on a booze culture in Startup London, see <a href="http://www.kernelmag.com/scene/2792/why-is-east-london-so-goddamn-boozy/">http://www.kernelmag.com/scene/2792/why-is-east-london-so-goddamn-boozy/</a>.</p>
 
 <p><strong>Do you have a comment about alcohol being served at the various meetups?  Would you like more, less, or do you think that organisers and sponsors are doing it right?  I would love to start a conversation here about the good or bad of it.</strong></p>
 
@@ -638,7 +291,7 @@ Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-
     <link href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/"/>
     <updated>2012-12-31T12:07:00+00:00</updated>
     <id>http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site</id>
-    <content type="html"><![CDATA[<p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I&rsquo;ve had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> &ndash; which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record &ndash; really easy if you have any kind of database or automation.</p>
+    <content type="html"><![CDATA[<p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I&#8217;ve had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> - which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record - really easy if you have any kind of database or automation.</p>
 
 <!-- more -->
 
@@ -704,7 +357,7 @@ google_app(_a, 'ghs.google.com', _longTTL)
 
 <p>So, with the use of the service from luadns, I had a good reason to a) move my DNS off bytemark (with the intention to also eventually shut down my old server there), and b) tidy it up as I went. So I did. I had already moved my tech-blog to <a href="http://phpscaling.com/">http://phpscaling.com/</a> last year, and over this last few weeks, I added <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> to the same Wordpress installation.</p>
 
-<p>Supporting different domain names for (at least) two different blogs isn&rsquo;t too easy in a stack Wordpress 3 installation. It isn&rsquo;t made any easier becuase I also have a couple of domain name aliases that point to the <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> site (there is also <a href="http://alisterb.co.uk/">http://alisterb.co.uk/</a>, and of course there is also the www.* versions) and so I was having a lot of trouble till I found the <a href="http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping/">wordpress-mu-domain-mapping</a> plugin. While it&rsquo;s not quite a drop-in plugin (you have to copy some files around manually) and of course setup the IP address and domain names, it solved my problem.</p>
+<p>Supporting different domain names for (at least) two different blogs isn&#8217;t too easy in a stack Wordpress 3 installation. It isn&#8217;t made any easier becuase I also have a couple of domain name aliases that point to the <a href="http://abulman.co.uk/">http://abulman.co.uk/</a> site (there is also <a href="http://alisterb.co.uk/">http://alisterb.co.uk/</a>, and of course there is also the www.* versions) and so I was having a lot of trouble till I found the <a href="http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping/">wordpress-mu-domain-mapping</a> plugin. While it&#8217;s not quite a drop-in plugin (you have to copy some files around manually) and of course setup the IP address and domain names, it solved my problem.</p>
 ]]></content>
   </entry>
   
@@ -713,13 +366,13 @@ google_app(_a, 'ghs.google.com', _longTTL)
     <link href="http://alister.github.com/blog/2012/12/31/new-professional-blog/"/>
     <updated>2012-12-31T11:22:00+00:00</updated>
     <id>http://alister.github.com/blog/2012/12/31/new-professional-blog</id>
-    <content type="html"><![CDATA[<p>Welcome. I&rsquo;ve taken some time over the holidays to do a little re-organisation of my online presence, and I&rsquo;d like to tell you what I did, and how.</p>
+    <content type="html"><![CDATA[<p>Welcome. I&#8217;ve taken some time over the holidays to do a little re-organisation of my online presence, and I&#8217;d like to tell you what I did, and how.</p>
 
-<p>First up, is this site. I&rsquo;ve been considering what to put onto my Github pages for a while, and I think the most obvious thing are links to my recent work. As it is build on <a href="http://octopress.org/">Octopress/Jekyll</a>,  it is also well supported by Github, and allows me to add static content pages into the site as well, so I&rsquo;ve moved my online presentations here, from <a href="http://abulman.co.uk">http://abulman.co.uk</a></p>
+<p>First up, is this site. I&#8217;ve been considering what to put onto my Github pages for a while, and I think the most obvious thing are links to my recent work. As it is build on <a href="http://octopress.org/">Octopress/Jekyll</a>,  it is also well supported by Github, and allows me to add static content pages into the site as well, so I&#8217;ve moved my online presentations here, from <a href="http://abulman.co.uk">http://abulman.co.uk</a></p>
 
 <h3>My presentations</h3>
 
-<p>I&rsquo;ve done a couple now, both on Queueing systems, and particularly on BeanstalkD, which is a very excellent system for such job-queues.</p>
+<p>I&#8217;ve done a couple now, both on Queueing systems, and particularly on BeanstalkD, which is a very excellent system for such job-queues.</p>
 
 <ul>
 <li><a href="http://alister.github.com/presentations/Beanstalkd/">Beanstalkd</a> PHP London, May 6th 2010</li>

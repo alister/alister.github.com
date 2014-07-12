@@ -9,7 +9,7 @@
   <meta name="author" content="Alister Bulman">
 
   
-  <meta name="description" content="I&rsquo;ve had a response to my post about &ldquo;Your Own &lsquo;Jenkins&rsquo; for PHP With Composer&rdquo;, via a Github issue :), so I thought I& &hellip;">
+  <meta name="description" content="Although I&#8217;m busy day to day at my current contract *, that isn&#8217;t to say that my passions outside the office have come to a complete stop &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,7 +83,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/10/17/avoiding-composer-being-rate-limited-by-github/">Avoiding Composer Being Rate-limited by Github</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/07/12/Contributing-to-open-source-can-be-easy/">Contributing to Open Source Can Be Easy</a></h1>
     
     
       <p class="meta">
@@ -99,224 +99,67 @@
   
 
 
-<time datetime="2013-10-17T21:30:00+01:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+<time datetime="2014-07-12T17:30:00+01:00" pubdate data-updated="true">Jul 12<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I&rsquo;ve had a response to my post about &ldquo;<a href="http://alister.github.io/blog/2013/06/03/your-own-jenkins-for-php-with-composer/">Your Own &lsquo;Jenkins&rsquo; for PHP With Composer</a>&rdquo;, via <a href="https://github.com/alister/alister.github.com/issues/2">a Github issue</a> :), so I thought I&rsquo;d answer that right here as well.</p>
+  <div class="entry-content"><p>Although I&#8217;m busy day to day at my current contract <sup>*</sup>, that isn&#8217;t to say that my passions outside the office have come to a complete stop. I&#8217;m still going to regular meetups (like the <a href="http://www.meetup.com/phplondon/">PHP London Meetup</a> and <a href="http://www.meetup.com/Docker-London/events/192394082/">Docker London</a>), and I&#8217;m also planning to go to <a href="http://london2014.live.symfony.com/">Symfony Live London 2014</a>. I&#8217;ve also been reading about, and trying some software, and making the odd fix and new code for myself.</p>
 
-<pre><code>in http://alister.github.io/blog/2013/06/03/your-own-jenkins-for-php-with-composer/
-it is using `--prefer-dist` which causes a hit on
-`api.github.com/repos/USER/REPO/zipball/SHA1` eg:
+<p>I thought that it would be good to show some of the work I&#8217;ve been doing out of hours - some of it trivially easy - that I&#8217;ve done to help improve a few projects, and also some slightly larger things of my own.</p>
 
-    https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/.....
+<p>(<sup>*</sup> Developing systems for Her Majesty&#8217;s Passport Office, in the Home Office - yes, we are hiring, especially good Symfony2 developers and PHP-based testers - <strong><a href="https://plus.google.com/u/0/+AlisterBulman/about">Contact me!</a></strong> if you are a PHP tester, or even better an experienced Symfony2 developer that likes testing with Behat and PHPUnit. <em>Recruiters, no thanks</em>)</p>
 
-which has a rate limit of 60 per hour. Unfortunately, we currently
-have 61 dependencies! Switching to `--prefer-source` works.
+<h2>Capistrano tagger - Quick fix to remove whitespace around sha1 hash</h2>
 
-Thanks for the blog post, got me a long way on the right track :thumbsup:
-</code></pre>
+<p>I regularly look around for new tools that can help me, even just a little, to make like just that bit easier. <a href="http://capistranorb.com/">Capistrano</a> (<a href="https://github.com/capistrano/capistrano">Capistrano on github</a>) makes deploying code easy, repeatable and fast. Being able to tag the most recently deployed version is useful to be able to refer back. I&#8217;ve got projects that are using both version 2 &amp; 3 of Capistrano (v3 is a complete rewrite of v2, so it&#8217;s not so easy to upgrade, but v2 still works just fine).</p>
 
-<p>This is a similar problem to one I&rsquo;ve had before, not from too many for a single repo, but while I was testing a composer-based deployment (with Capistrano). In either event, Github has a limit on the number of requests/downloads allowed in a period of time &ndash; here, 60 per hour.</p>
+<p><a href="https://github.com/forward/capistrano-deploy-tagger">capistrano-deploy-tagger</a> is an internal project, open-sourced by the <a href="http://forwardtechnology.co.uk/">Forward 3D</a>. I&#8217;ve been to their offices several times for Devops and GoLang meet-ups, among others.</p>
 
-<p>There are two ways to solve this though. The first is quick and easy, but with that ease it also just expands on the potential long-term problems that could happen. It&rsquo;s certainly the first thing to do for a fix though.</p>
+<p>It&#8217;s easy to add this Capistrano plugin to help tag things when I deployed them - to know exactly when things happened. Trouble was, it didn&#8217;t work for me. I narrowed things down to the response from Git having a newline in front of it, so I <a href="https://github.com/forward/capistrano-deploy-tagger/commit/7c30ea8be8004c6bfee0d1c7bb27b1383043f4bd">added a &#8216;strip!&#8217; to the appropriate variablee</a>, which removed the errant white-space. There&#8217;s probably a better way to do it, with some more behind-the-scenes git command, but this works for now, and solved my problem to boot.</p>
 
-<p><a href="#solution-oauth">Quick, Easy and good enough</a> OR <a href="#solution-satis">Solid, reliable and local</a></p>
+<p>I could have just left my fix in my local copy, and it would have worked quite nicely (at least till I went to upgrade the gem), but submitting a merge-request and having <a href="https://github.com/Rylon">Ryan Conway</a> pull it in, helps everybody - and now I get to automatically tag my deployments.</p>
 
-<p><a id="solution-oauth"></a></p>
+<h2>PHPDox - Correct source name in errors, PHPUnit, not PHPloc</h2>
 
-<h3>Solution One, Quick, Easy and good enough for most individuals</h3>
+<p>I created my <a href="https://github.com/alister/personal-ci">personal-ci</a> meta-project to pull in various PHP-based testing and documentation tools with <a href="https://getcomposer.org/">Composer</a>. One of those was <a href="https://github.com/theseer/phpdox">PHPDox</a>, and it does a good job of processing the projects to make some good looking documentation.</p>
 
-<h5>Composer.json&rsquo;s github-oauth option.</h5>
+<p>While developing the personal-ci system, I&#8217;d been running PHPDox regularly with the rest, and getting some errors from not having all the files in place first (some of the additional logging output of PHPUnit). Trouble was, it was complaining about something that was there - some PHPLoc logs. So, I grepped the source for the message, and found two copies. One was in a class dealing with PHPUnit though - not the PHPLoc that was being reported - so the fix was just changing a couple of <a href="https://github.com/theseer/phpdox/pull/141">error message strings</a> to show the right program.</p>
 
-<p>It&rsquo;s not too well known, but is documented on the <a href="http://getcomposer.org/doc/04-schema.md#config">composer schema page</a>.</p>
+<p>A very simple change - a text-only bug, that confused (at least) me, and I could find an improvement.</p>
 
-<pre><code>github-oauth: A list of domain names and oauth keys. For example using
-{"github.com": "oauthtoken"} as the value of this option will use
-oauthtoken to access private repositories on github and to circumvent
-the low IP-based rate limiting of their API.
-</code></pre>
+<h2>FrequenceWebContactBundle - Improved English language translation</h2>
 
-<p>I&rsquo;ve not seen the ability to use an Oauth token to be able to download from a VCS before (I&rsquo;ve just looked on <a href="https://bitbucket.org/">Bitbucket.org</a> for example), but according to the docs, that option in composer.json isn&rsquo;t limited to requests from Github.com.</p>
+<p>I was looking around for a contact-bundle for a project - a simple form to email system. Among my travels around Packagist &amp; Github, I found <a href="https://github.com/yohang/FrequenceWebContactBundle/">FrequenceWebContactBundle</a>.</p>
 
-<p>With the OAuth token, the max-rate is <a href="http://developer.github.com/v3/#rate-limiting">increased substantially</a>, to 5000 per hour.</p>
+<p>This is another really trivial change - a couple of lines of <a href="https://github.com/yohang/FrequenceWebContactBundle/pull/5">improved translation</a>. The original author of the project is French, I could fork and edit the file right in the browser (on Github) and make a pull-request in just a moment.</p>
 
-<p>If you search for some online help to be able to generate the token from the command line, it will tell you how to run Curl against Githubs Authorization API:</p>
+<h2>Rails3 multi-Oauth logins with OmniAuth</h2>
 
-<pre><code>curl -u 'githubuser' \
--d '{"note":"GitHub OAuth token for composer"}' https://api.github.com/authorizations
-</code></pre>
+<p>I couldn&#8217;t find a good tutorial on using the Ruby-on-rails gem &#8216;Omniauth&#8217;, with more than one authentication method, so that you could then login with any connected account into the same user. <a href="https://github.com/alister/rails3-omniauth-multi_tutsplus">So I wrote one :)</a>.</p>
 
-<p>It will also ask your Github password. However, if you have the <a href="">2-factor authentication</a> enabled for logins (and you should) &ndash; that won&rsquo;t help you. You also need to provide it with the request, which is hard work.</p>
+<p>I&#8217;m still looking for a good PHP-based equivalent though (using <a href="https://github.com/hwi/HWIOAuthBundle">HWIOAuthBundle</a>). In fact, until I had to depreciate the part of a new site that was going to use it, <a href="https://github.com/hwi/HWIOAuthBundle/issues/424">I offered a bounty</a> to be able to get some good example code - with suitable documentation - written. That issue remains unanswered, and HWIOAuthBundle still doesn&#8217;t have a really good sample..</p>
 
-<pre><code>curl -u 'alister' -d '{"note":"test token"}' https://api.github.com/authorizations
-Enter host password for user 'alister': __secret-password__
-{
-  "message": "Must specify two-factor authentication OTP code.",
-  "documentation_url": "http://developer.github.com/v3/auth#working-with-two-factor-authentication"
-}
-</code></pre>
+<h2>faker-extensions</h2>
 
-<p>There is a far easier way though. <a href="https://github.com/settings/applications">On the web.</a>. Click &lsquo;Create New Token&rsquo;, give it a description, and save it. Be sure to save a copy (put it into your composer.json file) right now though &ndash; as soon as you refresh the page, it will never be shown again.
-<a href="/assets/github-personal-asset-tokens.png"><img class="right" src="/assets/github-personal-asset-tokens.png" title="&#34;Create an Oaut token on the website&#34;" alt="&#34;Create an Oaut token on the website&#34;"></a></p>
+<p>My newest open source code is <a href="https://github.com/alister/faker-extensions">faker-extensions</a>. The actual code that is being run is really trivial - two classes and a total of three functions and then as many lines of actual code (plus some simple tests) - and two of those lines just call someone else&#8217;s methods, with a little local data. Its the local data that makes it interesting, and useful.</p>
 
-<p>And that&rsquo;s a lot easier.</p>
-
-<p><a id="solution-satis"></a></p>
-
-<h3>Solution Two, Solid, reliable and local.</h3>
-
-<h5>Your own mini-packagist.org, with Composer-Satis</h5>
-
-<p>The solid solution is <a href="https://packagist.org/packages/composer/satis">Satis</a>, a related-project to the main Composer. This allows you to download a local version of potentially all the dependencies in your composer.json file(s). You also have the option to even have Satis automatically resolve and add all of the sub-dependencies for your projects as well. It&rsquo;s packages all the way down&hellip;.</p>
-
-<p>If you have local, private Github repository (and not just a private repo &ndash; an OAuth key can fetch that), or you want to be able to lock down the network to restrict which packages are allowed to be used (or equally, the machines where the packages would be installed are not able to access the &lsquo;outside world&rsquo;), then Satis will be your best, or maybe even only option.</p>
-
-<p>Setting up Satis and using it, is a bigger event though, so for now I&rsquo;ll just leave you with a few links, and come back to this another time&hellip;.</p>
+<p>The classes (and tests I wrote for completeness) were actually pulled out of a private project - something I hope to be able to continue to do more of. Even though its so trivial, it is still a useful little library because I&#8217;ve also taken the opportunity to to try out a few new things with some public services.</p>
 
 <ul>
-<li><a href="http://getcomposer.org/doc/articles/handling-private-packages-with-satis.md">http://getcomposer.org/doc/articles/handling-private-packages-with-satis.md</a></li>
-<li><a href="https://packagist.org/packages/composer/satis">https://packagist.org/packages/composer/satis</a></li>
-<li><a href="https://packagist.org/search/?q=satis">https://packagist.org/search/?q=satis</a></li>
-<li><a href="https://github.com/yohang/satis-admin">https://github.com/yohang/satis-admin</a></li>
+<li><a href="https://packagist.org/packages/alister/faker-extensions">Packagist</a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/v/stable.svg" alt="Latest Stable Version" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/downloads.svg" alt="Total Downloads" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/v/unstable.svg" alt="Latest Unstable Version" /></a> <a href="https://packagist.org/packages/alister/faker-extensions"><img src="https://poser.pugx.org/alister/faker-extensions/license.svg" alt="License" /></a></li>
+<li><a href="https://travis-ci.org/alister/faker-extensions">Travis-CI</a> <a href="https://travis-ci.org/alister/faker-extensions"><img src="https://travis-ci.org/alister/faker-extensions.svg?branch=master" alt="Build Status" /></a></li>
+<li><a href="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d">Sensio Insight</a> <a href="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d"><img src="https://insight.sensiolabs.com/projects/7ab3ad50-7e5c-48b7-8c96-7fd21234769d/mini.png" alt="SensioLabsInsight" /></a></li>
+<li><a href="https://scrutinizer-ci.com/g/alister/faker-extensions/?branch=master">Scrutinizer-ci</a> <a href="https://scrutinizer-ci.com/g/alister/faker-extensions/?branch=master"><img src="https://scrutinizer-ci.com/g/alister/faker-extensions/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality" /></a></li>
+<li><a href="https://www.versioneye.com/">Versioneye</a>  <a href="https://www.versioneye.com/user/projects/53c05854638521361000009b"><img src="https://www.versioneye.com/user/projects/53c05854638521361000009b/badge.svg" alt="Dependency Status" /></a></li>
 </ul>
 
 
-<p>Alister</p>
-
-<hr />
-
-<p>My latest project has just been announced &ndash; <a href="http://contractavailability.com/">contractavailability</a>. It does pretty much what it says on the proverbial tin, but take a look at <a href="http://beta.contractavailability.com/u/alister">my own profile</a> there for a little more info.  Sign up to the maining list, and I&rsquo;ll keep you up to date as it comes along.</p>
+<p>Packagist badges are available from <a href="https://poser.pugx.org/">poser.pugx.org</a></p>
 </div>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/14/contractor-survey/">Contractor Survey</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-14T16:04:00+01:00" pubdate data-updated="true">Aug 14<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&rsquo;m in the planning stages of a new website &ndash; a service for contractors and those that want to find us. While finding the recruiters is easy enough (they just keep calling me), I&rsquo;m also interested in finding out what are some of the challenges that other contractors find with getting new jobs &ndash; beyond my own itch.</p>
-
-<p>If you are a Contractor &ndash; in IT &amp; web development, or otherwise, I would very much appreciate finding out how you go about getting new contracts, and when I get a useful number of replies, I&rsquo;ll post a summary of the results here.</p>
-
-<iframe src="https://docs.google.com/forms/d/1NxmYEx8gM8Ui7fZhXja9gnUqDy_5QTAIV4OfW0dqW9E/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading&#8230;</iframe>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/03/your-own-jenkins-for-php-with-composer/">Your Own &#8216;Jenkins&#8217; for PHP With Composer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-03T21:30:00+01:00" pubdate data-updated="true">Jun 3<span>rd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&rsquo;m a big fan of CI &ndash; testing, code-coverage, mess-detection and coding standards. I like to automate as much as I can as well, becuase a) it&rsquo;s really neat to see tests and code-coverage output going green, and b) I think it genuinely leads to better software.</p>
-
-<p>Setting up a full Jenkins system is a bit overkill for just my home projects though, and I&rsquo;d also like to see how I&rsquo;m doing between git-pushes to the main repository at work as well. So, I&rsquo;ve put together a system, bult on top of <a href="http://getcomposer.org/">Composer</a> that lets me do just that.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/06/03/your-own-jenkins-for-php-with-composer/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/01/some-people-are-trying-to-get-it/">Some People Are Trying to Get It</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-01T15:30:00+01:00" pubdate data-updated="true">Jun 1<span>st</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Some contracts are better than others, not just in location, and pay, but also the intellectual conditions &ndash; how they work and what they ar doing to write better software. Much of it is having the right tools available, easy development environments that don&rsquo;t get in the way, how easily (and fast) the code can be deployed, and what happens to it when you&rsquo;ve committed the code into version control.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/06/01/some-people-are-trying-to-get-it/">Read on &rarr;</a>
-    </footer>
   
 
 
@@ -358,9 +201,9 @@ Enter host password for user 'alister': __secret-password__
 
 <p>Discuss at <a href="http://news.ycombinator.com/item?id=5238705">Hacker News</a></p>
 
-<p>It&rsquo;s never good when someone feels they need to quit a job (or contract) rather than be able to continue, but sometimes, if the environment that they are working is so just so toxic and/or painful to work within, then it can be the best thing for all parties.</p>
+<p>It&#8217;s never good when someone feels they need to quit a job (or contract) rather than be able to continue, but sometimes, if the environment that they are working is so just so toxic and/or painful to work within, then it can be the best thing for all parties.</p>
 
-<p>That doesn&rsquo;t mean that I particularly keen to admit that I&rsquo;ve done it twice in the last five months. It&rsquo;s useful to tell you the why, of what happened though. </div>
+<p>That doesn&#8217;t mean that I particularly keen to admit that I&#8217;ve done it twice in the last five months. It&#8217;s useful to tell you the why, of what happened though. </div>
   
   
     <footer>
@@ -399,9 +242,9 @@ Enter host password for user 'alister': __secret-password__
   </header>
 
 
-  <div class="entry-content"><p>I&rsquo;ve been using TinyDNS, and the associated systems, like DNScache and DaemonTools since 2003, when I was first tasked with setting up a local DNS resolver, and a DNS server for a web-development company I was working at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a>. We had dozens of domain names, and organising the changes &ndash; as well as paying per domain name, was getting to be, well, annoying, as well as potentially expensive.</p>
+  <div class="entry-content"><p>I&#8217;ve been using TinyDNS, and the associated systems, like DNScache and DaemonTools since 2003, when I was first tasked with setting up a local DNS resolver, and a DNS server for a web-development company I was working at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a>. We had dozens of domain names, and organising the changes - as well as paying per domain name, was getting to be, well, annoying, as well as potentially expensive.</p>
 
-<p>So, I was asked to setup our own name servers&hellip;.</div>
+<p>So, I was asked to setup our own name servers&#8230;.</div>
   
   
     <footer>
@@ -484,9 +327,9 @@ Enter host password for user 'alister': __secret-password__
   <div class="entry-content"><p><a href="http://www.thinkgeek.com/tshirts-apparel/unisex/frustrations/374d/"><img src="http://www.phpscaling.com/wp-content/blogs.dir/6/files/2011/12/lg-go-away-tshirt.jpg" alt="" align="right" /></a>
 Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-at-meetups/">phpscaling.com</a>.</p>
 
-<p>I was out last night at the <a href="http://lanyrd.com/2011/the-big-xmas-bash/">The Big Xmas Bash</a>, near Silicon Roundabout. It was a fun night out meeting various people, tech, business and recruiters. <strong>Oh, the shame</strong> though &ndash; I was wearing the same T-shirt as someone else &ndash; and, yes, I have indeed replaced people with small shell scripts.</p>
+<p>I was out last night at the <a href="http://lanyrd.com/2011/the-big-xmas-bash/">The Big Xmas Bash</a>, near Silicon Roundabout. It was a fun night out meeting various people, tech, business and recruiters. <strong>Oh, the shame</strong> though - I was wearing the same T-shirt as someone else - and, yes, I have indeed replaced people with small shell scripts.</p>
 
-<p>Now, to the main part of what this post is about &ndash; the <strong>rant</strong>.</p>
+<p>Now, to the main part of what this post is about - the <strong>rant</strong>.</p>
 
 </div>
   
@@ -527,7 +370,7 @@ Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-
   </header>
 
 
-  <div class="entry-content"><p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I&rsquo;ve had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> &ndash; which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record &ndash; really easy if you have any kind of database or automation.</p>
+  <div class="entry-content"><p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I&#8217;ve had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> - which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record - really easy if you have any kind of database or automation.</p>
 
 </div>
   
@@ -568,13 +411,13 @@ Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-
   </header>
 
 
-  <div class="entry-content"><p>Welcome. I&rsquo;ve taken some time over the holidays to do a little re-organisation of my online presence, and I&rsquo;d like to tell you what I did, and how.</p>
+  <div class="entry-content"><p>Welcome. I&#8217;ve taken some time over the holidays to do a little re-organisation of my online presence, and I&#8217;d like to tell you what I did, and how.</p>
 
-<p>First up, is this site. I&rsquo;ve been considering what to put onto my Github pages for a while, and I think the most obvious thing are links to my recent work. As it is build on <a href="http://octopress.org/">Octopress/Jekyll</a>,  it is also well supported by Github, and allows me to add static content pages into the site as well, so I&rsquo;ve moved my online presentations here, from <a href="http://abulman.co.uk">http://abulman.co.uk</a></p>
+<p>First up, is this site. I&#8217;ve been considering what to put onto my Github pages for a while, and I think the most obvious thing are links to my recent work. As it is build on <a href="http://octopress.org/">Octopress/Jekyll</a>,  it is also well supported by Github, and allows me to add static content pages into the site as well, so I&#8217;ve moved my online presentations here, from <a href="http://abulman.co.uk">http://abulman.co.uk</a></p>
 
 <h3>My presentations</h3>
 
-<p>I&rsquo;ve done a couple now, both on Queueing systems, and particularly on BeanstalkD, which is a very excellent system for such job-queues.</p>
+<p>I&#8217;ve done a couple now, both on Queueing systems, and particularly on BeanstalkD, which is a very excellent system for such job-queues.</p>
 
 <ul>
 <li><a href="/presentations/Beanstalkd/">Beanstalkd</a> PHP London, May 6th 2010</li>
@@ -618,23 +461,23 @@ Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/10/17/avoiding-composer-being-rate-limited-by-github/">Avoiding Composer being Rate-limited by Github</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/14/contractor-survey/">Contractor Survey</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/03/your-own-jenkins-for-php-with-composer/">Your own &#8216;Jenkins&#8217; for PHP with Composer</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/01/some-people-are-trying-to-get-it/">Some people are trying to get it</a>
+        <a href="/blog/2014/07/12/Contributing-to-open-source-can-be-easy/">Contributing to open source can be easy</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service/">Not having your developers quit on you - as a service</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/why-i-like-tinydns/">Why I like djbdns & tinydns</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/a-mysql-day-one-day-freelancing/">a MySQL optimisation Story</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/01/repost-booze-at-meetups/">Booze at tech meetups</a>
       </li>
     
   </ul>
@@ -712,7 +555,7 @@ Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Alister Bulman -
+  Copyright &copy; 2014 - Alister Bulman -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

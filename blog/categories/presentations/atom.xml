@@ -4,7 +4,7 @@
   <title><![CDATA[Category: presentations | Professional Blog]]></title>
   <link href="http://alister.github.com/blog/categories/presentations/atom.xml" rel="self"/>
   <link href="http://alister.github.com/"/>
-  <updated>2013-10-18T12:44:16+01:00</updated>
+  <updated>2014-07-12T18:58:41+01:00</updated>
   <id>http://alister.github.com/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
@@ -18,13 +18,13 @@
     <link href="http://alister.github.com/blog/2012/12/31/new-professional-blog/"/>
     <updated>2012-12-31T11:22:00+00:00</updated>
     <id>http://alister.github.com/blog/2012/12/31/new-professional-blog</id>
-    <content type="html"><![CDATA[<p>Welcome. I&rsquo;ve taken some time over the holidays to do a little re-organisation of my online presence, and I&rsquo;d like to tell you what I did, and how.</p>
+    <content type="html"><![CDATA[<p>Welcome. I've taken some time over the holidays to do a little re-organisation of my online presence, and I'd like to tell you what I did, and how.</p>
 
-<p>First up, is this site. I&rsquo;ve been considering what to put onto my Github pages for a while, and I think the most obvious thing are links to my recent work. As it is build on <a href="http://octopress.org/">Octopress/Jekyll</a>,  it is also well supported by Github, and allows me to add static content pages into the site as well, so I&rsquo;ve moved my online presentations here, from <a href="http://abulman.co.uk">http://abulman.co.uk</a></p>
+<p>First up, is this site. I've been considering what to put onto my Github pages for a while, and I think the most obvious thing are links to my recent work. As it is build on <a href="http://octopress.org/">Octopress/Jekyll</a>,  it is also well supported by Github, and allows me to add static content pages into the site as well, so I've moved my online presentations here, from <a href="http://abulman.co.uk">http://abulman.co.uk</a></p>
 
 <h3>My presentations</h3>
 
-<p>I&rsquo;ve done a couple now, both on Queueing systems, and particularly on BeanstalkD, which is a very excellent system for such job-queues.</p>
+<p>I've done a couple now, both on Queueing systems, and particularly on BeanstalkD, which is a very excellent system for such job-queues.</p>
 
 <ul>
 <li><a href="/presentations/Beanstalkd/">Beanstalkd</a> PHP London, May 6th 2010</li>
