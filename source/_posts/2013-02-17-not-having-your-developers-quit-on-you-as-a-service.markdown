@@ -4,7 +4,7 @@ title: "Not having your developers quit on you - as a service"
 date: 2013-02-17 17:30
 comments: true
 categories: employment contract anti-pattern
-published: true
+published: false
 ---
 
 <blockquote class="twitter-tweet" align="right"><p>Developers! Trying to work for a company with crappy s/w practices sucks. Don't succumb to Stockholm Syndrome. Do better</p>&mdash; Alister Bulman (@alister_b) <a href="https://twitter.com/alister_b/status/302046661528649728">February 14, 2013</a></blockquote><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -18,7 +18,7 @@ The name of the company itself isn't important, though they do deal in the enter
 
 Rewind to mid-January. I interview for a full-time tech lead role at the company. It's clear at the interview that they need a good lead developer to help the team modernise their practices. At the end of the interview I'm asked if I would be willing to work as a home-base contractor. OK - it's more money and less hassle than a 40 minute commute on the tube in the morning.
 
-Four days later, and thats including the weekend, I get a phone call from the recruiter that put me up for it. They'd like to have me as a home-based contractor. A speedy response is a good sign - and certainly better than the week or I'd been waiting after 2nd or 3rd interviews with other positions. Just becuase a company if fast for the first part, it doesn't mean they are any good in anything else. After the paperwork had been completed, it was a full week before I was invited in for a first day at the office to meet the rest of the development lead team. 
+Four days later, and thats including the weekend, I get a phone call from the recruiter that put me up for it. They'd like to have me as a home-based contractor. A speedy response is a good sign - and certainly better than the week or I'd been waiting after 2nd or 3rd interviews with other positions. Just becuase a company if fast for the first part, it doesn't mean they are any good in anything else. After the paperwork had been completed, it was a full week before I was invited in for a first day at the office to meet the rest of the development lead team.
 
 It wasn't going well. After a week's wait, I'd expected a laptop to be waiting for me, setup with the VPN access, and maybe even a development environment. This was an 'enterprise' outfit, complete with infrastructure department and full-time sysadmins. Even the live server configuration was at best, basic. There was no automation for the servers configurations, and it appeared that the dozens, even hundreds of sites had all been recently migrated manually from some old servers. A nearly perfect opportunity had been completely ignored to improve the deployment of the live websites, and to automate the servers as well. Instead, the machine configuration was written out, step by step, on the internal wiki.
 
@@ -44,7 +44,7 @@ The only thing left to me was the dev-host machine. A central server that I coul
 
 So, to be able to develop more than one, you had to change the way the site worked, in some quite important ways, and then you had to make sure that you worked on it very carefully, because if you got it wrong, there was no way to see there was an error until after the site had gone live - becuase sometimes, the site can't be tested properly, becuase any test would be in the same sub-directory.  No wonder they liked to deploy code (manually) out of business hours. There was no way to tell how badly something could have been broken without anyone being able to know.
 
-Now, having a single main dev-server for an office (even maybe for remote developers), isn't an intrinscally a bad idea, although lss so when it's still running Ubuntu 8.10 and has been online without a reboot since December 2010 (yes, over 800 days uptime!). I've set a few up before myself - at least, before decent laptops that can easily run VirtualBox appeared. I probably setup my first - for other people to use beyond myself - literally ten years ago, when I started as sysadmin at <http://www.datasouth.co.uk/> (and they are still going!). 
+Now, having a single main dev-server for an office (even maybe for remote developers), isn't an intrinscally a bad idea, although lss so when it's still running Ubuntu 8.10 and has been online without a reboot since December 2010 (yes, over 800 days uptime!). I've set a few up before myself - at least, before decent laptops that can easily run VirtualBox appeared. I probably setup my first - for other people to use beyond myself - literally ten years ago, when I started as sysadmin at <http://www.datasouth.co.uk/> (and they are still going!).
 
 #### 7. He who dies with the most uptime, wins.
 
@@ -90,7 +90,7 @@ If your development environment isn't working, and doesn't allow your developers
 
 ## Employees and Contractors
 
-Your skills are valuable. Don't allow them, or your time, to be wasted in situations that don't make it enjoyable and easy to concentrate on interesting problems, or at least valuable solutions. If you have to fight in order to write good code, know this: there are places where your skills are valued, and will be nurtured. Don't be a victim; You can do better - by not allowing yourself to be dragged down into the mud of bad development. 
+Your skills are valuable. Don't allow them, or your time, to be wasted in situations that don't make it enjoyable and easy to concentrate on interesting problems, or at least valuable solutions. If you have to fight in order to write good code, know this: there are places where your skills are valued, and will be nurtured. Don't be a victim; You can do better - by not allowing yourself to be dragged down into the mud of bad development.
 
 ----
 Discuss at [Hacker News](http://news.ycombinator.com/item?id=5238705)
