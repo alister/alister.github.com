@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: HWIOAuthBundle | Professional Blog]]></title>
-  <link href="http://alister.github.com/blog/categories/hwioauthbundle/atom.xml" rel="self"/>
-  <link href="http://alister.github.com/"/>
-  <updated>2014-07-12T18:58:41+01:00</updated>
-  <id>http://alister.github.com/</id>
+  <link href="http://alister.github.io/blog/categories/hwioauthbundle/atom.xml" rel="self"/>
+  <link href="http://alister.github.io/"/>
+  <updated>2016-03-16T13:54:56+00:00</updated>
+  <id>http://alister.github.io/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
     <email><![CDATA[abulman+abgh@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Contributing to open source can be easy]]></title>
-    <link href="http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy/"/>
+    <link href="http://alister.github.io/blog/2014/07/12/Contributing-to-open-source-can-be-easy/"/>
     <updated>2014-07-12T17:30:00+01:00</updated>
-    <id>http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy</id>
+    <id>http://alister.github.io/blog/2014/07/12/Contributing-to-open-source-can-be-easy</id>
     <content type="html"><![CDATA[<p>Although I'm busy day to day at my current contract <sup>*</sup>, that isn't to say that my passions outside the office have come to a complete stop. I'm still going to regular meetups (like the <a href="http://www.meetup.com/phplondon/">PHP London Meetup</a> and <a href="http://www.meetup.com/Docker-London/events/192394082/">Docker London</a>), and I'm also planning to go to <a href="http://london2014.live.symfony.com/">Symfony Live London 2014</a>. I've also been reading about, and trying some software, and making the odd fix and new code for myself.</p>
 
 <p>I thought that it would be good to show some of the work I've been doing out of hours - some of it trivially easy - that I've done to help improve a few projects, and also some slightly larger things of my own.</p>
@@ -30,7 +30,7 @@
 
 <p><a href="https://github.com/forward/capistrano-deploy-tagger">capistrano-deploy-tagger</a> is an internal project, open-sourced by the <a href="http://forwardtechnology.co.uk/">Forward 3D</a>. I've been to their offices several times for Devops and GoLang meet-ups, among others.</p>
 
-<p>It's easy to add this Capistrano plugin to help tag things when I deployed them - to know exactly when things happened. Trouble was, it didn't work for me. I narrowed things down to the response from Git having a newline in front of it, so I <a href="https://github.com/forward/capistrano-deploy-tagger/commit/7c30ea8be8004c6bfee0d1c7bb27b1383043f4bd">added a 'strip!' to the appropriate variablee</a>, which removed the errant white-space. There's probably a better way to do it, with some more behind-the-scenes git command, but this works for now, and solved my problem to boot.</p>
+<p>It's easy to add this Capistrano plugin to help tag things when I deployed them - to know exactly when things happened. Trouble was, it didn't work for me. I narrowed things down to the response from Git having a newline in front of it, so I <a href="https://github.com/forward/capistrano-deploy-tagger/commit/7c30ea8be8004c6bfee0d1c7bb27b1383043f4bd">added a 'strip!' to the appropriate variable</a>, which removed the errant white-space. There's probably a better way to do it, with some more behind-the-scenes git command, but this works for now, and solved my problem to boot.</p>
 
 <p>I could have just left my fix in my local copy, and it would have worked quite nicely (at least till I went to upgrade the gem), but submitting a merge-request and having <a href="https://github.com/Rylon">Ryan Conway</a> pull it in, helps everybody - and now I get to automatically tag my deployments.</p>
 

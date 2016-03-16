@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Professional Blog]]></title>
-  <link href="http://alister.github.com/atom.xml" rel="self"/>
-  <link href="http://alister.github.com/"/>
-  <updated>2014-07-12T18:58:41+01:00</updated>
-  <id>http://alister.github.com/</id>
+  <link href="http://alister.github.io/atom.xml" rel="self"/>
+  <link href="http://alister.github.io/"/>
+  <updated>2016-03-16T13:54:56+00:00</updated>
+  <id>http://alister.github.io/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
     <email><![CDATA[abulman+abgh@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Contributing to open source can be easy]]></title>
-    <link href="http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy/"/>
+    <link href="http://alister.github.io/blog/2014/07/12/Contributing-to-open-source-can-be-easy/"/>
     <updated>2014-07-12T17:30:00+01:00</updated>
-    <id>http://alister.github.com/blog/2014/07/12/Contributing-to-open-source-can-be-easy</id>
+    <id>http://alister.github.io/blog/2014/07/12/Contributing-to-open-source-can-be-easy</id>
     <content type="html"><![CDATA[<p>Although I&#8217;m busy day to day at my current contract <sup>*</sup>, that isn&#8217;t to say that my passions outside the office have come to a complete stop. I&#8217;m still going to regular meetups (like the <a href="http://www.meetup.com/phplondon/">PHP London Meetup</a> and <a href="http://www.meetup.com/Docker-London/events/192394082/">Docker London</a>), and I&#8217;m also planning to go to <a href="http://london2014.live.symfony.com/">Symfony Live London 2014</a>. I&#8217;ve also been reading about, and trying some software, and making the odd fix and new code for myself.</p>
 
 <p>I thought that it would be good to show some of the work I&#8217;ve been doing out of hours - some of it trivially easy - that I&#8217;ve done to help improve a few projects, and also some slightly larger things of my own.</p>
@@ -30,7 +30,7 @@
 
 <p><a href="https://github.com/forward/capistrano-deploy-tagger">capistrano-deploy-tagger</a> is an internal project, open-sourced by the <a href="http://forwardtechnology.co.uk/">Forward 3D</a>. I&#8217;ve been to their offices several times for Devops and GoLang meet-ups, among others.</p>
 
-<p>It&#8217;s easy to add this Capistrano plugin to help tag things when I deployed them - to know exactly when things happened. Trouble was, it didn&#8217;t work for me. I narrowed things down to the response from Git having a newline in front of it, so I <a href="https://github.com/forward/capistrano-deploy-tagger/commit/7c30ea8be8004c6bfee0d1c7bb27b1383043f4bd">added a &#8216;strip!&#8217; to the appropriate variablee</a>, which removed the errant white-space. There&#8217;s probably a better way to do it, with some more behind-the-scenes git command, but this works for now, and solved my problem to boot.</p>
+<p>It&#8217;s easy to add this Capistrano plugin to help tag things when I deployed them - to know exactly when things happened. Trouble was, it didn&#8217;t work for me. I narrowed things down to the response from Git having a newline in front of it, so I <a href="https://github.com/forward/capistrano-deploy-tagger/commit/7c30ea8be8004c6bfee0d1c7bb27b1383043f4bd">added a &#8216;strip!&#8217; to the appropriate variable</a>, which removed the errant white-space. There&#8217;s probably a better way to do it, with some more behind-the-scenes git command, but this works for now, and solved my problem to boot.</p>
 
 <p>I could have just left my fix in my local copy, and it would have worked quite nicely (at least till I went to upgrade the gem), but submitting a merge-request and having <a href="https://github.com/Rylon">Ryan Conway</a> pull it in, helps everybody - and now I get to automatically tag my deployments.</p>
 
@@ -74,120 +74,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Not having your developers quit on you - as a service]]></title>
-    <link href="http://alister.github.com/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service/"/>
-    <updated>2013-02-17T17:30:00+00:00</updated>
-    <id>http://alister.github.com/blog/2013/02/17/not-having-your-developers-quit-on-you-as-a-service</id>
-    <content type="html"><![CDATA[<blockquote class="twitter-tweet" align="right"><p>Developers! Trying to work for a company with crappy s/w practices sucks. Don&#8217;t succumb to Stockholm Syndrome. Do better</p>&mdash; Alister Bulman (@alister_b) <a href="https://twitter.com/alister_b/status/302046661528649728">February 14, 2013</a></blockquote>
-
-
-<script async src="http://alister.github.com//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>Discuss at <a href="http://news.ycombinator.com/item?id=5238705">Hacker News</a></p>
-
-<p>It&#8217;s never good when someone feels they need to quit a job (or contract) rather than be able to continue, but sometimes, if the environment that they are working is so just so toxic and/or painful to work within, then it can be the best thing for all parties.</p>
-
-<p>That doesn&#8217;t mean that I particularly keen to admit that I&#8217;ve done it twice in the last five months. It&#8217;s useful to tell you the why, of what happened though. <!-- more --></p>
-
-<p>The name of the company itself isn&#8217;t important, though they do deal in the enterprise and government space. The sites that are being written aren&#8217;t themselves particularly big or complicated, nor are they high traffic - though I very much doubt they are cheap - selling to large organisations has its own specialised costs in itself. Some small parts of them are more complicated than others though - like the internal intranet that deals with holidays being reseerved and taken by the staff (which number several hundreds) - this is part that I spent a little time in myself, but I&#8217;ll get back to that.</p>
-
-<p>Rewind to mid-January. I interview for a full-time tech lead role at the company. It&#8217;s clear at the interview that they need a good lead developer to help the team modernise their practices. At the end of the interview I&#8217;m asked if I would be willing to work as a home-base contractor. OK - it&#8217;s more money and less hassle than a 40 minute commute on the tube in the morning.</p>
-
-<p>Four days later, and thats including the weekend, I get a phone call from the recruiter that put me up for it. They&#8217;d like to have me as a home-based contractor. A speedy response is a good sign - and certainly better than the week or I&#8217;d been waiting after 2nd or 3rd interviews with other positions. Just becuase a company if fast for the first part, it doesn&#8217;t mean they are any good in anything else. After the paperwork had been completed, it was a full week before I was invited in for a first day at the office to meet the rest of the development lead team.</p>
-
-<p>It wasn&#8217;t going well. After a week&#8217;s wait, I&#8217;d expected a laptop to be waiting for me, setup with the VPN access, and maybe even a development environment. This was an &#8216;enterprise&#8217; outfit, complete with infrastructure department and full-time sysadmins. Even the live server configuration was at best, basic. There was no automation for the servers configurations, and it appeared that the dozens, even hundreds of sites had all been recently migrated manually from some old servers. A nearly perfect opportunity had been completely ignored to improve the deployment of the live websites, and to automate the servers as well. Instead, the machine configuration was written out, step by step, on the internal wiki.</p>
-
-<p>That lack of system, and site, configuration was one of the things that surprised me the most. Deploying a website - to staging, or production - is the sort of thing that will happen regularly, maybe a couple of times a day, even if changes to any one site is infrequent. None of that happened though.</p>
-
-<p>I left the office before lunch, since the laptop I would need wasn&#8217;t ready.  it would be another 7 full days before I could pick it up.</p>
-
-<p>Lets see the take-aways so far.</p>
-
-<h4>1. If you don&#8217;t automate the server configurations, you will still have things to do next year. They are your pets, love them all individually</h4>
-
-<h4>2. Sysadmins are paid to deploy code. Let them do it, according to the listed steps</h4>
-
-<h4>3. Developers don&#8217;t cost much money. They can wait a week before they get a machine to use. (Contractors don&#8217;t get paid till you are ready to start)</h4>
-
-<p>I spent the first two days with the laptop trying to get a reasonable development environment going. In the last two years (or more!) the classic setup has been a virtual machine running locally, often with a configuration management tool like Puppet to easily bring up the relevant software (LAMP) stack. Without automation in place, that setup simply doesn&#8217;t exist. The version of software you develop on might, or might not be in any useful way be compatible with the versions on the live site. By the time I had brought up a 32bit Ubuntu 12.10 VM (I&#8217;d first tried with a 64bit VM, but the laptop was locked down to not enable the virtualisation support in the CPU/BIOS) and tried to fetch the source code from the source-code (subversion) repository.</p>
-
-<p>It was half-way through the second day at work (at home) that I was given SVN repo access to be able to download the code to the websites I&#8217;d be working on. I actually got the site running (though, as a CMS it was largly useless without the uploaded assets or database). It wasn&#8217;t helped by the fact that Silverstripe (the CMS they were using) had had <a href="https://github.com/silverstripe/sapphire/commit/9ffa903d50692dad4f3acb9908aa6769d17ebcb8#core/ManifestBuilder.php">a bug in it for a couple of years</a> which PHP5.4 had immediately complained about. So I gave up trying to do it the right way.</p>
-
-<h4>4. Every developer has unique needs. Wait until they ask for something before giving it to them - like access to the source code</h4>
-
-<h4>5. Every developer understands how to install your site, no matter how complex. No need for documentation</h4>
-
-<h4>6. Running PHP with <code>error_reporting(0);</code>, means there are no more problems in the code!</h4>
-
-<p>The only thing left to me was the dev-host machine. A central server that I could connect to over Samba, that ran a database, with many copies of the data for testing and a space to be able to check out the site you were working on. Just the one site, unless you figured the magic incantations of the various configuration files (a few of which weren&#8217;t even in version control!) to be able to put the entire site in as a sub-directory of the development environment.</p>
-
-<p>So, to be able to develop more than one, you had to change the way the site worked, in some quite important ways, and then you had to make sure that you worked on it very carefully, because if you got it wrong, there was no way to see there was an error until after the site had gone live - becuase sometimes, the site can&#8217;t be tested properly, becuase any test would be in the same sub-directory.  No wonder they liked to deploy code (manually) out of business hours. There was no way to tell how badly something could have been broken without anyone being able to know.</p>
-
-<p>Now, having a single main dev-server for an office (even maybe for remote developers), isn&#8217;t an intrinscally a bad idea, although lss so when it&#8217;s still running Ubuntu 8.10 and has been online without a reboot since December 2010 (yes, over 800 days uptime!). I&#8217;ve set a few up before myself - at least, before decent laptops that can easily run VirtualBox appeared. I probably setup my first - for other people to use beyond myself - literally ten years ago, when I started as sysadmin at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a> (and they are still going!).</p>
-
-<h4>7. He who dies with the most uptime, wins.</h4>
-
-<p>The only difference was, I did it right, even back then at Datasouth. I had set it up with dynamic virtual hosts, you you could create a sub-directory, with say a htdocs/ directory, and that automatically enabled a new site. For example, given a file within a specific directory:</p>
-
-<pre><code>/home/fred/sites/testing123/htdocs/index.php
-</code></pre>
-
-<p>it would instantly enable a live webpage at a URL such as:</p>
-
-<pre><code>http://testing123.fred.example.com/index.php
-</code></pre>
-
-<p>Create a new directory, alongside &#8216;testing123&#8217;, and you get a different URL - for a completely different website to test, and checkout of the code repository as a whole. Now, I&#8217;m not saying it wasn&#8217;t without some issues, back then, the Apache (v1.3) module that enabled such a scheme didn&#8217;t set everything you would have entirely expected, so the site had to work out a couple of things for itself (like the value of $_SERVER[&#8216;DOCUMENT_ROOT&#8217;]) - but this was easy common code that got just included in every PHP page automatically.</p>
-
-<p>The <em>other</em> way - that my last contract used - was different configurations, unique to every site (and undocumented, while it was at it) to enable the site-as-subdirectories. This did not enamour itself to me. There are so many potential problems with it.</p>
-
-<h4>8. Making it easy to create and test sites just makes programmers lazy. They should do it right first time, no matter how complex.</h4>
-
-<p>Did I tell you about the website databases yet?  The live sites mostly ran a CMS, Silverstripe, or maybe some Drupal sites, backed by a MySQL database. So far, so standard. The database tables, were all MyIsam-type tables. Yep, the slow, crashy types that when the machine fell over (as all machines will inevitably do) would lock the tables and require a rebuild of potentially dozens, or hundreds of them before the site would come back up successfully.</p>
-
-<p>I first noticed this brilliant plan on the part of the original sysadmins and developers when I looked at the devhost database, with some 150 databases and countless tables in total. One copy of each database per site, for each developer.  The two sites I was working on had live DB&#8217;s approaching 1 gigabyte each, which made the (fully manual) syncing of the DB onto the development server &#8216;fun&#8217;. That wasn&#8217;t automated either, which was a shame, considering that Silverstripe tended to use a few of the tables just as audit logs. So, of the 1GB of DB table and indexes, about 750MB was just logs.  Which also helped to explain why the devhost&#8217;s disk was 98% full.</p>
-
-<h4>9. The best place for an automated log is a MyIsam table! Don&#8217;t forget to keep a dozen copies on dev as well.</h4>
-
-<p>Between Monday 11th and Thursday, 14th February, I&#8217;d solved a couple of trivial bugs, one a simple CSS placement that had forced a widget to a particular place on sccreen (in IE). it now flowed with the rest of the text, appearing after the article. To solve the other bug, I had listed four date periods (to make it a fraction moreinteresting, not all four were simple 12 month durations, and the window would keep moving as time progressed). Both had been ticketed as solved and were all awaiting signoff.</p>
-
-<p>The date fix though, solved three slightly different issues/bugs at the same time. Before that could go live on the intranet it would require signoff from FIVE different people, and then be scheduled to be updated - out of business hours. That intranet was used by 200-300 people. Compare that with one of my favourite (and interesting) roles of the last 5 years - <a href="http://www.binweevils.com/">http://www.binweevils.com/</a>, where we reached as many as 10,000 concurrent players (not possible users, but people all playing the game at the same time). Clearly, updating the website when the player count was so high would have been reserved for critical situations, but with a couple of thousand players online when I would deploy some new, or updated code? That was almost a non-event, and likely a weekly one as well.</p>
-
-<p>So, Valentines Day, and seven days since I had started my latest contract, I woke up as usual, and sat down in front of my PC &amp; laptop to stare at it. For an hour and a half, I just could not bring myself to work in such a crap-pile.  And so, I quit.  I handed back my laptop the same day, and I feel so much better for it already.</p>
-
-<h4>10. Jobs are scarce in the current economy. developers will put up with all sorts of shit and just smile</h4>
-
-<ul>
-<li><a href="http://hackerjobs.co.uk/jobs">http://hackerjobs.co.uk/jobs</a></li>
-<li><a href="http://www.techcityjobs.co.uk/">http://www.techcityjobs.co.uk/</a></li>
-<li><a href="http://www.jobserve.com/gb/en/JobListing.aspx?shid=ECAB04F6C24FB8A469">http://www.jobserve.com/gb/en/JobListing.aspx?shid=ECAB04F6C24FB8A469</a></li>
-<li><a href="https://twitter.com/search?q=%23php%20job">https://twitter.com/search?q=%23php%20job</a></li>
-<li><a href="http://www.ukstartupjobs.com/">http://www.ukstartupjobs.com/</a></li>
-<li><a href="http://workinstartups.com/job-board/jobs/programmers/">http://workinstartups.com/job-board/jobs/programmers/</a></li>
-<li><a href="http://jobstractor.com/developers/PHP/#!/London">http://jobstractor.com/developers/PHP/#!/London</a></li>
-</ul>
-
-
-<h2>Employers</h2>
-
-<p>If your development environment isn&#8217;t working, and doesn&#8217;t allow your developers to easily write, test and deploy code, you have an immediate and critical problem. Don&#8217;t sit on your hands for months hoping it will somehow improve, while you are not doing anything to help it.</p>
-
-<h2>Employees and Contractors</h2>
-
-<p>Your skills are valuable. Don&#8217;t allow them, or your time, to be wasted in situations that don&#8217;t make it enjoyable and easy to concentrate on interesting problems, or at least valuable solutions. If you have to fight in order to write good code, know this: there are places where your skills are valued, and will be nurtured. Don&#8217;t be a victim; You can do better - by not allowing yourself to be dragged down into the mud of bad development.</p>
-
-<hr />
-
-<p>Discuss at <a href="http://news.ycombinator.com/item?id=5238705">Hacker News</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Why I like djbdns & tinydns]]></title>
-    <link href="http://alister.github.com/blog/2013/01/07/why-i-like-tinydns/"/>
+    <link href="http://alister.github.io/blog/2013/01/07/why-i-like-tinydns/"/>
     <updated>2013-01-07T12:21:00+00:00</updated>
-    <id>http://alister.github.com/blog/2013/01/07/why-i-like-tinydns</id>
+    <id>http://alister.github.io/blog/2013/01/07/why-i-like-tinydns</id>
     <content type="html"><![CDATA[<p>I&#8217;ve been using TinyDNS, and the associated systems, like DNScache and DaemonTools since 2003, when I was first tasked with setting up a local DNS resolver, and a DNS server for a web-development company I was working at <a href="http://www.datasouth.co.uk/">http://www.datasouth.co.uk/</a>. We had dozens of domain names, and organising the changes - as well as paying per domain name, was getting to be, well, annoying, as well as potentially expensive.</p>
 
 <p>So, I was asked to setup our own name servers&#8230;.<!-- more --></p>
@@ -212,9 +102,9 @@
   
   <entry>
     <title type="html"><![CDATA[a MySQL optimisation Story]]></title>
-    <link href="http://alister.github.com/blog/2013/01/01/a-mysql-day-one-day-freelancing/"/>
+    <link href="http://alister.github.io/blog/2013/01/01/a-mysql-day-one-day-freelancing/"/>
     <updated>2013-01-01T17:04:00+00:00</updated>
-    <id>http://alister.github.com/blog/2013/01/01/a-mysql-day-one-day-freelancing</id>
+    <id>http://alister.github.io/blog/2013/01/01/a-mysql-day-one-day-freelancing</id>
     <content type="html"><![CDATA[<p>Here is an example of what a little expertise, judiciously applied can do to speed up larger systems. In this case, take a 30 minute run against a MySQL database down to 5 minutes, or less.</p>
 
 <!-- more -->
@@ -254,43 +144,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Booze at tech meetups]]></title>
-    <link href="http://alister.github.com/blog/2013/01/01/repost-booze-at-meetups/"/>
-    <updated>2013-01-01T10:45:00+00:00</updated>
-    <id>http://alister.github.com/blog/2013/01/01/repost-booze-at-meetups</id>
-    <content type="html"><![CDATA[<p><a href="http://www.thinkgeek.com/tshirts-apparel/unisex/frustrations/374d/"><img src="http://www.phpscaling.com/wp-content/blogs.dir/6/files/2011/12/lg-go-away-tshirt.jpg" alt="" align="right" /></a>
-Originally posted 2011-12-13 at <a href="http://phpscaling.com/2011/12/13/booze-at-meetups/">phpscaling.com</a>.</p>
-
-<p>I was out last night at the <a href="http://lanyrd.com/2011/the-big-xmas-bash/">The Big Xmas Bash</a>, near Silicon Roundabout. It was a fun night out meeting various people, tech, business and recruiters. <strong>Oh, the shame</strong> though - I was wearing the same T-shirt as someone else - and, yes, I have indeed replaced people with small shell scripts.</p>
-
-<p>Now, to the main part of what this post is about - the <strong>rant</strong>.</p>
-
-<!-- more -->
-
-
-<p>It&#8217;s not aimed at the particular event last night alone though. It&#8217;s alcohol at various tech-meetups in general. Look guys, you generally end up buying too much anyway, and all too often its also to the exclusion of those that may prefer to not get inebriated.</p>
-
-<p>As an example, The <a href="http://lanyrd.com/2011/hn-london-nov/">Hacker News meetups</a> will get dozens of pizzas (which are, admittedly all eaten - there are 150+ people attending usually), but also a couple of stacks worth of cans and bottles, each with 24 cans in each tray, several hundred each at least. It&#8217;s just as well they aren&#8217;t all drunk on the night - many of the event-goers would be unconscious by the end. At least they will also add a few trays of soft-drinks, Lemonade and Cola.</p>
-
-<p>If you want a couple of drinks to help lubricate the social aspect of an evening out, I&#8217;ve got no problem at all. I don&#8217;t though. I prefer to save my brain cells for doing interesting things, like oh, writing code?</p>
-
-<p>For other events, how about adding some more soft drinks to replace some of the alcohol? Last night, the choice was booze, or fizzy water; That was all.</p>
-
-<p>Thankfully, people don&#8217;t generally get blotto at the various meetups - at least that I&#8217;ve seen, but I expect there&#8217;s been one or two that have swerved their way home sometimes.</p>
-
-<p>For the Kernel&#8217;s take on a booze culture in Startup London, see <a href="http://www.kernelmag.com/scene/2792/why-is-east-london-so-goddamn-boozy/">http://www.kernelmag.com/scene/2792/why-is-east-london-so-goddamn-boozy/</a>.</p>
-
-<p><strong>Do you have a comment about alcohol being served at the various meetups?  Would you like more, less, or do you think that organisers and sponsors are doing it right?  I would love to start a conversation here about the good or bad of it.</strong></p>
-
-<p>Comment at <a href="http://phpscaling.com/2011/12/13/booze-at-meetups/">phpscaling.com</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[DNS and my refreshed CV site]]></title>
-    <link href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/"/>
+    <link href="http://alister.github.io/blog/2012/12/31/dns-and-my-refreshed-cv-site/"/>
     <updated>2012-12-31T12:07:00+00:00</updated>
-    <id>http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site</id>
+    <id>http://alister.github.io/blog/2012/12/31/dns-and-my-refreshed-cv-site</id>
     <content type="html"><![CDATA[<p>It has been in process for a little while, starting when I moved the bulk of my DNS hosting from <a href="http://www.bytemark.co.uk/">http://www.bytemark.co.uk/</a> (with whom I&#8217;ve had a small virtual machine since April 2004). One of the things I really like about Bytemark was the free DNS hosting they provided, particularly since they used <a href="http://tinydns.org/">TinyDNS</a> - which is worthy of its own post. To add a new domain name, create a small file with the relevant lines, with one per DNS record - really easy if you have any kind of database or automation.</p>
 
 <!-- more -->
@@ -363,9 +220,9 @@ google_app(_a, 'ghs.google.com', _longTTL)
   
   <entry>
     <title type="html"><![CDATA[New professional blog]]></title>
-    <link href="http://alister.github.com/blog/2012/12/31/new-professional-blog/"/>
+    <link href="http://alister.github.io/blog/2012/12/31/new-professional-blog/"/>
     <updated>2012-12-31T11:22:00+00:00</updated>
-    <id>http://alister.github.com/blog/2012/12/31/new-professional-blog</id>
+    <id>http://alister.github.io/blog/2012/12/31/new-professional-blog</id>
     <content type="html"><![CDATA[<p>Welcome. I&#8217;ve taken some time over the holidays to do a little re-organisation of my online presence, and I&#8217;d like to tell you what I did, and how.</p>
 
 <p>First up, is this site. I&#8217;ve been considering what to put onto my Github pages for a while, and I think the most obvious thing are links to my recent work. As it is build on <a href="http://octopress.org/">Octopress/Jekyll</a>,  it is also well supported by Github, and allows me to add static content pages into the site as well, so I&#8217;ve moved my online presentations here, from <a href="http://abulman.co.uk">http://abulman.co.uk</a></p>
@@ -375,12 +232,12 @@ google_app(_a, 'ghs.google.com', _longTTL)
 <p>I&#8217;ve done a couple now, both on Queueing systems, and particularly on BeanstalkD, which is a very excellent system for such job-queues.</p>
 
 <ul>
-<li><a href="http://alister.github.com/presentations/Beanstalkd/">Beanstalkd</a> PHP London, May 6th 2010</li>
-<li><a href="http://alister.github.com/presentations/QueueGoodBad/">Queuing, the good and bad</a> London Scalability Group, 16th July 2012</li>
+<li><a href="http://alister.github.io/presentations/Beanstalkd/">Beanstalkd</a> PHP London, May 6th 2010</li>
+<li><a href="http://alister.github.io/presentations/QueueGoodBad/">Queuing, the good and bad</a> London Scalability Group, 16th July 2012</li>
 </ul>
 
 
-<p>You should also check out my other post, which I also wrote today, <a href="http://alister.github.com/blog/2012/12/31/dns-and-my-refreshed-cv-site/">DNS and my refreshed CV site</a></p>
+<p>You should also check out my other post, which I also wrote today, <a href="http://alister.github.io/blog/2012/12/31/dns-and-my-refreshed-cv-site/">DNS and my refreshed CV site</a></p>
 
 <h3>My other professional links</h3>
 

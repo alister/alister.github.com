@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://alister.github.com/sitemap.xml 
+Sitemap: http://alister.github.io/sitemap.xml 
