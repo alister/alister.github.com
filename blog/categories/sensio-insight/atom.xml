@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Sensio-Insight | Professional Blog]]></title>
-  <link href="http://alister.github.io/blog/categories/sensio-insight/atom.xml" rel="self"/>
-  <link href="http://alister.github.io/"/>
-  <updated>2016-03-16T13:54:56+00:00</updated>
-  <id>http://alister.github.io/</id>
+  <link href="https://alister.github.io/blog/categories/sensio-insight/atom.xml" rel="self"/>
+  <link href="https://alister.github.io/"/>
+  <updated>2016-06-08T21:27:42+01:00</updated>
+  <id>https://alister.github.io/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
     <email><![CDATA[abulman+abgh@gmail.com]]></email>
@@ -15,14 +15,14 @@
   
   <entry>
     <title type="html"><![CDATA[Contributing to open source can be easy]]></title>
-    <link href="http://alister.github.io/blog/2014/07/12/Contributing-to-open-source-can-be-easy/"/>
+    <link href="https://alister.github.io/blog/2014/07/12/Contributing-to-open-source-can-be-easy/"/>
     <updated>2014-07-12T17:30:00+01:00</updated>
-    <id>http://alister.github.io/blog/2014/07/12/Contributing-to-open-source-can-be-easy</id>
+    <id>https://alister.github.io/blog/2014/07/12/Contributing-to-open-source-can-be-easy</id>
     <content type="html"><![CDATA[<p>Although I'm busy day to day at my current contract <sup>*</sup>, that isn't to say that my passions outside the office have come to a complete stop. I'm still going to regular meetups (like the <a href="http://www.meetup.com/phplondon/">PHP London Meetup</a> and <a href="http://www.meetup.com/Docker-London/events/192394082/">Docker London</a>), and I'm also planning to go to <a href="http://london2014.live.symfony.com/">Symfony Live London 2014</a>. I've also been reading about, and trying some software, and making the odd fix and new code for myself.</p>
 
 <p>I thought that it would be good to show some of the work I've been doing out of hours - some of it trivially easy - that I've done to help improve a few projects, and also some slightly larger things of my own.</p>
 
-<p>(<sup>*</sup> Developing systems for Her Majesty's Passport Office, in the Home Office - yes, we are hiring, especially good Symfony2 developers and PHP-based testers - <strong><a href="https://plus.google.com/u/0/+AlisterBulman/about">Contact me!</a></strong> if you are a PHP tester, or even better an experienced Symfony2 developer that likes testing with Behat and PHPUnit. <em>Recruiters, no thanks</em>)</p>
+<p>(<sup>*</sup> Developing systems for Her Majesty's Passport Office, in the Home Office)</p>
 
 <h2>Capistrano tagger - Quick fix to remove whitespace around sha1 hash</h2>
 
