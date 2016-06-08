@@ -10,7 +10,7 @@ Although I'm busy day to day at my current contract <sup>*</sup>, that isn't to 
 
 I thought that it would be good to show some of the work I've been doing out of hours - some of it trivially easy - that I've done to help improve a few projects, and also some slightly larger things of my own.
 
-(<sup>*</sup> Developing systems for Her Majesty's Passport Office, in the Home Office - yes, we are hiring, especially good Symfony2 developers and PHP-based testers - **[Contact me!](https://plus.google.com/u/0/+AlisterBulman/about)** if you are a PHP tester, or even better an experienced Symfony2 developer that likes testing with Behat and PHPUnit. <em>Recruiters, no thanks</em>)
+(<sup>*</sup> Developing systems for Her Majesty's Passport Office, in the Home Office)
 
 ## Capistrano tagger - Quick fix to remove whitespace around sha1 hash
 
