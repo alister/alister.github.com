@@ -4,7 +4,7 @@
   <title><![CDATA[Category: dns | Professional Blog]]></title>
   <link href="https://alister.github.io/blog/categories/dns/atom.xml" rel="self"/>
   <link href="https://alister.github.io/"/>
-  <updated>2016-06-08T21:41:58+01:00</updated>
+  <updated>2016-06-08T23:42:23+01:00</updated>
   <id>https://alister.github.io/</id>
   <author>
     <name><![CDATA[Alister Bulman]]></name>
@@ -53,7 +53,7 @@
 <p><div><script src='https://gist.github.com/4419185.js'></script>
 <noscript><pre><code># Sample tinydns record
 # These records are necessary for each domain to be properly delegate
-# to Bytemark's four DNS servers. They insert the necessary NS records
+# to Bytemark&#39;s four DNS servers. They insert the necessary NS records
 # to claim authority for the domain.
 # If you have delegated by name to the [abc].ns.bytemark.co.uk
 # servers, use these lines
@@ -92,12 +92,12 @@
 
 -- A records - 
 std_a(_a, _webserverIP)
-a('blog', _webserverIP, _longTTL)
+a(&#39;blog&#39;, _webserverIP, _longTTL)
 
 -- CNAME records
-cname(&quot;pages&quot;, 'ghs.google.com')
+cname(&quot;pages&quot;, &#39;ghs.google.com&#39;)
 -- Templates (see templates.lua)
-google_app(_a, 'ghs.google.com', _longTTL)
+google_app(_a, &#39;ghs.google.com&#39;, _longTTL)
 </code></pre></noscript></div>
 <!-- luadns record --></p>
 
